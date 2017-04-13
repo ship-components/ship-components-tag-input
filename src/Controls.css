@@ -1,0 +1,98 @@
+.filter {
+    flex: 1;
+    box-sizing: border-box;
+    height: 32px;
+    min-width: 80px;
+    font-size: 13px;
+    font-weight: 400;
+    border: none;
+    width: 100%;
+    border-radius: 2px;
+    padding: 6px 12px 6px 12px;
+    background-color: transparent;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+.filter.empty {
+    padding-left: 0;
+}
+.filter.hidden {
+    display: none;
+}
+
+.controls .loader {
+    margin: 0;
+    position: static;
+    height: 32px;
+    width: 64px;
+}
+
+.controls .loader-spinner {
+    height: 32px;
+    width: 24px;
+}
+
+.selection-area .filter.empty {
+    padding-left: 12px;
+}
+
+.selection-area {
+    flex: 1;
+    cursor: pointer;
+    color: #424242;
+}
+
+.multi-selection-area {
+    flex: 1;
+    display: flex;
+    cursor: text;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+.controls {
+    flex: 1;
+    min-height: 32px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.toggle-container {
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.toggle-btn {
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    margin: 0 20px 0 20px;
+    font-weight: 300;
+    color: #666;
+}
+
+.hidden {
+    display: none;
+}
+
+.selection {
+    height: 32px;
+    min-width: 80px;
+    font-size: 13px;
+    font-weight: 400;
+    border: none;
+    width: 100%;
+    border-radius: 2px;
+    padding: 6px 12px 6px 12px;
+}
+.selection.empty {
+    color: rgba(0,0,0,0.36);
+}
+.selection.hidden {
+    display: none;
+}

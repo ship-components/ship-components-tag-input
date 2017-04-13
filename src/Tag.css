@@ -1,0 +1,31 @@
+/**
+ *  <Tag />
+ */
+.container {
+    height: 32px;
+    color: rgba(0,0,0,0.87);
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    border-radius: 32px;
+}
+.container:not(:first-child) {
+    margin-left: 1px;
+}
+
+.title {
+    font-size: 13px;
+    font-weight: 400;
+    margin-left: 12px;
+}
+
+.clear-btn {
+    height: 18px;
+    width: 18px;
+    margin: 0 4px;
+}
+
+.clear-btn .cancel-icon {
+    color: #aaa;
+    font-size: 18px;
+}
