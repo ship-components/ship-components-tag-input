@@ -1,41 +1,81 @@
-# ship-components-select
-[React](http://facebook.github.io/react/) select box. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
+# ship-components-tag-input
+[React](http://facebook.github.io/react/) tag input (single, multi, and typeahead). Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
 
-[![npm](https://img.shields.io/npm/v/ship-components-select.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-select)
+[![npm](https://img.shields.io/npm/v/ship-components-select.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-tag-input)
 
 ## Usage
 
 ### ES6/JSX (Recommended)
 The component is written using ES6/JSX therefore Babel is recommended to use it. The below example is based on using [webpack](http://webpack.github.io/) and [babel-loader](https://github.com/babel/babel-loader).
 ```js
+/**
+ * ES6 TagInput Example
+ */
 import React from 'react';
-import Select from 'ship-components-select';
+import ReactDOM from 'react-dom';
+import TagInput from '../src/TagInput';
 
-export default class ExampleClass extends React.Component {
-  constructor(props) {
-    super(props);
+class Examples extends React.Component {
+  constructor() {
+    super();
     this.state = {
-      value: 'One'
+      selection: [] 
     };
   }
 
-  handleChange(event) {
+  handleSelectItem(item) {
+    let selection = this.state.selection.slice(0);
+    selection.push(item);
     this.setState({
-      value: event.target.value
+      selection: selection
     });
   }
 
+  handleDeselectItem(item) {
+    let selection = this.state.selection.slice(0);
+    let index = selection.findIndex(selectedItem => item.key === selectedItem.key);
+    if (index > -1) {
+      selection.splice(index, 1);
+      this.setState({
+        selection: selection
+      });
+    }
+  }
+
   render() {
+    const opts = [
+      {
+        id: 1,
+        title: "Option 1"
+      },
+      {
+        id: 2,
+        title: "Option 2"
+      },
+      {
+        id: 3,
+        title: "Option 3"
+      }
+    ];
+
     return (
-      <div className='form-group'>
-        <Select onChange={this.handleChange.bind(this)}
-          defaultValue={this.state.value}
-          options={['One', 'Two', 'Three']}
-          />
+      <div>
+        <h1>{'<TagInput> Examples'}</h1>
+        <TagInput
+          multiple
+          placeholder='Tag input...'
+          selection={this.state.selection}
+          onSelect={this.handleSelectItem.bind(this)}
+          onDeselect={this.handleDeselectItem.bind(this)}
+          selection={this.state.selection}
+          options={opts}
+        />
       </div>
     );
   }
 }
+
+ReactDOM.render(<Examples />, document.getElementById('examples'));
 ```
 
 ## Examples and Development
@@ -103,13 +143,6 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
-* 0.3.1 - scrollParent bug fix for 0.3
-* 0.3.0 - support for "hangovers" using fixed position dropdown lists
-* 0.2.1 - always update if option has a render field
-* 0.2.0 - Prevent list from showing when disabled, removed transition group, fixed dependency issue, updated to react 15, limited height of list on long lists, added shouldComponentUpdate
-* 0.1.3 - IE10+ fix
-* 0.1.2 - Switch prop name from defaultValue to value, fixed prop type check
-* 0.1.1 - Added className prop, fixed custom icon issue, added prop type checks
 * 0.1.0 - Initial
 
 ## License
