@@ -458,7 +458,7 @@ export default class TagInput extends React.Component {
   }
 }
 
-SelectBox.defaultProps = {
+TagInput.defaultProps = {
   addItems: false,
   loading: false,
   className: '',
