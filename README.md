@@ -148,7 +148,7 @@ Below are is a sample of how to setup the loaders:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2015 Isaac Suttell
+Copyright (c) 2015 Chris Orescan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

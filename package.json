@@ -14,15 +14,18 @@
   },
   "keywords": [
     "react",
+    "tag",
+    "typeahead",
     "select",
+    "multiselect",
     "es2015"
   ],
-  "author": "Isaac Suttell <isaac@isaacsuttell.com>",
+  "author": "Chris Orescan <chris.orescan@sony.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ship-components/ship-components-select/issues"
+    "url": "https://github.com/ship-components/ship-components-tag-input/issues"
   },
-  "homepage": "https://github.com/ship-components/ship-components-select#readme",
+  "homepage": "https://github.com/ship-components/ship-components-tag-input#readme",
   "dependencies": {
     "classnames": "^2.2.5",
     "fuse.js": "^2.6.2",
