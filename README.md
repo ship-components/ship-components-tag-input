@@ -1,4 +1,4 @@
-# ship-components-select
+# ship-components-tag-input
 [React](http://facebook.github.io/react/) select box. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
 
 [![npm](https://img.shields.io/npm/v/ship-components-select.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-select)
