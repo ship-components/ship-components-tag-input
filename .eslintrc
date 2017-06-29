@@ -1,0 +1,6 @@
+{
+  "extends": "ship-components",
+  "rules": {
+    "indent": 0
+  }
+}
