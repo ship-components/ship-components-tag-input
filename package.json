@@ -4,9 +4,12 @@
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/TagInput.js",
   "scripts": {
-    "start": "grunt server",
-    "build": "grunt build",
-    "test": "echo 'No tests defined'; exit 1; jest src/ --coverage"
+    "precommit": "lint-staged",
+    "build": "npm test && grunt clean && grunt build",
+    "lint": "./node_modules/eslint/bin/eslint.js src/*.js/",
+    "test": "grunt lint && ./node_modules/jest-cli/bin/jest.js --coverage",
+    "watch:test": "./node_modules/jest-cli/bin/jest.js --coverage --watch",
+    "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v"
   },
   "repository": {
     "type": "git",
@@ -15,14 +18,19 @@
   "keywords": [
     "react",
     "select",
-    "es2015"
+    "es2015",
+    "javascript",
+    "javascript-library",
+    "grunt",
+    "webpack",
+    "jest"
   ],
-  "author": "Isaac Suttell <isaac@isaacsuttell.com>",
+  "author": "Sepand Assadi <sepand.assadi@sony.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ship-components/ship-components-select/issues"
+    "url": "https://github.com/ship-components/ship-components-tag-input/issues"
   },
-  "homepage": "https://github.com/ship-components/ship-components-select#readme",
+  "homepage": "https://github.com/ship-components/ship-components-tag-input#readme",
   "dependencies": {
     "classnames": "^2.2.5",
     "fuse.js": "^2.6.2",
@@ -61,7 +69,8 @@
     "postcss-simple-vars": "^1.1.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.6",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "eslint-config-ship-components": "^1.3.1"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",
