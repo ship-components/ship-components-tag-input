@@ -1,11 +1,17 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Tag from './Tag';
 import Loader from './Loader';
+
 import css from './Controls.css';
 
 export default class SelectControls extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleOpenDropdown = this.handleOpenDropdown.bind(this);
+  }
 
   focusInput() {
     if (this.props.filterable) {
@@ -23,20 +29,23 @@ export default class SelectControls extends React.Component {
     if (this.props.multiple) {
       this.focusInput.call(this);
     }
+
     this.props.onFocus();
   }
 
   filterHtml() {
     return this.props.filterable ?
-      (<input
-        ref='filterInput'
-        placeholder={this.props.placeholder}
-        onKeyDown={this.props.onKeyDown}
-        onChange={this.props.onChange}
-        value={this.props.filterText}
-        className={classnames(css.filter, {empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive})}
-        type='text'
-      />)
+      (
+        <input
+          ref='filterInput'
+          placeholder={this.props.placeholder}
+          onKeyDown={this.props.onKeyDown}
+          onChange={this.props.onChange}
+          value={this.props.filterText}
+          className={classnames(css.filter, {empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive})}
+          type='text'
+        />
+      )
       : null;
   }
 
@@ -46,17 +55,18 @@ export default class SelectControls extends React.Component {
         <div
           key={1}
           className={css['multi-selection-area']}
-          onClick={this.handleOpenDropdown.bind(this)}
+          onClick={this.handleOpenDropdown}
         >
           {this.props.selection
-            .map(item => {
-              return (<Tag
+            .map(item => (
+              <Tag
                 key={`ship-select-tag--${item.key || item.item.key}`}
                 icon={item.icon}
                 title={item.title}
+                // eslint-disable-next-line react/jsx-no-bind
                 onClear={this.props.onClear.bind(this,item)}
-                      />);
-            })
+              />
+            ))
           }
           {this.filterHtml.call(this)}
         </div>
@@ -67,16 +77,16 @@ export default class SelectControls extends React.Component {
       <div
         key={1}
         className={css['selection-area']}
-        onClick={this.handleOpenDropdown.bind(this)}
+        onClick={this.handleOpenDropdown}
       >
         <span
           className={classnames(
-						css.selection,
+            css.selection,
             {
               empty: this.props.isEmpty,
               hidden: (this.props.filterable && this.props.isActive)
             }
-					)}
+          )}
         >
           {this.props.selection ? this.props.selection.title : this.props.placeholder}
         </span>
@@ -86,30 +96,33 @@ export default class SelectControls extends React.Component {
   }
 
   dropdownToggleHtml() {
-    return (<div
-      key={0}
-      className={css['toggle-container']}
-            >
-      {this.props.toggleSwitch !== false ?
-        <button
-          className={classnames(css['toggle-btn'], {[css.hidden]: this.props.loading})}
-          onClick={this.props.onToggle}
-        >
-          {this.props.toggleSwitch}
-        </button>
-						: null}
-      <Loader
-        visible={this.props.loading}
-        className={css.loader}
-        spinnerClassName={css['loader-spinner']}
-      />
-    </div>);
+    return (
+      <div
+        key={0}
+        className={css['toggle-container']}
+      >
+        {this.props.toggleSwitch !== false ?
+          <button
+            className={classnames(css['toggle-btn'], {[css.hidden]: this.props.loading})}
+            onClick={this.props.onToggle}
+          >
+            {this.props.toggleSwitch}
+          </button>
+          : null}
+        <Loader
+          visible={this.props.loading}
+          className={css.loader}
+          spinnerClassName={css['loader-spinner']}
+        />
+      </div>
+    );
   }
 
   render() {
     let children = [];
     let selectionDisplay = this.selectionDisplayHtml.call(this);
     let toggleBtn = this.dropdownToggleHtml.call(this);
+
     if (this.props.togglePosition === 'right') {
       children[0] = selectionDisplay;
       children[1] = toggleBtn;
@@ -129,4 +142,45 @@ export default class SelectControls extends React.Component {
 SelectControls.propTypes = {
   toggleSwitch: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   togglePosition: PropTypes.oneOf(['right', 'left'])
+};
+
+// default props
+SelectControls.defaultProps = {
+  open:          false,
+  loading:       false,
+  isActive:      false,
+  isEmpty:       false,
+  multiple:      false,
+  filterable:     false,
+
+  filterText:      '',
+  placeholder:    '',
+
+  toggleSwitch:   [],
+  togglePosition: [],
+  selection:      []
+};
+
+// prop types checking
+SelectControls.propTypes = {
+  open:           PropTypes.bool,
+  loading:        PropTypes.bool,
+  isActive:       PropTypes.bool,
+  isEmpty:        PropTypes.bool,
+  multiple:       PropTypes.bool,
+  filterable:      PropTypes.bool,
+
+
+  filterText:      PropTypes.string,
+  placeholder:    PropTypes.string,
+
+  toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  togglePosition: PropTypes.oneOf(['right', 'left']),
+  selection:      PropTypes.array,
+
+  onFocus:        PropTypes.func.isRequired,
+  onChange:       PropTypes.func.isRequired,
+  onKeyDown:      PropTypes.func.isRequired,
+  onClear:        PropTypes.func.isRequired,
+  onToggle:       PropTypes.func.isRequired
 };

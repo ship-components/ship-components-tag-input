@@ -1,17 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Fuse from 'fuse.js';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash.cloneDeep';
+import icon from 'ship-components-icon';
 
 import Dropdown from './Dropdown';
-import icon from 'ship-components-icon';
 import SelectControls from './Controls';
+
 import css from './TagInput.css';
 
 /**
  * Filterable Select Dropdown Component
  *
- * options should be Array<Object> with object fields:
+ *   options should be Array<Object> with object fields:
  *   key
  *   title
  *   body
@@ -20,6 +22,53 @@ import css from './TagInput.css';
  *   className (optional string)
  */
 export default class TagInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText: '',
+      active: false,
+      empty: this.isEmpty.call(this),
+      dropdownPosTop: '53px'
+    };
+
+    this.selectHighlightedItem = this.selectHighlightedItem.bind(this);
+    this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
+    this.highlightNextItem = this.highlightNextItem.bind(this);
+    this.itemIsHighlighted = this.itemIsHighlighted.bind(this);
+    this.handleDropdownPosition = this.handleDropdownPosition.bind(this);
+    this.getVisibleOptions = this.getVisibleOptions.bind(this);
+    this.handleOpenDropdown = this.handleOpenDropdown.bind(this);
+    this.focusInput = this.focusInput.bind(this);
+    this.blurInput = this.blurInput.bind(this);
+    this.clearItem = this.clearItem.bind(this);
+    this.optionWasSelected = this.optionWasSelected.bind(this);
+    this.documentClickHandler = this.documentClickHandler.bind(this);
+    this.isEmpty = this.isEmpty.bind(this);
+    this.handleToggleDropdown = this.handleToggleDropdown.bind(this);
+    this.handleHighlightOption = this.handleHighlightOption.bind(this);
+    this.handleSelectItem = this.handleSelectItem.bind(this);
+
+    this.handleKeyboard = this.handleKeyboard.bind(this);
+    this.handleSelectNewOption = this.handleSelectNewOption.bind(this);
+
+    this.handleInput = this.handleInput.bind(this);
+    this.handleClearItem = this.handleClearItem.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleDropdownPosition();
+    document.addEventListener('click', this.documentClickHandler);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      empty: this.isEmpty(nextProps)
+    }, this.handleDropdownPosition);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.documentClickHandler);
+  }
 
   /**
    * Save highlighted option from the Dropdown to the SelectBox instance for reference
@@ -50,6 +99,7 @@ export default class TagInput extends React.Component {
     if (this.state.active) {
       return;
     }
+
     this.setState({ active: true },
       () => {
         // time out because of css transitions.
@@ -67,11 +117,13 @@ export default class TagInput extends React.Component {
    */
   handleInput(event) {
     let filterText = event.target.value;
+
     this.setState({
       filterText: filterText,
       active: true
     }, () => {
       this.handleDropdownPosition();
+
       if (typeof this.props.onFilter === 'function') {
         this.props.onFilter(filterText, event);
       }
@@ -86,6 +138,7 @@ export default class TagInput extends React.Component {
   handleSelectItem(option, event) {
     event.preventDefault();
     event.stopPropagation();
+
     if (option === null) {
       return;
     }
@@ -108,6 +161,7 @@ export default class TagInput extends React.Component {
       highlightedOption: null
     }, () => {
       this.handleDropdownPosition();
+
       if (this.props.multiple) {
         this.focusInput();
       }
@@ -137,6 +191,7 @@ export default class TagInput extends React.Component {
   handleClearItem(item, event) {
     event.preventDefault();
     event.stopPropagation();
+
     if (typeof this.props.onDeselect === 'function') {
       this.props.onDeselect(item, this.clearItem);
     } else {
@@ -153,6 +208,7 @@ export default class TagInput extends React.Component {
       empty: this.props.selection.length === 0
     }, () => {
       this.handleDropdownPosition();
+
       if (this.props.multiple) {
         this.focusInput();
       }
@@ -162,9 +218,9 @@ export default class TagInput extends React.Component {
   /**
    * Keyboard shortcuts (select item, close dropdown)
    */
-  handleKeyboard(event) {
+  handleKeyboard(event) { // eslint-disable-line complexity
     let code = event.keyCode || event.which;
-    switch(code) {
+    switch (code) {
     case 13: // enter
       if (!(this.state.highlightedOption && this.state.active) && typeof this.props.onEnterKey === 'function') {
         this.props.onEnterKey(event);
@@ -200,6 +256,7 @@ export default class TagInput extends React.Component {
    */
   handleDropdownPosition() {
     let selectBoxHeight = (this.refs.selectBox.offsetHeight) + 'px';
+
     // compare strings
     if (selectBoxHeight !== this.state.dropdownPosTop) {
       this.setState({ dropdownPosTop: selectBoxHeight });
@@ -222,6 +279,7 @@ export default class TagInput extends React.Component {
    */
   selectHighlightedItem(event) {
     let highlightedItem = this.state.highlightedOption;
+
     if (highlightedItem !== null) {
       if (this.state.newTag && this.state.newTag.key === highlightedItem.key) {
         this.handleSelectNewOption(highlightedItem, event);
@@ -236,11 +294,14 @@ export default class TagInput extends React.Component {
    */
   highlightPreviousItem() {
     let highlightedOption = this.state.highlightedOption;
+
     if (!highlightedOption) {
       return;
     }
+
     let options = this.getVisibleOptions();
     let currentIndex = options.findIndex(option => option.key === highlightedOption.key);
+
     if (currentIndex === 0) {
       return;
     }
@@ -256,10 +317,12 @@ export default class TagInput extends React.Component {
   highlightNextItem() {
     let highlightedOption = this.state.highlightedOption;
     let options = this.getVisibleOptions();
+
     if (!highlightedOption) {
       highlightedOption = options[0];
     } else {
       let currentIndex = options.findIndex(option => option.key === highlightedOption.key);
+
       if (currentIndex === options.length - 1) {
         return;
       }
@@ -284,6 +347,7 @@ export default class TagInput extends React.Component {
   getFilterResults(filterText) {
     let fuse = new Fuse(this.props.options, this.props.fuseOptions);
     let results = fuse.search(filterText);
+
     return results.map(result => Object.assign({}, result.item, {score: result.score}));
   }
 
@@ -306,10 +370,8 @@ export default class TagInput extends React.Component {
     if (!this.isEmpty()) {
       if (this.props.selection instanceof Array) {
         if (this.props.selection.length > 0) {
-          options = options.filter(item => {
-            let index = this.props.selection.findIndex(selectedOption => {
-              return selectedOption.key === item.key;
-            });
+          options = options.filter((item) => {
+            let index = this.props.selection.findIndex(selectedOption => selectedOption.key === item.key);
             return index < 0;
           });
         }
@@ -324,7 +386,7 @@ export default class TagInput extends React.Component {
      * 2 - "score" if possible
      * 3 - props.orderOptionsBy field
      */
-    return options.sort((a,b) => {
+    return options.sort((a, b) => { // eslint-disable-line complexity
       if (a.optionGroup !== b.optionGroup) {
         return a.optionGroup > b.optionGroup ? 1 : -1;
       }
@@ -356,44 +418,6 @@ export default class TagInput extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      filterText: '',
-      active: false,
-      empty: this.isEmpty.call(this),
-      dropdownPosTop: '53px'
-    };
-
-    this.selectHighlightedItem = this.selectHighlightedItem.bind(this);
-    this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
-    this.highlightNextItem = this.highlightNextItem.bind(this);
-    this.itemIsHighlighted = this.itemIsHighlighted.bind(this);
-    this.handleDropdownPosition = this.handleDropdownPosition.bind(this);
-    this.getVisibleOptions = this.getVisibleOptions.bind(this);
-    this.handleOpenDropdown = this.handleOpenDropdown.bind(this);
-    this.focusInput = this.focusInput.bind(this);
-    this.blurInput = this.blurInput.bind(this);
-    this.clearItem = this.clearItem.bind(this);
-    this.optionWasSelected = this.optionWasSelected.bind(this);
-    this.documentClickHandler = this.documentClickHandler.bind(this);
-    this.isEmpty = this.isEmpty.bind(this);
-  }
-
-  componentDidMount() {
-    this.handleDropdownPosition();
-    document.addEventListener('click', this.documentClickHandler);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.documentClickHandler);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      empty: this.isEmpty(nextProps)
-    }, this.handleDropdownPosition);
-  }
 
   render() {
     let options = this.getVisibleOptions();
@@ -413,9 +437,12 @@ export default class TagInput extends React.Component {
           event.stopPropagation();
         }}
         className={classNames(
-                    {[css.active]:this.state.active, [css.empty]:this.state.empty },
-                    css.container,
-                    this.props.className)}
+          {
+            [css.active]:this.state.active,
+            [css.empty]:this.state.empty
+          },
+          css.container,
+          this.props.className)}
       >
         <SelectControls
           ref='selectControls'
@@ -429,10 +456,10 @@ export default class TagInput extends React.Component {
           filterText={this.state.filterText}
           placeholder={this.props.placeholder}
           togglePosition={this.props.togglePosition}
-          onToggle={this.handleToggleDropdown.bind(this)}
-          onChange={this.handleInput.bind(this)}
-          onClear={this.handleClearItem.bind(this)}
-          onKeyDown={this.handleKeyboard.bind(this)}
+          onToggle={this.handleToggleDropdown}
+          onChange={this.handleInput}
+          onClear={this.handleClearItem}
+          onKeyDown={this.handleKeyboard}
           onFocus={this.handleOpenDropdown}
         />
 
@@ -445,10 +472,10 @@ export default class TagInput extends React.Component {
           newOption={newTag}
           highlightedOption={this.state.highlightedOption}
           loading={this.props.loading}
-          onHighlight={this.handleHighlightOption.bind(this)}
-          onKeyDown={this.handleKeyboard.bind(this)}
-          onSelect={this.handleSelectItem.bind(this)}
-          onSelectNew={this.handleSelectNewOption.bind(this)}
+          onHighlight={this.handleHighlightOption}
+          onKeyDown={this.handleKeyboard}
+          onSelect={this.handleSelectItem}
+          onSelectNew={this.handleSelectNewOption}
           style={{top: this.state.dropdownPosTop}}
           togglePosition={this.props.togglePosition}
         />
@@ -458,25 +485,62 @@ export default class TagInput extends React.Component {
   }
 }
 
+// default props
 TagInput.defaultProps = {
-  addItems: false,
-  loading: false,
-  className: '',
-  addOptions: false,
-  orderOptionsBy: 'title',
-  toggleSwitch: <i className={icon.filter_list} />,
-  options: [],
-  selection: [],
-  placeholder: 'Select...',
-  multiple: false,
-  togglePosition: 'left',
-  transitionDelay: 250,
+  addItems:             false,
+  loading:              false,
+  addOptions:           false,
+  multiple:             false,
+  filterable:            false,
+
+  className:            '',
+  orderOptionsBy:       'title',
+  placeholder:          'Select...',
+  togglePosition:       'left',
+  noOptionsMessage:     '',
+
+  options:              [],
+  selection:            [],
+  optionGroupTitles:    [],
+
+  toggleSwitch:         <i className={icon.filter_list} />,
   fuseOptions: {
-    include: ['score'],
-    keys: ['searchString', 'title'],
-    distance: 40,
-    location: 0
-  }
+    include:            ['score'],
+    keys:               ['searchString', 'title'],
+    distance:           40,
+    location:           0
+  },
+  transitionDelay:      250
+};
+
+// prop types checking
+TagInput.propTypes = {
+  loading:            PropTypes.bool,
+  addOptions:         PropTypes.bool,
+  multiple:           PropTypes.bool,
+  filterable:          PropTypes.bool,
+
+  className:          PropTypes.string,
+  orderOptionsBy:     PropTypes.string,
+  placeholder:        PropTypes.string,
+  togglePosition:     PropTypes.string,
+  noOptionsMessage:   PropTypes.string,
+
+  toggleSwitch:       PropTypes.object,
+  fuseOptions:        PropTypes.object,
+
+  options:            PropTypes.array,
+  selection:          PropTypes.array,
+  optionGroupTitles:  PropTypes.array,
+
+  transitionDelay:    PropTypes.number,
+
+  onFilter:           PropTypes.func.isRequired,
+  onFocus:            PropTypes.func.isRequired,
+  onSelect:           PropTypes.func.isRequired,
+  onDeselect:         PropTypes.func.isRequired,
+  onEnterKey:         PropTypes.func.isRequired,
+  onNewItem:          PropTypes.func.isRequired
 };
 
 export function defaultFuseOptions() {

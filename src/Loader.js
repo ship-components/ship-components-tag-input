@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import css from './Loader.css';
 
@@ -16,13 +17,13 @@ export default class Loader extends React.Component {
     }
     return (
       <div className={classNames(
-          css.container,
-          this.props.className,
+        css.container,
+        this.props.className,
         {
           [css.absolute]: this.props.absolute,
           [css.visible]: this.props.visible
         }
-        )}
+      )}
       >
         <svg
           className={classNames(css.spinner, this.props.spinnerClassName)}
@@ -42,9 +43,20 @@ export default class Loader extends React.Component {
   }
 }
 
+// default props
 Loader.defaultProps = {
-  absolute: false,
-  visible: true,
-  className: '',
+  absolute:         false,
+  visible:          true,
+
+  className:        '',
   spinnerClassName: ''
+};
+
+// prop types checking
+Loader.propTypes = {
+  absolute:         PropTypes.bool,
+  visible:          PropTypes.bool,
+
+  className:        PropTypes.string,
+  spinnerClassName: PropTypes.string
 };

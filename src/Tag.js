@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import icon from 'ship-components-icon';
-import css from "./Tag.css";
+import css from './Tag.css';
 
 /**
  *  Tag component based on the material "chip" component
@@ -11,6 +12,10 @@ export default class Tag extends React.Component {
   constructor(props) {
     super(props);
     this.handleClear = this.handleClear.bind(this);
+  }
+
+  shouldComponentUpdate() {
+    return true;
   }
 
   handleClear(event) {
@@ -36,13 +41,16 @@ export default class Tag extends React.Component {
   }
 }
 
+// default props
 Tag.defaultProps = {
-  className: '',
-  title: ''
+  className:   '',
+  title:       ''
 };
 
+// prop types checking
 Tag.propTypes = {
-  title: PropTypes.string,
   className: PropTypes.string,
-  onClear: PropTypes.func
+  title:     PropTypes.string,
+
+  onClear:   PropTypes.func.isRequired
 };
