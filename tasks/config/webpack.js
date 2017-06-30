@@ -9,46 +9,44 @@
  *    https://github.com/webpack/grunt-webpack
  */
 
-var assign = require('object-assign');
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+  const webpack = require('webpack');
+  const path = require('path');
+  const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function(grunt) {
 
   /** **************************************************************************
    * Build
    */
-  var buildOptions = assign({}, require('./webpack.config'), {
+  var buildOptions = Object.assign({}, require('./webpack.config'), {
     // Clear default plugins so we can override through grunt
     plugins: []
   });
 
   grunt.config.set('webpack', {
-
     options: buildOptions,
-
+    
     dev: {
       plugins: [
-        new ExtractTextPlugin('[name].css', {
+        new ExtractTextPlugin({
+          filename: '[name].css',
+          disable: false,
           allChunks: true
-        }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(true)
+        })
       ]
     },
 
-    dist : {
+    dist: {
       output: {
         filename: '[name].min.js'
       },
 
       plugins: [
-        new ExtractTextPlugin('[name].min.css', {
+        new ExtractTextPlugin({
+          filename: '[name].min.css',
+          disable: false,
           allChunks: true
         }),
-        new webpack.optimize.OccurenceOrderPlugin(true),
-        new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin()
       ]
     }
@@ -57,47 +55,89 @@ module.exports = function(grunt) {
   /** **************************************************************************
    * Development Server
    */
-  var serverOptions = assign({}, require('./webpack.config'), {
-    plugins: [],
-    entry : {
+  const serverOptions = Object.assign({}, require('./webpack.config'), {
+    plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          context: __dirname,
+          eslint: {
+            failOnWarning: false
+          }
+        }
+      }),
+      new ExtractTextPlugin({
+        filename: '[name].css',
+        disable: false,
+        allChunks: true
+      })
+    ],
+    entry: {
       bundle: path.resolve(__dirname, '../../examples/index.jsx')
     },
     output: {
       filename: 'bundle.js'
     },
     devtool: 'eval',
-    eslint: {
-      failOnWarning: false
-    },
     externals: {
-      'lodash': '_',
-      'react': 'React',
+      lodash: '_',
+      react: 'React',
       'react-dom': 'ReactDOM',
       'react-addons-css-transition-group': 'React.addons.CSSTransitionGroup'
     }
   });
 
   // Remove Extract Plugin. Gotta clone to prevent changing above config
-  serverOptions.module = assign({}, serverOptions.module);
-  serverOptions.module.loaders = serverOptions.module.loaders.slice(0);
-
-  serverOptions.module.loaders.splice(serverOptions.module.loaders.length - 1);
-  serverOptions.module.loaders.push({
+  serverOptions.module = Object.assign({}, serverOptions.module);
+  serverOptions.module.rules = serverOptions.module.rules.slice(0);
+  serverOptions.module.rules.splice(serverOptions.module.rules.length - 1);
+  serverOptions.module.rules.push({
     test: /\.css$/,
-    loaders: [
-      'style-loader',
-      'css-loader?modules&importLoaders=1&localIdentName=[name]--[local]!postcss-loader'
+    use: [
+      {
+        loader: 'style-loader'
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          importLoaders: 1,
+          localIdentName: '[name]--[local]'
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: () => [
+            require('postcss-nested')(),
+            require('postcss-simple-vars')({
+              /**
+               * Default variables. Should be overridden in mail build system
+               * @type {Object}
+               */
+              variables: {
+                'primary-color': '#38b889',
+                'opacity-disabled': '0.58',
+                'base-grid-size': '4px'
+              }
+            }),
+            require('postcss-color-hex-alpha')(),
+            require('postcss-color-function')(),
+            require('postcss-calc')(),
+            require('autoprefixer')()
+          ]
+        }
+      }
     ]
   });
 
   // Include any npm modules we need to use babel on here
-  serverOptions.module.loaders.push({
+  serverOptions.module.rules.push({
     test: /\.(jsx?|es6)$/,
     include: [
       path.join(__dirname, '../../node_modules/ship-components-outsideclick'),
       path.join(__dirname, '../../node_modules/ship-components-icon')
     ],
-    loader: 'babel'
+    use: 'babel-loader'
   });
 
   grunt.config.set('webpack-dev-server', {
@@ -105,7 +145,7 @@ module.exports = function(grunt) {
       webpack: serverOptions,
       host: 'localhost',
       contentBase: 'examples/',
-      publicPath: '/assets/',
+      publicPath: '/',
       filename: 'bundle.js',
       keepalive: true,
       inline: true,
