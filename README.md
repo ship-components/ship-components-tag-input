@@ -254,13 +254,13 @@ Below are is a sample of how to setup the loaders in webpack 3:
 ```
 
 ## Tests
-[Incomplete]: Will ve added in v0.2.0 (Soon).
+[Incomplete]: Will ve added in v0.3.0 (Soon).
 
 1. `npm install`
 2. `npm test`
 
 ## History
-* 0.1.0 - Initial
+* 0.2.0 - Initial
 
 ## License
 The MIT License (MIT)
