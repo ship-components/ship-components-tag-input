@@ -58,11 +58,15 @@ empty by default.
 {string}
 'search' by default. Please refer to [ship-components-icon](https://github.com/ship-components/ship-components-icon) for the list of icons you can pass in.
 
+
 ## Usage
 
 ### ES6/JSX (Recommended)
 The component is written using ES6/JSX therefore Babel is recommended to use it. The below example is based on using [webpack](http://webpack.github.io/) and [babel-loader](https://github.com/babel/babel-loader).
 ```js
+/**
+ * ES6 TagInput Example
+ */
 import React from 'react';
 import TagInput from 'ship-components-tag-input';
 
@@ -72,6 +76,7 @@ export default class ExampleClass extends React.Component {
 
     this.state = {
       tags: []
+
     };
 
     this.handleSelectItem = this.handleSelectItem.bind(this);
@@ -88,6 +93,17 @@ export default class ExampleClass extends React.Component {
     this.setState({
       tags: event.target.value
     });
+  }
+
+  handleDeselectItem(item) {
+    let selection = this.state.selection.slice(0);
+    let index = selection.findIndex(selectedItem => item.key === selectedItem.key);
+    if (index > -1) {
+      selection.splice(index, 1);
+      this.setState({
+        selection: selection
+      });
+    }
   }
 
   render() {
@@ -127,6 +143,8 @@ export default class ExampleClass extends React.Component {
     );
   }
 }
+
+ReactDOM.render(<Examples />, document.getElementById('examples'));
 ```
 
 ## Development
@@ -265,7 +283,8 @@ Below are is a sample of how to setup the loaders in webpack 3:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2017 Sepand Assadi
+Copyright (c) 2017 SHIP Team
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
