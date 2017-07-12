@@ -7,8 +7,8 @@
     "start": "grunt server",
     "build": "npm test && grunt clean && grunt build",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
-    "test": "grunt lint && ./node_modules/jest-cli/bin/jest.js --coverage",
-    "watch:test": "./node_modules/jest-cli/bin/jest.js --coverage --watch",
+    "test": "jest --coverage",
+    "watch:test": "jest --coverage --watch",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v",
     "update:packages": "node ./lib/wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
@@ -27,29 +27,29 @@
     "jest"
   ],
   "author": "Sepand Assadi <sepand.assadi@sony.com>",
+  "contributor": "Chris Orescan <chris.orescan@sony.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ship-components/ship-components-tag-input/issues"
   },
   "homepage": "https://github.com/ship-components/ship-components-tag-input#readme",
   "dependencies": {
+    "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
-    "fuse.js": "^3.0.5",
-    "lodash.clonedeep": "^4.5.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "ship-components-icon": "^0.1.2",
-    "ship-components-outsideclick": "^0.2.0"
+    "ship-components-outsideclick": "^0.2.0",
+    "ship-components-utility": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
-    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
@@ -64,7 +64,8 @@
     "grunt-coveralls": "^1.0.1",
     "grunt-eslint": "^20.0.0",
     "grunt-webpack": "^3.0.0",
-    "jest-cli": "^20.0.4",
+    "jest": "^20.0.4",
+    "jest-css-modules": "^1.1.0",
     "lodash": "^4.17.4",
     "object-assign": "^4.1.1",
     "package-banner": "^0.1.1",
@@ -75,22 +76,32 @@
     "postcss-nested": "^2.0.2",
     "postcss-simple-vars": "^4.0.0",
     "prop-types": "^15.5.10",
+    "react-addons-test-utils": "^15.6.0",
     "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.2",
-    "webpack": "^3.0.0",
+    "webpack": "^3.2.0",
+    "webpack-babel-jest": "^1.0.4",
     "webpack-dev-server": "^2.5.0"
   },
   "jest": {
-    "transform": "node_modules/babel-jest",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "es6"
-    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css)$": "<rootDir>/node_modules/jest-css-modules"
+    },
     "unmockedModulePathPatterns": [
-      "node_modules/react",
-      "node_modules/react-dom"
+      "<rootDir>/node_modules/classnames",
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/fbjs",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils"
+    ]
+  },
+  "babelJest": {
+    "include": [
+      "src/**/*.@(js|jsx|es6)",
+      "/node_modules/"
     ]
   }
 }

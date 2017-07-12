@@ -5,7 +5,7 @@ const webpack = require('webpack'),
 module.exports = {
   // Where to start
   entry: {
-    TagInput: path.resolve(__dirname, '../../src/TagInput.js')
+    TagInput: path.resolve(__dirname, '../../src/index.js')
   },
 
   // Where to output
@@ -36,10 +36,11 @@ module.exports = {
       // ES6/JSX for App
       {
         test: /\.(jsx?|es6)$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/
+        ],
         use: 'babel-loader'
       },
-      // ES6/JSX for App
       {
         test: /\.(jsx?|es6)$/,
         include: [
@@ -48,7 +49,7 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.(png|svg|ttf|eot|woff|ico)/,
+        test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: [
           {
             loader: 'file-loader',
