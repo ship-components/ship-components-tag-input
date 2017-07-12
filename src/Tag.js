@@ -8,16 +8,28 @@ import css from './Tag.css';
  *  Tag component based on the material "chip" component
  */
 export default class Tag extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleClear = this.handleClear.bind(this);
   }
 
-  shouldComponentUpdate() {
-    return true;
+  /**
+   * Optimizes the app performance
+   *
+   * @param {object} nextProps
+   * @returns {bool}
+   * @memberof Tag
+   */
+  shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps;
   }
 
+  /**
+   * Clears an item from the tag container
+   *
+   * @param {any} event
+   * @memberof Tag
+   */
   handleClear(event) {
     if (this.props.onClear === 'function') {
       this.props.onClear(event);

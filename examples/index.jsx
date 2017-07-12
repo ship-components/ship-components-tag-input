@@ -49,6 +49,8 @@ const Examples = () => {
           togglePosition='right'
           noOptionsMessage='There are no more tags...'
           toggleSwitchStyle='library_add'
+          onSelect={() => { }}
+          onDeselect={() => { }}
           options={opts2}
         />
         <code>
@@ -61,7 +63,9 @@ const Examples = () => {
               togglePosition='right'          // 'left' by default
               noOptionsMessage='There are no more tags...' // '' by default
               toggleSwitchStyle='library_add' // 'search' by default
-              options={[                        // Required by default
+              onSelect={() => { }}            // Required by default
+              onDeselect={() => { }}          // Required by default
+              options={[                      // Required by default
                 {
                   id: 3,
                   title: "Item 1",
@@ -84,9 +88,13 @@ const Examples = () => {
         <h2>Multiple Tags - Default</h2>
         <TagInput
           options={opts2}
+          onSelect={() => { }}
+          onDeselect={() => { }}
         />
         <code>
           {`<TagInput
+              onSelect={() => { }}            // Required by default
+              onDeselect={() => { }}          // Required by default
               options={[
                 {
                   id: 1,
@@ -110,17 +118,33 @@ const Examples = () => {
         <TagInput
           options={opts}
           darkTheme
+          onSelect={() => { }}
+          onDeselect={() => { }}
         />
         <code>
-          {'<TagInput darkTheme={true} />'}
+          {`
+            <TagInput
+              darkTheme={true}
+              onSelect={() => { }}            // Required by default
+              onDeselect={() => { }}          // Required by default
+            />
+          `}
         </code>
         <h2>Multiple Tags - Not Filterable</h2>
         <TagInput
           filterable={false}
           options={opts}
+          onSelect={() => { }}
+          onDeselect={() => { }}
         />
         <code>
-          {'<TagInput filterable={false} />'}
+          {`
+            <TagInput
+              filterable={false}
+              onSelect={() => { }}            // Required by default
+              onDeselect={() => { }}          // Required by default
+            />
+          `}
         </code>
       </div>
     </div>

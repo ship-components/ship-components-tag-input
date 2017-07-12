@@ -14,14 +14,34 @@ export default class TagInput extends React.Component {
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
   }
 
+  /**
+   * Selects an item
+   * pass it to parent (If any)
+   *
+   * @param {any} item
+   * @memberof TagInput
+   */
   handleSelectItem(item) {
     let selection = this.state.selection.slice(0);
     selection.push(item);
+
     this.setState({
       selection: selection
     });
+
+    // Sending the tags to parent
+    if (typeof this.props.onSelect === 'function') {
+      this.props.onSelect(this.state.selection);
+    }
   }
 
+  /**
+   * Deselects an item
+   * pass it to parent (If any)
+   *
+   * @param {any} item
+   * @memberof TagInput
+   */
   handleDeselectItem(item) {
     const { selection } = this.state;
     const selectItemBy = item.key ? 'key' : 'id';
@@ -32,6 +52,11 @@ export default class TagInput extends React.Component {
       this.setState({
         selection: selection
       });
+    }
+
+    // Sending the tags to parent
+    if (typeof this.props.onDeselect === 'function') {
+      this.props.onDeselect(this.state.selection);
     }
   }
 
@@ -84,5 +109,8 @@ TagInput.propTypes = {
 
   options:            PropTypes.array.isRequired,
   selection:          PropTypes.array,
-  optionGroupTitles:  PropTypes.array
+  optionGroupTitles:  PropTypes.array,
+
+  onSelect:           PropTypes.func.isRequired,
+  onDeselect:         PropTypes.func.isRequired
 };

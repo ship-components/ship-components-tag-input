@@ -13,18 +13,33 @@ export default class SelectControls extends React.Component {
     this.handleOpenDropdown = this.handleOpenDropdown.bind(this);
   }
 
+  /**
+   * Enables the focus on input DOM
+   *
+   * @memberof SelectControls
+   */
   focusInput() {
     if (this.props.filterable) {
       this.refs.filterInput.focus();
     }
   }
 
+  /**
+   * Enables the blur on input DOM
+   *
+   * @memberof SelectControls
+   */
   blurInput() {
     if (this.props.filterable) {
       this.refs.filterInput.blur();
     }
   }
 
+  /**
+   * Opens the dropdown menu
+   *
+   * @memberof SelectControls
+   */
   handleOpenDropdown() {
     if (this.props.multiple) {
       this.focusInput.call(this);
@@ -33,6 +48,12 @@ export default class SelectControls extends React.Component {
     this.props.onFocus();
   }
 
+  /**
+   * Search / Filter functionality
+   *
+   * @returns {any} DOM || null
+   * @memberof SelectControls
+   */
   filterHtml() {
     return this.props.filterable ?
       (
@@ -49,6 +70,12 @@ export default class SelectControls extends React.Component {
       : null;
   }
 
+  /**
+   * Shows the list of options
+   *
+   * @returns {react}
+   * @memberof SelectControls
+   */
   selectionDisplayHtml() {
     if (this.props.multiple) {
       return (
@@ -95,6 +122,12 @@ export default class SelectControls extends React.Component {
     );
   }
 
+  /**
+   * Shows the toggle button
+   *
+   * @returns {react}
+   * @memberof SelectControls
+   */
   dropdownToggleHtml() {
     return (
       <div

@@ -10,8 +10,6 @@ export default class Dropdown extends Component {
     this.state = {
       highlight: false
     };
-
-    // this.handleHover = this.handleHover.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {

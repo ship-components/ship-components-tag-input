@@ -4,7 +4,13 @@ import classNames from 'classnames';
 import css from './Loader.css';
 
 export default class Loader extends React.Component {
-
+  /**
+   * Optimizes the app performance
+   *
+   * @param {array of object} nextProps
+   * @returns {bool}
+   * @memberof Loader
+   */
   shouldComponentUpdate(nextProps) {
     return this.props.visible !== nextProps.visible ||
           this.props.absolute !== nextProps.absolute ||
