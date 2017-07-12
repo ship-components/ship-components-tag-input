@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Tag from './Tag';
 import Loader from './Loader';
@@ -42,7 +42,7 @@ export default class SelectControls extends React.Component {
           onKeyDown={this.props.onKeyDown}
           onChange={this.props.onChange}
           value={this.props.filterText}
-          className={classnames(css.filter, {empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive})}
+          className={classNames(css.filter, {empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive})}
           type='text'
         />
       )
@@ -60,11 +60,11 @@ export default class SelectControls extends React.Component {
           {this.props.selection
             .map(item => (
               <Tag
-                key={`ship-select-tag--${item.key || item.item.key}`}
+                key={`ship-select-tag--${item.key || item.id}`}
                 icon={item.icon}
                 title={item.title}
                 // eslint-disable-next-line react/jsx-no-bind
-                onClear={this.props.onClear.bind(this,item)}
+                onClear={this.props.onClear.bind(this, item)}
               />
             ))
           }
@@ -80,7 +80,7 @@ export default class SelectControls extends React.Component {
         onClick={this.handleOpenDropdown}
       >
         <span
-          className={classnames(
+          className={classNames(
             css.selection,
             {
               empty: this.props.isEmpty,
@@ -103,7 +103,10 @@ export default class SelectControls extends React.Component {
       >
         {this.props.toggleSwitch !== false ?
           <button
-            className={classnames(css['toggle-btn'], {[css.hidden]: this.props.loading})}
+            className={classNames(css['toggle-btn'], {
+              [css.hidden]: this.props.loading,
+              [css.darkTheme]: this.props.darkTheme
+            })}
             onClick={this.props.onToggle}
           >
             {this.props.toggleSwitch}
@@ -139,11 +142,6 @@ export default class SelectControls extends React.Component {
   }
 }
 
-SelectControls.propTypes = {
-  toggleSwitch: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  togglePosition: PropTypes.oneOf(['right', 'left'])
-};
-
 // default props
 SelectControls.defaultProps = {
   open:          false,
@@ -154,7 +152,6 @@ SelectControls.defaultProps = {
   filterable:     false,
 
   filterText:      '',
-  placeholder:    '',
 
   toggleSwitch:   [],
   togglePosition: [],
@@ -169,10 +166,10 @@ SelectControls.propTypes = {
   isEmpty:        PropTypes.bool,
   multiple:       PropTypes.bool,
   filterable:      PropTypes.bool,
-
+  darkTheme:      PropTypes.bool.isRequired,
 
   filterText:      PropTypes.string,
-  placeholder:    PropTypes.string,
+  placeholder:    PropTypes.string.isRequired,
 
   toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   togglePosition: PropTypes.oneOf(['right', 'left']),

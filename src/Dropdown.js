@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import classNames from 'classNames';
-import icon from 'ship-components-icon';
+import classNames from 'classnames';
 
 import css from './Dropdown.css';
 
 export default class Dropdown extends Component {
   constructor(props) {
     super(props);
-    this.setScrollTop = this.setScrollTop.bind(this);
+    this.state = {
+      highlight: false
+    };
+
+    // this.handleHover = this.handleHover.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -17,44 +19,6 @@ export default class Dropdown extends Component {
       this.handleHighlight.call(this, nextProps.options.length > 0 ? nextProps.options[0] : null);
       this.setScrollTop(0);
     }
-  }
-
-  componentDidUpdate() {
-    // handle auto-scrolling for arrow keys
-    let optionContainer = ReactDOM.findDOMNode(this.refs.optionContainer);
-    let highlightedOption = ReactDOM.findDOMNode(this.refs.highlightedOption);
-
-    if (!highlightedOption) {
-      return;
-    }
-
-    let optionYMax = highlightedOption.offsetTop + highlightedOption.offsetHeight;
-    let optionYMin = highlightedOption.offsetTop;
-    let yMax = optionContainer.scrollTop + optionContainer.offsetHeight;
-    let yMin = optionContainer.scrollTop;
-
-    if (optionYMax > yMax) {
-      this.setScrollTop(highlightedOption.offsetTop - (optionContainer.offsetHeight - highlightedOption.offsetHeight));
-    } else if (optionYMin < yMin) {
-      this.setScrollTop(highlightedOption.offsetTop);
-    }
-  }
-
-  handleHighlight(option, event) {
-    if (event && event.type === 'mousemove' && this.swallowMouseEvent) {
-      this.swallowMouseEvent = false;
-      return;
-    }
-
-    if (!(this.highlightedOption && this.props.highlightedOption.key !== option.key)) {
-      this.props.onHighlight(option);
-    }
-  }
-
-  setScrollTop(newScrollTop) {
-    ReactDOM.findDOMNode(this.refs.optionContainer).scrollTop = newScrollTop;
-    // @swallowMouseEvent   using javascript to move the scroll position causes <option> to "involuntarily" fire mouseenter. seen in chrome.
-    this.swallowMouseEvent = true;
   }
 
   /**
@@ -77,17 +41,16 @@ export default class Dropdown extends Component {
   render() {
     let highlightedOption = this.props.highlightedOption;
 
-    if (this.props.newTag) {
-      highlightedOption = this.props.newTag;
-    }
-
     let currentOptionGroup = -1;
     let togglePositionClass = this.props.togglePosition === 'left' ? css['left-toggle'] : css['right-toggle'];
 
     return (
       <ul
         ref='optionContainer'
-        className={classNames(css.dropdown, togglePositionClass, {[css.open]: this.props.open})}
+        className={classNames(css.dropdown, togglePositionClass, {
+          [css.open]: this.props.open,
+          [css.darkTheme]: this.props.darkTheme
+        })}
         style={this.props.style}
         onKeyDown={this.props.onKeyDown}
       >
@@ -115,18 +78,22 @@ export default class Dropdown extends Component {
                   key={option.key || option.id}
                   ref={isHighlighted ? 'highlightedOption' : null}
                   // eslint-disable-next-line react/jsx-no-bind
-                  onMouseMove={this.handleHighlight.bind(this, option)}
                   className={
                     classNames(
                       css.option,
                       option.className,
-                      optionVariableClasses
+                      optionVariableClasses,
+                      {
+                        [css.darkTheme]: this.props.darkTheme
+                      }
                     )}
                 >
                   <div
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={this.props.onSelect.bind(null, option)}
-                    className={css['option-btn']}
+                    className={classNames(css['option-btn'], {
+                      [css.darkTheme]: this.props.darkTheme
+                    })}
                   >
                     {option.icon ?
                       React.cloneElement(option.icon,{className: classNames(option.icon.props.className, css['option-icon'])})
@@ -142,25 +109,6 @@ export default class Dropdown extends Component {
               return elements;
             })
           : this.renderNoOptionsMessage.call(this)}
-        {this.props.newTag ?
-          <li
-            className={classNames(
-              css.option,
-              css.highlight
-            )}
-          >
-            <div
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={this.props.onSelectNew.bind(null, this.props.newTag)}
-              className={classNames(css['option-btn'], css['new-option'])}
-            >
-              <span>{this.props.newTag.body || this.props.newTag.title}</span>
-              <span className={css['add-new-tag']}>
-                <i className={icon.add} /> New tag
-              </span>
-            </div>
-          </li>
-          : null}
       </ul>
     );
   }
@@ -170,6 +118,7 @@ export default class Dropdown extends Component {
 Dropdown.defaultProps = {
   open:               false,
   loading:            false,
+  darkTheme:          false,
 
   filterText:          '',
   togglePosition:     'left',
@@ -177,7 +126,6 @@ Dropdown.defaultProps = {
 
   style:              {},
   highlightedOption:  {},
-  newTag:             {},
 
   options:            [],
   optionGroupTitles:  []
@@ -187,6 +135,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   open:               PropTypes.bool,
   loading:            PropTypes.bool,
+  darkTheme:          PropTypes.bool,
 
   filterText:          PropTypes.string,
   togglePosition:     PropTypes.string,
@@ -194,13 +143,10 @@ Dropdown.propTypes = {
 
   style:              PropTypes.object,
   highlightedOption:  PropTypes.object,
-  newTag:             PropTypes.object,
 
   options:            PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
-  onHighlight:        PropTypes.func.isRequired,
   onKeyDown:          PropTypes.func.isRequired,
-  onSelect:           PropTypes.func.isRequired,
-  onSelectNew:        PropTypes.func.isRequired
+  onSelect:           PropTypes.func.isRequired
 };

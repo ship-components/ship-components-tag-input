@@ -10,14 +10,38 @@
     width: 100%;
     overflow-y: auto;
     border-radius: 0 0 2px 2px;
+
+    /* Scrollbar design and color to match the theme */
+    &::-webkit-scrollbar { width: 1em; }
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+    &::-webkit-scrollbar-track-piece { background-color: #fff; }
+    &::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        outline: 1px solid slategrey;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+
+    &.darkTheme {
+        /* Scrollbar design and color to match the theme */
+        &::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+        &::-webkit-scrollbar-track-piece { background-color: #444; }
+        &::-webkit-scrollbar-thumb {
+            background-color: #eee;
+            outline: 1px solid slategrey;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+        }
+    }
 }
+
+
 .dropdown.open {
     display: block;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.no-results {
-
+    margin-bottom: 50px;
 }
 
 .no-results,
@@ -34,11 +58,28 @@
     font-size: 13px;
     line-height: 1em;
 }
-.option.highlight,
-.option.highlight .option-title,
-.option.highlight .option-btn {
-    background-color: #444;
-    color: #fff;
+
+.option,
+.option-btn {
+    background-color: #fff;
+    color: #333;
+
+    &:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+    &.darkTheme {
+        background-color: #333;
+        color: #fff;
+        > option-title {
+           color: white;
+        }
+         &:hover {
+            background-color: #eeeeee;
+            color: #333;
+        }
+    }
 }
 .option.highlight .option-body {
     color: rgba(255,255,255,0.56);
