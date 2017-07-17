@@ -84,6 +84,10 @@
     &.darkTheme {
         color: white;
     }
+    &.toggleRightPos {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 .hidden {

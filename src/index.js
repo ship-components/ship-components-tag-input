@@ -87,7 +87,6 @@ TagInput.defaultProps = {
 
   className:            '',
   orderOptionsBy:       'title',
-  placeholder:          '',
   label:                'Select Tags...',
   togglePosition:       'left',
   noOptionsMessage:     '',
@@ -107,7 +106,6 @@ TagInput.propTypes = {
 
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string,
-  placeholder:        PropTypes.string,
   label:              PropTypes.string,
   togglePosition:     PropTypes.string,
   noOptionsMessage:   PropTypes.string,

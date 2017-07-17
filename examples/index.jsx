@@ -44,9 +44,8 @@ const Examples = () => {
         <TagInput
           filterable
           orderOptionsBy='id'
-          placeholder='Choose Tag Inputs'
+          label='Choose Tag Inputs'
           togglePosition='right'
-          noOptionsMessage='There are no more tags...'
           toggleSwitchStyle='library_add'
           onChange={() => {}}
           options={opts2}
@@ -57,9 +56,9 @@ const Examples = () => {
               filterable                       // True by default
               darkTheme                       // False by default
               orderOptionsBy='id'             // 'titles' by default
-              placeholder='Choose Tag Inputs' // '' by default
+              label='Select Tags...'          // 'Select Tags...' by default
               togglePosition='right'          // 'left' by default
-              noOptionsMessage='There are no more tags...' // '' by default
+              noOptionsMessage=''             // '' by default
               toggleSwitchStyle='library_add' // 'search' by default
               onChange={this.handleChange}    // Required by default
               options={[                      // Required by default
@@ -86,7 +85,7 @@ const Examples = () => {
         <TagInput
           options={opts2}
           darkTheme
-          placeholder='Choose Tag Inputs'
+          label='Choose Tag Inputs...'
           onChange={() => { }}
         />
         <code>
@@ -115,7 +114,7 @@ const Examples = () => {
         <TagInput
           options={opts}
           darkTheme
-          placeholder='Choose Tag Inputs'
+          label='Choose Tag Inputs'
           onChange={() => { }}
         />
         <code>
@@ -130,7 +129,7 @@ const Examples = () => {
         <TagInput
           filterable={false}
           options={opts}
-          placeholder='Choose Tag Inputs'
+          togglePosition='right'
           onChange={() => { }}
         />
         <code>

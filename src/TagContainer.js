@@ -343,7 +343,7 @@ export default class TagContainer extends React.Component {
       if (this.props.selection instanceof Array) {
         if (this.props.selection.length > 0) {
           options = options.filter((item) => {
-            let selector = item.key ? 'key' : 'id';
+            let selector = item.key ? 'key' : this.props.orderOptionsBy;
             let index = this.props.selection.findIndex(selectedOption => selectedOption[selector] === item[selector]);
             return index < 0;
           });
@@ -415,9 +415,18 @@ export default class TagContainer extends React.Component {
           css.container,
           this.props.className)}
       >
-        <div className={css.label}>
-          {this.props.label}
-        </div>
+        {this.props.label && this.state.empty ?
+          <label className={classNames(css.label,
+            {
+              [css.darkTheme]: this.props.darkTheme,
+              [css.notFilterable]: !this.props.filterable,
+              [css.toggleRightPos]: this.props.togglePosition && this.props.togglePosition === 'right',
+              [css.toggleLeftPos]: this.props.togglePosition && this.props.togglePosition === 'left'
+            })}
+          >
+            {this.props.label}
+          </label> : null}
+
         <SelectControls
           {...this.props}
           ref='selectControls'
@@ -444,6 +453,11 @@ export default class TagContainer extends React.Component {
           onSelect={this.handleSelectItem}
         />
 
+        {this.props.noOptionsMessage ?
+          <label className={css.error}>
+            {this.props.noOptionsMessage}
+          </label> : null}
+
       </div>
     );
   }
@@ -463,11 +477,11 @@ TagContainer.defaultProps = {
 // prop types checking
 TagContainer.propTypes = {
   multiple:           PropTypes.bool.isRequired,
+  filterable:          PropTypes.bool.isRequired,
   darkTheme:          PropTypes.bool.isRequired,
 
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string.isRequired,
-  placeholder:        PropTypes.string.isRequired,
   label:              PropTypes.string.isRequired,
   togglePosition:     PropTypes.string.isRequired,
   noOptionsMessage:   PropTypes.string.isRequired,

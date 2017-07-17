@@ -142,7 +142,8 @@ export default class SelectControls extends React.Component {
           <button
             className={classNames(css['toggle-btn'], {
               [css.hidden]: this.props.loading,
-              [css.darkTheme]: this.props.darkTheme
+              [css.darkTheme]: this.props.darkTheme,
+              [css.toggleRightPos]: this.props.togglePosition && this.props.togglePosition === 'right'
             })}
             onClick={this.props.onToggle}
           >
