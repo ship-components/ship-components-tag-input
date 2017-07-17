@@ -108,7 +108,7 @@ body {
 }
 
 .active .label {
-    transform: translateY(calc($base-grid-size * -8));
+    transform: translateY(calc($base-grid-size * -5));
     font-size: 12px;
 
     &.toggleLeftPos,
@@ -118,5 +118,6 @@ body {
 
     &.darkTheme {
         color: #333;
+        transform: translateY(calc($base-grid-size * -8));
     }
 }

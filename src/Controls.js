@@ -59,7 +59,7 @@ export default class SelectControls extends React.Component {
       (
         <input
           ref='filterInput'
-          placeholder={this.props.placeholder}
+          label={this.props.label}
           onKeyDown={this.props.onKeyDown}
           onChange={this.props.onChange}
           value={this.props.filterText}
@@ -119,7 +119,7 @@ export default class SelectControls extends React.Component {
             }
           )}
         >
-          {this.props.selection ? this.props.selection.title : this.props.placeholder}
+          {this.props.selection ? this.props.selection.title : this.props.label}
         </span>
         {this.filterHtml.call(this)}
       </div>
