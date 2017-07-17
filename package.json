@@ -28,8 +28,8 @@
     "webpack",
     "jest"
   ],
-  "author": "Sepand Assadi <sepand.assadi@sony.com>",
-  "contributor": "Chris Orescan <chris.orescan@sony.com>",
+  "author": "Chris Orescan <chris.orescan@sony.com>",
+  "contributor": "Sepand Assadi <sepand.assadi@sony.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ship-components/ship-components-tag-input/issues"
