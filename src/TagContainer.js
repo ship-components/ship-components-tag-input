@@ -448,7 +448,6 @@ export default class TagContainer extends React.Component {
           open={this.state.active}
           highlightedOption={this.state.highlightedOption}
           options={options}
-          onHighlight={this.handleHighlightOption}
           onKeyDown={this.handleKeyboard}
           onSelect={this.handleSelectItem}
         />
@@ -470,8 +469,7 @@ TagContainer.defaultProps = {
 
   onFilter:             function onFilter() {},
   onFocus:              function onFocus() {},
-  onEnterKey:           function onEnterKey() {},
-  onNewItem:            function onNewItem() {}
+  onEnterKey:           function onEnterKey() {}
 };
 
 // prop types checking
@@ -497,6 +495,5 @@ TagContainer.propTypes = {
   onFocus:            PropTypes.func,
   onSelect:           PropTypes.func.isRequired,
   onDeselect:         PropTypes.func.isRequired,
-  onEnterKey:         PropTypes.func,
-  onNewItem:          PropTypes.func
+  onEnterKey:         PropTypes.func
 };

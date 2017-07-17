@@ -78,9 +78,7 @@ export default class TagInput extends React.Component {
 
 // default props
 TagInput.defaultProps = {
-  addItems:             false,
   loading:              false,
-  addOptions:           false,
   multiple:             true,
   filterable:            true,
   darkTheme:            false,
@@ -92,14 +90,12 @@ TagInput.defaultProps = {
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
 
-  selection:            [],
   optionGroupTitles:    []
 };
 
 // prop types checking
 TagInput.propTypes = {
   loading:            PropTypes.bool,
-  addOptions:         PropTypes.bool,
   multiple:           PropTypes.bool,
   filterable:          PropTypes.bool,
   darkTheme:          PropTypes.bool,
@@ -112,7 +108,6 @@ TagInput.propTypes = {
   toggleSwitchStyle:  PropTypes.string,
 
   options:            PropTypes.array.isRequired,
-  selection:          PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
   onChange:           PropTypes.func.isRequired
