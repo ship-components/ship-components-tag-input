@@ -27,15 +27,15 @@ Here is the list of options you can use.
 * [ToggleSwitchStyle](#toggleSwitchStyle)
 
 ## Docs
-#### Filterable
+#### filterable
 {bool}
 True by default. Enables an option to let user search inside the text input for a match.
 
-#### DarkTheme
+#### darkTheme
 {bool}
 False by default.
 
-#### OrderOptionsBy
+#### orderOptionsBy
 {string}
 'titles' by default. User can pass a prop to order the dropdown result list based on that prop. For instance if your option object looks like:
 ```js
@@ -46,15 +46,15 @@ options = {
 <!-- User can pass 'id' to order by id or 'title' to order by titles  -->
 ```
 
-#### TogglePosition
+#### togglePosition
 {string}
 'left' by default.
 
-#### NoOptionsMessage
+#### noOptionsMessage
 {string}
 empty by default.
 
-#### ToggleSwitchStyle
+#### toggleSwitchStyle
 {string}
 'search' by default. Please refer to [ship-components-icon](https://github.com/ship-components/ship-components-icon) for the list of icons you can pass in.
 

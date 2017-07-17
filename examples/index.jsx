@@ -40,17 +40,15 @@ const Examples = () => {
     <div>
       <h1>{'<TagInput> Examples'}</h1>
       <div className='example-group'>
-        <h2>Multiple Tags - Available Options</h2>
+        <h2 style={{marginBottom: '20px'}}>Multiple Tags - Available Options</h2>
         <TagInput
           filterable
-          darkTheme
           orderOptionsBy='id'
           placeholder='Choose Tag Inputs'
           togglePosition='right'
           noOptionsMessage='There are no more tags...'
           toggleSwitchStyle='library_add'
-          onSelect={() => { }}
-          onDeselect={() => { }}
+          onChange={() => {}}
           options={opts2}
         />
         <code>
@@ -59,12 +57,11 @@ const Examples = () => {
               filterable                       // True by default
               darkTheme                       // False by default
               orderOptionsBy='id'             // 'titles' by default
-              placeholder='Choose Tag Inputs' // 'Select...' by default
+              placeholder='Choose Tag Inputs' // '' by default
               togglePosition='right'          // 'left' by default
               noOptionsMessage='There are no more tags...' // '' by default
               toggleSwitchStyle='library_add' // 'search' by default
-              onSelect={() => { }}            // Required by default
-              onDeselect={() => { }}          // Required by default
+              onChange={this.handleChange}    // Required by default
               options={[                      // Required by default
                 {
                   id: 3,
@@ -85,16 +82,16 @@ const Examples = () => {
             />
           `}
         </code>
-        <h2>Multiple Tags - Default</h2>
+        <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Default</h2>
         <TagInput
           options={opts2}
-          onSelect={() => { }}
-          onDeselect={() => { }}
+          darkTheme
+          placeholder='Choose Tag Inputs'
+          onChange={() => { }}
         />
         <code>
           {`<TagInput
-              onSelect={() => { }}            // Required by default
-              onDeselect={() => { }}          // Required by default
+              onChange={this.handleChange}    // Required by default
               options={[
                 {
                   id: 1,
@@ -114,35 +111,33 @@ const Examples = () => {
               ]}
             />`}
         </code>
-        <h2>Multiple Tags - Dark Theme</h2>
+        <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Dark Theme</h2>
         <TagInput
           options={opts}
           darkTheme
-          onSelect={() => { }}
-          onDeselect={() => { }}
+          placeholder='Choose Tag Inputs'
+          onChange={() => { }}
         />
         <code>
           {`
             <TagInput
               darkTheme={true}
-              onSelect={() => { }}            // Required by default
-              onDeselect={() => { }}          // Required by default
+              onChange={this.handleChange}    // Required by default
             />
           `}
         </code>
-        <h2>Multiple Tags - Not Filterable</h2>
+        <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Not Filterable</h2>
         <TagInput
           filterable={false}
           options={opts}
-          onSelect={() => { }}
-          onDeselect={() => { }}
+          placeholder='Choose Tag Inputs'
+          onChange={() => { }}
         />
         <code>
           {`
             <TagInput
               filterable={false}
-              onSelect={() => { }}            // Required by default
-              onDeselect={() => { }}          // Required by default
+              onChange={this.handleChange}    // Required by default
             />
           `}
         </code>
