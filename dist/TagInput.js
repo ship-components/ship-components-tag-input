@@ -1742,16 +1742,41 @@ var TagInput = function (_React$Component) {
     _this.handleDeselectItem = _this.handleDeselectItem.bind(_this);
     return _this;
   }
+  /**
+   * Selects an item
+   * pass it to parent (If any)
+   *
+   * @param {any} item
+   * @memberof TagInput
+   */
 
   TagInput.prototype.handleSelectItem = function handleSelectItem(item) {
+    var _this2 = this;
+
     var selection = this.state.selection.slice(0);
     selection.push(item);
+
     this.setState({
       selection: selection
+    }, function () {
+      // Sending the tags to parent
+      if (typeof _this2.props.onChange === 'function') {
+        _this2.props.onChange(_this2.state.selection);
+      }
     });
   };
 
+  /**
+   * Deselects an item
+   * pass it to parent (If any)
+   *
+   * @param {any} item
+   * @memberof TagInput
+   */
+
   TagInput.prototype.handleDeselectItem = function handleDeselectItem(item) {
+    var _this3 = this;
+
     var selection = this.state.selection;
 
     var selectItemBy = item.key ? 'key' : 'id';
@@ -1763,7 +1788,17 @@ var TagInput = function (_React$Component) {
       selection.splice(index, 1);
       this.setState({
         selection: selection
+      }, function () {
+        // Sending the tags to parent
+        if (typeof _this3.props.onChange === 'function') {
+          _this3.props.onChange(_this3.state.selection);
+        }
       });
+    }
+
+    // Sending the tags to parent
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(this.state.selection);
     }
   };
 
@@ -1792,7 +1827,7 @@ TagInput.defaultProps = {
 
   className: '',
   orderOptionsBy: 'title',
-  placeholder: 'Select...',
+  label: 'Select Tags...',
   togglePosition: 'left',
   noOptionsMessage: '',
   toggleSwitchStyle: 'search',
@@ -1811,14 +1846,16 @@ TagInput.propTypes = {
 
   className: _propTypes2.default.string,
   orderOptionsBy: _propTypes2.default.string,
-  placeholder: _propTypes2.default.string,
+  label: _propTypes2.default.string,
   togglePosition: _propTypes2.default.string,
   noOptionsMessage: _propTypes2.default.string,
   toggleSwitchStyle: _propTypes2.default.string,
 
   options: _propTypes2.default.array.isRequired,
   selection: _propTypes2.default.array,
-  optionGroupTitles: _propTypes2.default.array
+  optionGroupTitles: _propTypes2.default.array,
+
+  onChange: _propTypes2.default.func.isRequired
 };
 
 /***/ }),
@@ -3710,7 +3747,7 @@ var TagContainer = function (_React$Component) {
       if (this.props.selection instanceof Array) {
         if (this.props.selection.length > 0) {
           options = options.filter(function (item) {
-            var selector = item.key ? 'key' : 'id';
+            var selector = item.key ? 'key' : _this6.props.orderOptionsBy;
             var index = _this6.props.selection.findIndex(function (selectedOption) {
               return selectedOption[selector] === item[selector];
             });
@@ -3770,7 +3807,7 @@ var TagContainer = function (_React$Component) {
   };
 
   TagContainer.prototype.render = function render() {
-    var _classNames;
+    var _classNames, _classNames2;
 
     var toggleSwitch = this._toggleSwitch();
     var options = this.getVisibleOptions();
@@ -3782,7 +3819,8 @@ var TagContainer = function (_React$Component) {
         event.stopPropagation();
       },
       className: (0, _classnames2.default)((_classNames = {}, (0, _defineProperty3.default)(_classNames, _TagContainer2.default.active, this.state.active), (0, _defineProperty3.default)(_classNames, _TagContainer2.default.empty, this.state.empty), (0, _defineProperty3.default)(_classNames, _TagContainer2.default.darkTheme, this.props.darkTheme), _classNames), _TagContainer2.default.container, this.props.className)
-    }, _react2.default.createElement(_Controls2.default, (0, _extends3.default)({}, this.props, {
+    }, this.props.label && this.state.empty ? _react2.default.createElement('label', { className: (0, _classnames2.default)(_TagContainer2.default.label, (_classNames2 = {}, (0, _defineProperty3.default)(_classNames2, _TagContainer2.default.darkTheme, this.props.darkTheme), (0, _defineProperty3.default)(_classNames2, _TagContainer2.default.notFilterable, !this.props.filterable), (0, _defineProperty3.default)(_classNames2, _TagContainer2.default.toggleRightPos, this.props.togglePosition && this.props.togglePosition === 'right'), (0, _defineProperty3.default)(_classNames2, _TagContainer2.default.toggleLeftPos, this.props.togglePosition && this.props.togglePosition === 'left'), _classNames2))
+    }, this.props.label) : null, _react2.default.createElement(_Controls2.default, (0, _extends3.default)({}, this.props, {
       ref: 'selectControls',
       style: { top: this.state.dropdownPosTop },
       isActive: this.state.active,
@@ -3802,7 +3840,7 @@ var TagContainer = function (_React$Component) {
       onHighlight: this.handleHighlightOption,
       onKeyDown: this.handleKeyboard,
       onSelect: this.handleSelectItem
-    })));
+    })), this.props.noOptionsMessage ? _react2.default.createElement('label', { className: _TagContainer2.default.error }, this.props.noOptionsMessage) : null);
   };
 
   return TagContainer;
@@ -3825,11 +3863,12 @@ TagContainer.defaultProps = {
 // prop types checking
 TagContainer.propTypes = {
   multiple: _propTypes2.default.bool.isRequired,
+  filterable: _propTypes2.default.bool.isRequired,
   darkTheme: _propTypes2.default.bool.isRequired,
 
   className: _propTypes2.default.string,
   orderOptionsBy: _propTypes2.default.string.isRequired,
-  placeholder: _propTypes2.default.string.isRequired,
+  label: _propTypes2.default.string.isRequired,
   togglePosition: _propTypes2.default.string.isRequired,
   noOptionsMessage: _propTypes2.default.string.isRequired,
   toggleSwitchStyle: _propTypes2.default.string.isRequired,
@@ -4884,17 +4923,8 @@ var Dropdown = function (_Component) {
     _this.state = {
       highlight: false
     };
-
-    // this.handleHover = this.handleHover.bind(this);
     return _this;
   }
-
-  Dropdown.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    if (nextProps.filterText !== this.props.filterText) {
-      this.handleHighlight.call(this, nextProps.options.length > 0 ? nextProps.options[0] : null);
-      this.setScrollTop(0);
-    }
-  };
 
   /**
    * Render
@@ -4950,7 +4980,7 @@ var Dropdown = function (_Component) {
         // eslint-disable-next-line react/jsx-no-bind
         onClick: _this2.props.onSelect.bind(null, option),
         className: (0, _classnames2.default)(_Dropdown2.default['option-btn'], (0, _defineProperty3.default)({}, _Dropdown2.default.darkTheme, _this2.props.darkTheme))
-      }, option.icon ? _react2.default.cloneElement(option.icon, { className: (0, _classnames2.default)(option.icon.props.className, _Dropdown2.default['option-icon']) }) : null, _react2.default.createElement('div', { className: _Dropdown2.default['option-text'] }, _react2.default.createElement('span', { className: _Dropdown2.default['option-title'] }, option.title), option.body ? _react2.default.createElement('span', { className: _Dropdown2.default['option-body'] }, option.body) : null))));
+      }, option.icon ? _react2.default.cloneElement(option.icon, { className: (0, _classnames2.default)(option.icon.props.className, _Dropdown2.default['option-icon']) }) : null, _react2.default.createElement('div', { className: _Dropdown2.default['option-text'] }, _react2.default.createElement('span', { className: _Dropdown2.default['option-title'] }, option[_this2.props.orderOptionsBy]), option.body ? _react2.default.createElement('span', { className: _Dropdown2.default['option-body'] }, option.body) : null))));
       return elements;
     }) : this.renderNoOptionsMessage.call(this));
   };
@@ -4987,6 +5017,7 @@ Dropdown.propTypes = {
   filterText: _propTypes2.default.string,
   togglePosition: _propTypes2.default.string,
   noOptionsMessage: _propTypes2.default.string,
+  orderOptionsBy: _propTypes2.default.string.isRequired,
 
   style: _propTypes2.default.object,
   highlightedOption: _propTypes2.default.object,
@@ -5003,7 +5034,7 @@ Dropdown.propTypes = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"dropdown":"Dropdown--dropdown","darkTheme":"Dropdown--darkTheme","open":"Dropdown--open","no-results":"Dropdown--no-results","dropdown-option-group-title":"Dropdown--dropdown-option-group-title","option":"Dropdown--option","option-btn":"Dropdown--option-btn","highlight":"Dropdown--highlight","option-body":"Dropdown--option-body","option-icon":"Dropdown--option-icon","right-toggle":"Dropdown--right-toggle","left-toggle":"Dropdown--left-toggle","new-option":"Dropdown--new-option","add-new-tag":"Dropdown--add-new-tag","material-icons":"Dropdown--material-icons","option-title":"Dropdown--option-title"};
+module.exports = {"dropdown":"Dropdown--dropdown","open":"Dropdown--open","no-results":"Dropdown--no-results","dropdown-option-group-title":"Dropdown--dropdown-option-group-title","option":"Dropdown--option","option-btn":"Dropdown--option-btn","darkTheme":"Dropdown--darkTheme","highlight":"Dropdown--highlight","option-body":"Dropdown--option-body","option-icon":"Dropdown--option-icon","right-toggle":"Dropdown--right-toggle","left-toggle":"Dropdown--left-toggle","new-option":"Dropdown--new-option","add-new-tag":"Dropdown--add-new-tag","material-icons":"Dropdown--material-icons","option-title":"Dropdown--option-title"};
 
 /***/ }),
 /* 115 */
@@ -5072,17 +5103,35 @@ var SelectControls = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * Enables the focus on input DOM
+   *
+   * @memberof SelectControls
+   */
+
   SelectControls.prototype.focusInput = function focusInput() {
     if (this.props.filterable) {
       this.refs.filterInput.focus();
     }
   };
 
+  /**
+   * Enables the blur on input DOM
+   *
+   * @memberof SelectControls
+   */
+
   SelectControls.prototype.blurInput = function blurInput() {
     if (this.props.filterable) {
       this.refs.filterInput.blur();
     }
   };
+
+  /**
+   * Opens the dropdown menu
+   *
+   * @memberof SelectControls
+   */
 
   SelectControls.prototype.handleOpenDropdown = function handleOpenDropdown() {
     if (this.props.multiple) {
@@ -5092,17 +5141,34 @@ var SelectControls = function (_React$Component) {
     this.props.onFocus();
   };
 
+  /**
+   * Search / Filter functionality
+   *
+   * @returns {any} DOM || null
+   * @memberof SelectControls
+   */
+
   SelectControls.prototype.filterHtml = function filterHtml() {
     return this.props.filterable ? _react2.default.createElement('input', {
       ref: 'filterInput',
-      placeholder: this.props.placeholder,
+      label: this.props.label,
       onKeyDown: this.props.onKeyDown,
       onChange: this.props.onChange,
       value: this.props.filterText,
-      className: (0, _classnames2.default)(_Controls2.default.filter, { empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive }),
+      className: (0, _classnames2.default)(_Controls2.default.filter, (0, _defineProperty3.default)({
+        empty: this.props.isEmpty,
+        hidden: !this.props.multiple && !this.props.isActive.array
+      }, _Controls2.default.withTags, this.props.selection.length > 0)),
       type: 'text'
     }) : null;
   };
+
+  /**
+   * Shows the list of options
+   *
+   * @returns {react}
+   * @memberof SelectControls
+   */
 
   SelectControls.prototype.selectionDisplayHtml = function selectionDisplayHtml() {
     var _this2 = this;
@@ -5114,9 +5180,9 @@ var SelectControls = function (_React$Component) {
         onClick: this.handleOpenDropdown
       }, this.props.selection.map(function (item) {
         return _react2.default.createElement(_Tag2.default, {
-          key: 'ship-select-tag--' + (item.key || item.id),
+          key: 'ship-select-tag--' + (item.key || item[_this2.props.orderOptionsBy]),
           icon: item.icon,
-          title: item.title
+          title: item[_this2.props.orderOptionsBy]
           // eslint-disable-next-line react/jsx-no-bind
           , onClear: _this2.props.onClear.bind(_this2, item)
         });
@@ -5132,17 +5198,24 @@ var SelectControls = function (_React$Component) {
         empty: this.props.isEmpty,
         hidden: this.props.filterable && this.props.isActive
       })
-    }, this.props.selection ? this.props.selection.title : this.props.placeholder), this.filterHtml.call(this));
+    }, this.props.selection ? this.props.selection.title : this.props.label), this.filterHtml.call(this));
   };
 
+  /**
+   * Shows the toggle button
+   *
+   * @returns {react}
+   * @memberof SelectControls
+   */
+
   SelectControls.prototype.dropdownToggleHtml = function dropdownToggleHtml() {
-    var _classNames;
+    var _classNames2;
 
     return _react2.default.createElement('div', {
       key: 0,
       className: _Controls2.default['toggle-container']
     }, this.props.toggleSwitch !== false ? _react2.default.createElement('button', {
-      className: (0, _classnames2.default)(_Controls2.default['toggle-btn'], (_classNames = {}, (0, _defineProperty3.default)(_classNames, _Controls2.default.hidden, this.props.loading), (0, _defineProperty3.default)(_classNames, _Controls2.default.darkTheme, this.props.darkTheme), _classNames)),
+      className: (0, _classnames2.default)(_Controls2.default['toggle-btn'], (_classNames2 = {}, (0, _defineProperty3.default)(_classNames2, _Controls2.default.hidden, this.props.loading), (0, _defineProperty3.default)(_classNames2, _Controls2.default.darkTheme, this.props.darkTheme), (0, _defineProperty3.default)(_classNames2, _Controls2.default.toggleRightPos, this.props.togglePosition && this.props.togglePosition === 'right'), _classNames2)),
       onClick: this.props.onToggle
     }, this.props.toggleSwitch) : null, _react2.default.createElement(_Loader2.default, {
       visible: this.props.loading,
@@ -5200,7 +5273,8 @@ SelectControls.propTypes = {
   darkTheme: _propTypes2.default.bool.isRequired,
 
   filterText: _propTypes2.default.string,
-  placeholder: _propTypes2.default.string.isRequired,
+  label: _propTypes2.default.string.isRequired,
+  orderOptionsBy: _propTypes2.default.string.isRequired,
 
   toggleSwitch: _propTypes2.default.oneOfType([_propTypes2.default.element, _propTypes2.default.string]),
   togglePosition: _propTypes2.default.oneOf(['right', 'left']),
@@ -5275,9 +5349,24 @@ var Tag = function (_React$Component) {
     return _this;
   }
 
-  Tag.prototype.shouldComponentUpdate = function shouldComponentUpdate() {
-    return true;
+  /**
+   * Optimizes the app performance
+   *
+   * @param {object} nextProps
+   * @returns {bool}
+   * @memberof Tag
+   */
+
+  Tag.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps;
   };
+
+  /**
+   * Clears an item from the tag container
+   *
+   * @param {any} event
+   * @memberof Tag
+   */
 
   Tag.prototype.handleClear = function handleClear(event) {
     if (this.props.onClear === 'function') {
@@ -5300,14 +5389,13 @@ var Tag = function (_React$Component) {
 
 exports.default = Tag;
 Tag.defaultProps = {
-  className: '',
-  title: ''
+  className: ''
 };
 
 // prop types checking
 Tag.propTypes = {
   className: _propTypes2.default.string,
-  title: _propTypes2.default.string,
+  title: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]).isRequired,
 
   onClear: _propTypes2.default.func.isRequired
 };
@@ -5374,6 +5462,13 @@ var Loader = function (_React$Component) {
     return (0, _possibleConstructorReturn3.default)(this, _React$Component.apply(this, arguments));
   }
 
+  /**
+   * Optimizes the app performance
+   *
+   * @param {array of object} nextProps
+   * @returns {bool}
+   * @memberof Loader
+   */
   Loader.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return this.props.visible !== nextProps.visible || this.props.absolute !== nextProps.absolute || this.props.className !== nextProps.className;
   };
@@ -5434,14 +5529,14 @@ module.exports = {"container":"Loader--container","visible":"Loader--visible","a
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"filter":"Controls--filter","empty":"Controls--empty","hidden":"Controls--hidden","controls":"Controls--controls","loader":"Controls--loader","loader-spinner":"Controls--loader-spinner","selection-area":"Controls--selection-area","multi-selection-area":"Controls--multi-selection-area","toggle-container":"Controls--toggle-container","toggle-btn":"Controls--toggle-btn","darkTheme":"Controls--darkTheme","selection":"Controls--selection"};
+module.exports = {"filter":"Controls--filter","withTags":"Controls--withTags","empty":"Controls--empty","hidden":"Controls--hidden","controls":"Controls--controls","loader":"Controls--loader","loader-spinner":"Controls--loader-spinner","selection-area":"Controls--selection-area","multi-selection-area":"Controls--multi-selection-area","toggle-container":"Controls--toggle-container","toggle-btn":"Controls--toggle-btn","darkTheme":"Controls--darkTheme","toggleRightPos":"Controls--toggleRightPos","selection":"Controls--selection"};
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"container":"TagContainer--container","darkTheme":"TagContainer--darkTheme","open":"TagContainer--open","active":"TagContainer--active","empty":"TagContainer--empty","toggleBtn":"TagContainer--toggleBtn"};
+module.exports = {"container":"TagContainer--container","active":"TagContainer--active","darkTheme":"TagContainer--darkTheme","open":"TagContainer--open","empty":"TagContainer--empty","toggleBtn":"TagContainer--toggleBtn","label":"TagContainer--label","toggleLeftPos":"TagContainer--toggleLeftPos","notFilterable":"TagContainer--notFilterable","toggleRightPos":"TagContainer--toggleRightPos"};
 
 /***/ })
 /******/ ]);
