@@ -13,7 +13,6 @@ export default class TagInput extends React.Component {
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
   }
-
   /**
    * Selects an item
    * pass it to parent (If any)
@@ -27,12 +26,12 @@ export default class TagInput extends React.Component {
 
     this.setState({
       selection: selection
+    }, () => {
+      // Sending the tags to parent
+      if (typeof this.props.onChange === 'function') {
+        this.props.onChange(this.state.selection);
+      }
     });
-
-    // Sending the tags to parent
-    if (typeof this.props.onSelect === 'function') {
-      this.props.onSelect(this.state.selection);
-    }
   }
 
   /**
@@ -51,12 +50,17 @@ export default class TagInput extends React.Component {
       selection.splice(index, 1);
       this.setState({
         selection: selection
+      }, () => {
+        // Sending the tags to parent
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(this.state.selection);
+        }
       });
     }
 
     // Sending the tags to parent
-    if (typeof this.props.onDeselect === 'function') {
-      this.props.onDeselect(this.state.selection);
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(this.state.selection);
     }
   }
 
@@ -83,7 +87,8 @@ TagInput.defaultProps = {
 
   className:            '',
   orderOptionsBy:       'title',
-  placeholder:          'Select...',
+  placeholder:          '',
+  label:                'Select Tags...',
   togglePosition:       'left',
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
@@ -103,6 +108,7 @@ TagInput.propTypes = {
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string,
   placeholder:        PropTypes.string,
+  label:              PropTypes.string,
   togglePosition:     PropTypes.string,
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
@@ -111,6 +117,5 @@ TagInput.propTypes = {
   selection:          PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
-  onSelect:           PropTypes.func.isRequired,
-  onDeselect:         PropTypes.func.isRequired
+  onChange:           PropTypes.func.isRequired
 };

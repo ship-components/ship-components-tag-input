@@ -63,7 +63,11 @@ export default class SelectControls extends React.Component {
           onKeyDown={this.props.onKeyDown}
           onChange={this.props.onChange}
           value={this.props.filterText}
-          className={classNames(css.filter, {empty: this.props.isEmpty, hidden: !this.props.multiple && !this.props.isActive})}
+          className={classNames(css.filter, {
+            empty: this.props.isEmpty,
+            hidden: !this.props.multiple && !this.props.isActive.array,
+            [css.withTags]: this.props.selection.length > 0
+          })}
           type='text'
         />
       )
@@ -87,9 +91,9 @@ export default class SelectControls extends React.Component {
           {this.props.selection
             .map(item => (
               <Tag
-                key={`ship-select-tag--${item.key || item.id}`}
+                key={`ship-select-tag--${item.key || item[this.props.orderOptionsBy]}`}
                 icon={item.icon}
-                title={item.title}
+                title={item[this.props.orderOptionsBy]}
                 // eslint-disable-next-line react/jsx-no-bind
                 onClear={this.props.onClear.bind(this, item)}
               />
@@ -203,6 +207,7 @@ SelectControls.propTypes = {
 
   filterText:      PropTypes.string,
   placeholder:    PropTypes.string.isRequired,
+  orderOptionsBy: PropTypes.string.isRequired,
 
   toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   togglePosition: PropTypes.oneOf(['right', 'left']),

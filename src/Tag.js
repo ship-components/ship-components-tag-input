@@ -55,14 +55,13 @@ export default class Tag extends React.Component {
 
 // default props
 Tag.defaultProps = {
-  className:   '',
-  title:       ''
+  className:   ''
 };
 
 // prop types checking
 Tag.propTypes = {
   className: PropTypes.string,
-  title:     PropTypes.string,
+  title:     PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 
   onClear:   PropTypes.func.isRequired
 };

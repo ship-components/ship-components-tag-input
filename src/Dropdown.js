@@ -12,13 +12,6 @@ export default class Dropdown extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.filterText !== this.props.filterText) {
-      this.handleHighlight.call(this, nextProps.options.length > 0 ? nextProps.options[0] : null);
-      this.setScrollTop(0);
-    }
-  }
-
   /**
    * Render
    * @param  {string} msg  the message
@@ -97,7 +90,7 @@ export default class Dropdown extends Component {
                       React.cloneElement(option.icon,{className: classNames(option.icon.props.className, css['option-icon'])})
                       : null}
                     <div className={css['option-text']}>
-                      <span className={css['option-title']}>{option.title}</span>
+                      <span className={css['option-title']}>{option[this.props.orderOptionsBy]}</span>
                       {option.body ?
                         <span className={css['option-body']}>{option.body}</span>
                         : null}
@@ -138,6 +131,7 @@ Dropdown.propTypes = {
   filterText:          PropTypes.string,
   togglePosition:     PropTypes.string,
   noOptionsMessage:   PropTypes.string,
+  orderOptionsBy:     PropTypes.string.isRequired,
 
   style:              PropTypes.object,
   highlightedOption:  PropTypes.object,

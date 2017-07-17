@@ -1,3 +1,8 @@
+body {
+    font-family: "lato";
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+}
 /**
  *  <SelectBox />
  */
@@ -13,6 +18,8 @@
     position: relative;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
 
     input[type="text"] {
         color: #333;
@@ -36,19 +43,29 @@
 .container.open {
     border-radius: 2px 2px 0 0;
 }
-.container:hover,
+
+/* .container:hover,
 .container.open {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
+} */
 
 .active {
     outline: 0;
+    color: #2a2a2a;
 }
 
 .empty {
     outline: 0;
+    color: #2a2a2a;
 }
 
 .toggleBtn {
     font-size: 20px;
+}
+
+.label {
+    font-size: 12px;
+    position: absolute;
+    top: -20px;
+    color: inherit;
 }

@@ -415,6 +415,9 @@ export default class TagContainer extends React.Component {
           css.container,
           this.props.className)}
       >
+        <div className={css.label}>
+          {this.props.label}
+        </div>
         <SelectControls
           {...this.props}
           ref='selectControls'
@@ -465,6 +468,7 @@ TagContainer.propTypes = {
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string.isRequired,
   placeholder:        PropTypes.string.isRequired,
+  label:              PropTypes.string.isRequired,
   togglePosition:     PropTypes.string.isRequired,
   noOptionsMessage:   PropTypes.string.isRequired,
   toggleSwitchStyle:  PropTypes.string.isRequired,
