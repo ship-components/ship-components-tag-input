@@ -207,7 +207,7 @@ SelectControls.propTypes = {
   darkTheme:      PropTypes.bool.isRequired,
 
   filterText:      PropTypes.string,
-  placeholder:    PropTypes.string.isRequired,
+  label:          PropTypes.string.isRequired,
   orderOptionsBy: PropTypes.string.isRequired,
 
   toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
