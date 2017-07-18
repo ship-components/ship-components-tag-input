@@ -8,10 +8,13 @@
     border: none;
     width: 100%;
     border-radius: 2px;
-    padding: 6px 12px 6px 12px;
+    padding: 6px 12px 6px 0;
     background-color: transparent;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
+    &.withTags {
+        padding-left: 12px;
+    }
 }
 .filter.empty {
     padding-left: 0;
@@ -74,6 +77,17 @@
     margin: 0 20px 0 20px;
     font-weight: 300;
     color: #666;
+    // Removes the button border lines
+    padding: 0;
+    border: none;
+    background: none;
+    &.darkTheme {
+        color: white;
+    }
+    &.toggleRightPos {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 .hidden {

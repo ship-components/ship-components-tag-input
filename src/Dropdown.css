@@ -11,13 +11,13 @@
     overflow-y: auto;
     border-radius: 0 0 2px 2px;
 }
+
 .dropdown.open {
     display: block;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.no-results {
-
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 50px;
+    /* Making sure it's always visible */
+    z-index: 1000;
 }
 
 .no-results,
@@ -34,11 +34,28 @@
     font-size: 13px;
     line-height: 1em;
 }
-.option.highlight,
-.option.highlight .option-title,
-.option.highlight .option-btn {
-    background-color: #444;
-    color: #fff;
+
+.option,
+.option-btn {
+    background-color: #fff;
+    color: #333;
+
+    &:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+    &.darkTheme {
+        background-color: #333;
+        color: #fff;
+        > option-title {
+           color: white;
+        }
+         &:hover {
+            background-color: #eeeeee;
+            color: #333;
+        }
+    }
 }
 .option.highlight .option-body {
     color: rgba(255,255,255,0.56);
