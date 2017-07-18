@@ -9,8 +9,7 @@
     "test": "npm run lint && jest --coverage",
     "watch:test": "jest --coverage --watch",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v",
-    "build": "npm test && grunt clean && grunt build",
-    "update:packages": "node ./lib/wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
+    "build": "npm test && grunt clean && grunt build"
   },
   "repository": {
     "type": "git",
