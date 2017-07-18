@@ -21,7 +21,8 @@ export default class Tag extends React.Component {
    * @memberof Tag
    */
   shouldComponentUpdate(nextProps) {
-    return this.props !== nextProps;
+    const propsToCheck = ['className', 'title'];
+    return propsToCheck.some(field => this.props[field] !== nextProps[field]);
   }
 
   /**

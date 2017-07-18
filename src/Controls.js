@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Immutable from 'immutable';
 
 import Tag from './Tag';
 import Loader from './Loader';
@@ -66,7 +67,7 @@ export default class SelectControls extends React.Component {
           className={classNames(css.filter, {
             empty: this.props.isEmpty,
             hidden: !this.props.multiple && !this.props.isActive.array,
-            [css.withTags]: this.props.selection.length > 0
+            [css.withTags]: this.props.selection.size > 0
           })}
           type='text'
         />
@@ -119,7 +120,7 @@ export default class SelectControls extends React.Component {
             }
           )}
         >
-          {this.props.selection ? this.props.selection.title : this.props.label}
+          {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
         </span>
         {this.filterHtml.call(this)}
       </div>
@@ -192,8 +193,7 @@ SelectControls.defaultProps = {
   filterText:      '',
 
   toggleSwitch:   [],
-  togglePosition: [],
-  selection:      []
+  togglePosition: []
 };
 
 // prop types checking
@@ -212,7 +212,7 @@ SelectControls.propTypes = {
 
   toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   togglePosition: PropTypes.oneOf(['right', 'left']),
-  selection:      PropTypes.array,
+  selection:      PropTypes.instanceOf(Immutable.List).isRequired,
 
   onFocus:        PropTypes.func.isRequired,
   onChange:       PropTypes.func.isRequired,

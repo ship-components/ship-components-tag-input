@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Utils } from 'ship-components-utility';
 import icon from 'ship-components-icon';
+import Immutable from 'immutable';
 
 import Dropdown from './Dropdown';
 import SelectControls from './Controls';
@@ -340,8 +341,8 @@ export default class TagContainer extends React.Component {
     // exclude selected options
     // TODO : its probably better (in single-select cases) to show the selected item in the dropdown with a checkmark, similar to standard <select />
     if (!this.isEmpty()) {
-      if (this.props.selection instanceof Array) {
-        if (this.props.selection.length > 0) {
+      if (this.props.selection instanceof Immutable.List) {
+        if (this.props.selection.size > 0) {
           options = options.filter((item) => {
             let selector = item.key ? 'key' : this.props.orderOptionsBy;
             let index = this.props.selection.findIndex(selectedOption => selectedOption[selector] === item[selector]);
@@ -384,8 +385,8 @@ export default class TagContainer extends React.Component {
   }
 
   isEmpty(props = this.props) {
-    if (props.selection instanceof Array) {
-      return props.selection.length === 0;
+    if (props.selection instanceof Immutable.List) {
+      return props.selection.size === 0;
     } else {
       return !props.selection;
     }
@@ -486,7 +487,7 @@ TagContainer.propTypes = {
   toggleSwitchStyle:  PropTypes.string.isRequired,
 
   options:            PropTypes.array.isRequired,
-  selection:          PropTypes.array.isRequired,
+  selection:          PropTypes.instanceOf(Immutable.List).isRequired,
   optionGroupTitles:  PropTypes.array.isRequired,
 
   transitionDelay:    PropTypes.number,

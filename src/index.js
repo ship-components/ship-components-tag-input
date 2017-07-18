@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 
 import TagContainer from './TagContainer';
 
@@ -7,7 +8,7 @@ export default class TagInput extends React.Component {
   constructor() {
     super();
     this.state = {
-      selection: []
+      selection: new Immutable.List()
     };
 
     this.handleSelectItem = this.handleSelectItem.bind(this);
@@ -22,7 +23,7 @@ export default class TagInput extends React.Component {
    */
   handleSelectItem(item) {
     let selection = this.state.selection.slice(0);
-    selection.push(item);
+    selection = selection.push(item);
 
     this.setState({
       selection: selection
@@ -42,12 +43,12 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleDeselectItem(item) {
-    const { selection } = this.state;
+    let { selection } = this.state;
     const selectItemBy = item.key ? 'key' : 'id';
     const index = selection.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
 
     if (index > -1) {
-      selection.splice(index, 1);
+      selection = selection.splice(index, 1);
       this.setState({
         selection: selection
       }, () => {
