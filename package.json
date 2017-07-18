@@ -1,6 +1,6 @@
 {
   "name": "ship-components-tag-input",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/index.js",
   "scripts": {
@@ -29,7 +29,9 @@
     "jest"
   ],
   "author": "Chris Orescan <chris.orescan@sony.com>",
-  "contributor": "Sepand Assadi <sepand.assadi@sony.com>",
+  "contributors": [
+    "Sepand Assadi <sepand.assadi@sony.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ship-components/ship-components-tag-input/issues"
@@ -38,6 +40,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
+    "immutable": "^3.8.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "ship-components-icon": "^0.1.2",
@@ -67,8 +70,6 @@
     "grunt-webpack": "^3.0.0",
     "jest": "^20.0.4",
     "jest-css-modules": "^1.1.0",
-    "lodash": "^4.17.4",
-    "object-assign": "^4.1.1",
     "package-banner": "^0.1.1",
     "postcss-calc": "^6.0.0",
     "postcss-color-function": "^4.0.0",

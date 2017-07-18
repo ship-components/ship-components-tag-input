@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
   grunt.config.set('webpack', {
     options: buildOptions,
-    
+
     dev: {
       plugins: [
         new ExtractTextPlugin({
@@ -79,7 +79,6 @@ module.exports = function(grunt) {
     },
     devtool: 'eval',
     externals: {
-      lodash: '_',
       react: 'React',
       'react-dom': 'ReactDOM',
       'react-addons-css-transition-group': 'React.addons.CSSTransitionGroup'

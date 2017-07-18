@@ -2,7 +2,7 @@
 
 [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) Material Design React Multi-Select Box. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and an ES5 version is available using [Babel](https://babeljs.io/).
 
-[![npm](https://img.shields.io/npm/v/ship-components-utility.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-tag-input)
+[![npm](https://img.shields.io/npm/v/ship-components-tag-input.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-tag-input)
 [![Build Status](http://img.shields.io/travis/ship-components/ship-components-tag-input/master.svg?style=flat)](https://travis-ci.org/ship-components/ship-components-tag-input)
 [![Coverage](http://img.shields.io/coveralls/ship-components/ship-components-tag-input.svg?style=flat)](https://coveralls.io/github/ship-components/ship-components-tag-input)
 [![devDependencies](https://img.shields.io/david/dev/ship-components/ship-components-tag-input.svg?style=flat)](https://david-dm.org/ship-components/ship-components-tag-input?type=dev)
@@ -158,13 +158,7 @@ $ npm test
 which will live reload any changes you make and serve them at http://localhost:8080.
 
 ### Webpack Configuration
-This module is designed to be used with webpack but requires a few loaders if you are pulling the source into another project.
-
-```shell
-$ npm install autoprefixer babel-core babel-eslint babel-loader babel-plugin-transform-runtime babel-preset-env babel-preset-react coveralls css-loader eslint eslint-config-ship-components eslint-loader eslint-plugin-react extract-text-webpack-plugin file-loader grunt grunt-contrib-clean grunt-coveralls grunt-eslint grunt-webpack jest jest-css-modules lodash object-assign package-banner postcss-calc postcss-color-function postcss-color-hex-alpha postcss-loader postcss-nested postcss-simple-vars prop-types react-addons-test-utils sockjs-client style-loader webpack webpack-dev-server --save-dev
-```
-
-Below are is a sample of how to setup the loaders in webpack 3:
+This module is designed to be used with webpack. Below are is a sample of how to setup the loaders in webpack 3:
 
 ```js
 /**
@@ -278,7 +272,8 @@ Below are is a sample of how to setup the loaders in webpack 3:
 2. `npm test`
 
 ## History
-* 0.2.0 - Initial
+* 0.2.1 - Aligns the component with the rest of ship-components in terms of UI and the functionality.
+* 0.1.0 - Initial
 
 ## License
 The MIT License (MIT)
