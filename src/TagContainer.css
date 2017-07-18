@@ -1,0 +1,123 @@
+body {
+    font-family: "lato";
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+}
+/**
+ *  <SelectBox />
+ */
+.container {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 2px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 5px 5px 5px 0;
+    position: relative;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+
+    line-height: 1;
+    position: relative;
+    &:after,
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.12);
+        transition: all 500ms ease;
+    }
+
+    &:after {
+        bottom: -3px;
+        width: 0;
+        height: 3px;
+    }
+
+    &:before {
+        width: 100%;
+        height: 1px;
+    }
+
+    &.active:after { width: 100%; }
+
+    input[type="text"] {
+        color: #333;
+        z-index: 5;
+        outline: 0;
+        &::-webkit-input-placeholder  { color: #333 }          /* Chrome/Opera/Safari */
+        &::-moz-placeholder,          { color: #333 }          /* Firefox 19+ */
+        &:-ms-input-placeholder,      { color: #333 }          /* IE 10+ */
+        &:-moz-placeholder,           { color: #333 }          /* Firefox 18- */
+    }
+    &.darkTheme {
+        background-color: #333;
+        color: white;
+        input[type="text"] {
+            color: white;
+            &::-webkit-input-placeholder  { color: white }     /* Chrome/Opera/Safari */
+            &::-moz-placeholder,          { color: white }     /* Firefox 19+ */
+            &:-ms-input-placeholder,      { color: white }     /* IE 10+ */
+            &:-moz-placeholder,           { color: white }     /* Firefox 18- */
+        }
+
+        &:before { background-color: #fff; }
+        &.active:after { width: 100%; }
+    }
+}
+
+.container.open {
+    border-radius: 2px 2px 0 0;
+}
+
+/* .container:hover,
+.container.open {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+} */
+
+.active {
+    outline: 0;
+    color: #2a2a2a;
+}
+
+.empty {
+    outline: 0;
+    color: #2a2a2a;
+}
+
+.toggleBtn {
+    font-size: 20px;
+}
+
+.label {
+    font-size: 16px;
+    position: absolute;
+    color: inherit;
+    left: 0;
+    transition: all 500ms ease;
+    z-index: 4;
+    line-height: 1;
+
+    &.toggleLeftPos,
+    &.notFilterable:not(.toggleRightPos) {
+        left: 72px;
+    }
+}
+
+.active .label {
+    transform: translateY(calc($base-grid-size * -5));
+    font-size: 12px;
+
+    &.toggleLeftPos,
+    &.notFilterable {
+        left: 0;
+    }
+
+    &.darkTheme {
+        color: #333;
+        transform: translateY(calc($base-grid-size * -8));
+    }
+}

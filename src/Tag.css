@@ -23,6 +23,17 @@
     height: 18px;
     width: 18px;
     margin: 0 4px;
+    position: relative;
+    // Removes the button border lines
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.cancel-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .clear-btn .cancel-icon {

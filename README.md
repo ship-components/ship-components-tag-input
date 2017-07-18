@@ -1,7 +1,63 @@
 # ship-components-tag-input
-[React](http://facebook.github.io/react/) tag input (single, multi, and typeahead). Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
 
-[![npm](https://img.shields.io/npm/v/ship-components-select.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-tag-input)
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) Material Design React Multi-Select Box. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and an ES5 version is available using [Babel](https://babeljs.io/).
+
+[![npm](https://img.shields.io/npm/v/ship-components-tag-input.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-tag-input)
+[![Build Status](http://img.shields.io/travis/ship-components/ship-components-tag-input/master.svg?style=flat)](https://travis-ci.org/ship-components/ship-components-tag-input)
+[![Coverage](http://img.shields.io/coveralls/ship-components/ship-components-tag-input.svg?style=flat)](https://coveralls.io/github/ship-components/ship-components-tag-input)
+[![devDependencies](https://img.shields.io/david/dev/ship-components/ship-components-tag-input.svg?style=flat)](https://david-dm.org/ship-components/ship-components-tag-input?type=dev)
+
+## Docs & Help
+
+* [Docs](#docs)
+* [Usage](#usage)
+* [Development](#development)
+* [Webpack Configuration](#webpack-configuration)
+* [Tests](#tests)
+* [History](#history)
+
+Here is the list of options you can use.
+
+* [Filterable](#filterable)
+* [DarkTheme](#darkTheme)
+* [OrderOptionsBy](#orderOptionsBy)
+* [Placeholder](#placeholder)
+* [TogglePosition](#togglePosition)
+* [NoOptionsMessage](#noOptionsMessage)
+* [ToggleSwitchStyle](#toggleSwitchStyle)
+
+## Docs
+#### filterable
+{bool}
+True by default. Enables an option to let user search inside the text input for a match.
+
+#### darkTheme
+{bool}
+False by default.
+
+#### orderOptionsBy
+{string}
+'titles' by default. User can pass a prop to order the dropdown result list based on that prop. For instance if your option object looks like:
+```js
+options = {
+  id: 1,
+  title: 'Option 1'
+}
+<!-- User can pass 'id' to order by id or 'title' to order by titles  -->
+```
+
+#### togglePosition
+{string}
+'left' by default.
+
+#### noOptionsMessage
+{string}
+empty by default.
+
+#### toggleSwitchStyle
+{string}
+'search' by default. Please refer to [ship-components-icon](https://github.com/ship-components/ship-components-icon) for the list of icons you can pass in.
+
 
 ## Usage
 
@@ -12,22 +68,30 @@ The component is written using ES6/JSX therefore Babel is recommended to use it.
  * ES6 TagInput Example
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TagInput from '../src/TagInput';
+import TagInput from 'ship-components-tag-input';
 
-class Examples extends React.Component {
-  constructor() {
-    super();
+export default class ExampleClass extends React.Component {
+  constructor(props) {
+    super(props);
+
     this.state = {
-      selection: [] 
+      tags: []
+
     };
+
+    this.handleSelectItem = this.handleSelectItem.bind(this);
+    this.handleDeselectItem = this.handleDeselectItem.bind(this);
   }
 
-  handleSelectItem(item) {
-    let selection = this.state.selection.slice(0);
-    selection.push(item);
+  handleSelectItem(event) {
     this.setState({
-      selection: selection
+      tags: event.target.value
+    });
+  }
+
+  handleDeselectItem(event) {
+    this.setState({
+      tags: event.target.value
     });
   }
 
@@ -43,32 +107,37 @@ class Examples extends React.Component {
   }
 
   render() {
-    const opts = [
+    const options = [
       {
-        id: 1,
-        title: "Option 1"
+        id: 3,
+        title: 'Option 1',
+        searchString: 'Option 1'
       },
       {
         id: 2,
-        title: "Option 2"
+        title: 'Option 2',
+        searchString: 'Option 2'
       },
       {
-        id: 3,
-        title: "Option 3"
+        id: 1,
+        title: 'Option 3',
+        searchString: 'Option 3'
       }
     ];
 
     return (
-      <div>
-        <h1>{'<TagInput> Examples'}</h1>
+      <div className='form-group'>
         <TagInput
-          multiple
-          placeholder='Tag input...'
-          selection={this.state.selection}
-          onSelect={this.handleSelectItem.bind(this)}
-          onDeselect={this.handleDeselectItem.bind(this)}
-          selection={this.state.selection}
-          options={opts}
+          filterable                                     // True by default
+          darkTheme                                     // False by default
+          orderOptionsBy='id'                           // 'titles' by default
+          placeholder='Choose Tag Inputs'               // 'Select...' by default
+          togglePosition='right'                        // 'left' by default
+          noOptionsMessage='There are no more tags...'  // '' by default
+          toggleSwitchStyle='library_add'               // 'search' by default
+
+          onSelect={this.handleSelectItem}              // REQUIRED
+          onDeselect={this.handleDeselectItem}          // REQUIRED
         />
       </div>
     );
@@ -78,24 +147,18 @@ class Examples extends React.Component {
 ReactDOM.render(<Examples />, document.getElementById('examples'));
 ```
 
-## Examples and Development
-Examples can be found in the `examples/` folder. A development server can be run with:
+## Development
+More examples can be found in the `examples/` folder. A development server can be run with:
 
 ```shell
+$ git clone https://github.com/ship-components/ship-components-tag-input.git
 $ npm install
-$ npm start
+$ npm test
 ```
-
 which will live reload any changes you make and serve them at http://localhost:8080.
 
 ### Webpack Configuration
-This module is designed to be used with webpack but requires a few loaders if you are pulling the source into another project.
-
-```shell
-$ npm install webpack babel-loader css-loader style-loader postcss-loader extract-text-webpack-plugin postcss-nested postcss-color-hex-alpha postcss-color-function postcss-calc autoprefixer --save-dev
-```
-
-Below are is a sample of how to setup the loaders:
+This module is designed to be used with webpack. Below are is a sample of how to setup the loaders in webpack 3:
 
 ```js
 /**
@@ -104,51 +167,119 @@ Below are is a sample of how to setup the loaders:
 {
   [...]
   module: {
-    loaders: [
-      // Setup support for ES6
+    rules: [
       {
         test: /\.(jsx?|es6)$/,
-        exclude: /node_modules/,
-        loader: 'babel'
+        enforce: 'pre',
+        exclude: /(node_modules|dist)/,
+        include: /src\/.*/,
+        use: 'eslint-loader'
       },
-      // Setup support for CSS Modules
+      // ES6/JSX for App
+      {
+        test: /\.(jsx?|es6)$/,
+        exclude: [
+          /node_modules/
+        ],
+        use: 'babel-loader'
+      },
+      {
+        test: /\.(jsx?|es6)$/,
+        include: [
+          /ship-components-.*\/src/
+        ],
+        use: 'babel-loader'
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]'
+            }
+          }
+        ]
+      },
+      // CSS Modules
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]--[local]'
+              }
+            },
+            {
+              // CSS Modules
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  require('postcss-nested')(),
+                  require('postcss-simple-vars')({
+                    /**
+                     * Default variables. Should be overridden in mail build system
+                     * @type {Object}
+                     */
+                    variables: {
+                      'primary-color': '#38b889',
+                      'opacity-disabled': '0.58',
+                      'base-grid-size': '4px'
+                    }
+                  }),
+                  require('postcss-color-hex-alpha')(),
+                  require('postcss-color-function')(),
+                  require('postcss-calc')(),
+                  require('autoprefixer')()
+                ]
+              }
+            }
+          ]
+        })
       }
     ]
   },
+
   plugins: [
-    // Extract the css and put it in one file. Path is relative to output path
-    new ExtractTextPlugin('../css/[name].css', { allChunks: true })
-  ],
-  // CSS Modules
-  postcss: [
-    require('postcss-nested'),
-    require('postcss-simple-vars'),
-    require('postcss-color-hex-alpha'),
-    require('postcss-color-function'),
-    require('postcss-calc'),
-    require('autoprefixer')
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        context: __dirname,
+        eslint: {
+          // Strict linting enforcing
+          failOnWarning: true
+        }
+      }
+    }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: false,
+      allChunks: true
+    })
   ],
   [...]
 }
 ```
 
 ## Tests
-
-*There's currently a bug in Jest, so the units tests and they will not run.*
+[Incomplete]: Will ve added in v0.3.0 (Soon).
 
 1. `npm install`
 2. `npm test`
 
 ## History
+* 0.2.1 - Aligns the component with the rest of ship-components in terms of UI and the functionality.
 * 0.1.0 - Initial
 
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2015 Chris Orescan
+Copyright (c) 2017 SHIP Team
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
