@@ -16,7 +16,7 @@
     "url": "git+https://github.com/ship-components/ship-components-tag-input.git"
   },
   "engines": {
-    "node": ">=4.0 <6.0"
+    "node": ">=4.0 <7.0"
   },
   "keywords": [
     "react",
