@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import Promise from 'bluebird';
+import superagent from 'superagent';
 
 import TagContainer from './TagContainer';
 
 export default class TagInput extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      selection: new Immutable.List()
+      selection: new Immutable.List(),
+      waiting: false,
+      data: props.options
     };
 
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
+    this.handleGetOptions = this.handleGetOptions.bind(this);
   }
   /**
    * Selects an item
@@ -65,13 +70,58 @@ export default class TagInput extends React.Component {
     }
   }
 
+  fetchServer(query) {
+    const { fetchUrl, server } = this.props;
+
+    this.setState({
+      waiting: true
+    });
+
+    return new Promise((resolve, reject) => {
+      superagent
+        .get(fetchUrl)
+        .set('x-jira-server', server)
+        .accept('application/json')
+        .query({ query: query })
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res.body);
+        });
+    });
+  }
+
+  handleGetOptions(query = '', active = false) {
+    if (active || this.state.data.some(field => field.label === query)) {
+      return;
+    }
+
+    this.fetchServer(query)
+      .then((res) => {
+        this.setState({
+          data: res.suggestions,
+          waiting: false
+        });
+      });
+  }
+
   render() {
+    const {
+      data,
+      waiting,
+      selection
+    } = this.state;
+
     return (
       <TagContainer
         {...this.props}
-        selection={this.state.selection}
+        options={data}
+        loading={waiting}
+        selection={selection}
         onSelect={this.handleSelectItem}
         onDeselect={this.handleDeselectItem}
+        onHandleFetch={this.handleGetOptions}
       />
     );
   }
@@ -90,8 +140,12 @@ TagInput.defaultProps = {
   togglePosition:       'left',
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
+  fetchUrl:             '',
+  server:               '',
 
-  optionGroupTitles:    []
+  optionGroupTitles:    [],
+  options:              [],
+  onHandleFetch:        function onHandleFetch() {}
 };
 
 // prop types checking
@@ -107,9 +161,12 @@ TagInput.propTypes = {
   togglePosition:     PropTypes.string,
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
+  fetchUrl:           PropTypes.string,
+  server:             PropTypes.string,
 
-  options:            PropTypes.array.isRequired,
+  options:            PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
-  onChange:           PropTypes.func.isRequired
+  onChange:           PropTypes.func.isRequired,
+  onHandleFetch:      PropTypes.func
 };

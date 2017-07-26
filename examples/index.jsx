@@ -140,6 +140,37 @@ const Examples = () => {
             />
           `}
         </code>
+        <h2 style={{ marginBottom: '20px' }}>Multiple Tags - With AutoComplete</h2>
+        <TagInput
+          label='Choose Tag Inputs...'
+          autoComplete
+          options={opts2}
+          togglePosition='right'
+          toggleSwitchStyle='library_add'
+          onChange={() => { }}
+        />
+        <code>
+          {`<TagInput
+              onChange={this.handleChange}    // Required by default
+              options={[
+                {
+                  id: 1,
+                  title: "Item 1",
+                  searchString: "Optional string 1"
+                },
+                {
+                  id: 2,
+                  title: "Item 2",
+                  searchString: "Optional string 2"
+                },
+                {
+                  id: 3,
+                  title: "Item 3",
+                  searchString: "Optional string 3"
+                }
+              ]}
+            />`}
+        </code>
       </div>
     </div>
   );

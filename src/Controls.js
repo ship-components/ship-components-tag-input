@@ -153,7 +153,9 @@ export default class SelectControls extends React.Component {
           : null}
         <Loader
           visible={this.props.loading}
-          className={css.loader}
+          className={classNames(css.loader, {
+            [css.toggleRightPos]: this.props.togglePosition && this.props.togglePosition === 'right'
+          })}
           spinnerClassName={css['loader-spinner']}
         />
       </div>
