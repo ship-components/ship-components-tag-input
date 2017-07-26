@@ -41,13 +41,15 @@
   "homepage": "https://github.com/ship-components/ship-components-tag-input#readme",
   "dependencies": {
     "babel-runtime": "^6.23.0",
+    "bluebird": "^3.5.0",
     "classnames": "^2.2.5",
     "immutable": "^3.8.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "ship-components-icon": "^0.1.2",
     "ship-components-outsideclick": "^0.2.0",
-    "ship-components-utility": "^1.2.1"
+    "ship-components-utility": "^1.2.1",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -57,7 +59,6 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "bluebird": "^3.5.0",
     "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "eslint": "^4.1.1",
@@ -84,7 +85,6 @@
     "react-addons-test-utils": "^15.6.0",
     "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.2",
-    "superagent": "^3.5.2",
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.0"
   },

@@ -71,16 +71,20 @@ export default class TagInput extends React.Component {
   }
 
   fetchServer(query) {
-    const { fetchUrl, server } = this.props;
+    const { fetchUrl, httpHeaders } = this.props;
 
     this.setState({
       waiting: true
     });
 
     return new Promise((resolve, reject) => {
-      superagent
-        .get(fetchUrl)
-        .set('x-jira-server', server)
+      let req = superagent.get(fetchUrl);
+      // Setting the http headers
+      Object.keys(httpHeaders).forEach((key) => {
+        req.set(key, httpHeaders[key]);
+      });
+
+      req
         .accept('application/json')
         .query({ query: query })
         .end((err, res) => {
@@ -100,7 +104,7 @@ export default class TagInput extends React.Component {
     this.fetchServer(query)
       .then((res) => {
         this.setState({
-          data: res.suggestions,
+          data: this.props.extractor(res),
           waiting: false
         });
       });
@@ -141,11 +145,14 @@ TagInput.defaultProps = {
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
   fetchUrl:             '',
-  server:               '',
 
   optionGroupTitles:    [],
   options:              [],
-  onHandleFetch:        function onHandleFetch() {}
+
+  httpHeaders:          {},
+
+  onHandleFetch:        function onHandleFetch() {},
+  extractor:            function extractor() {}
 };
 
 // prop types checking
@@ -162,11 +169,13 @@ TagInput.propTypes = {
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
   fetchUrl:           PropTypes.string,
-  server:             PropTypes.string,
 
   options:            PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
+  httpHeaders:        PropTypes.object,
+
   onChange:           PropTypes.func.isRequired,
-  onHandleFetch:      PropTypes.func
+  onHandleFetch:      PropTypes.func,
+  extractor:          PropTypes.func
 };

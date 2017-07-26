@@ -144,31 +144,22 @@ const Examples = () => {
         <TagInput
           label='Choose Tag Inputs...'
           autoComplete
-          options={opts2}
+          fetchUrl={'http://'} // Any url to request the list of options from
+          extractor={(res) => res.data} // data can be changed to anything user wants...
+          options={opts2} // Not needed when the autoComplete feature is enabled, only for demo purposes
           togglePosition='right'
           toggleSwitchStyle='library_add'
           onChange={() => { }}
         />
         <code>
           {`<TagInput
-              onChange={this.handleChange}    // Required by default
-              options={[
-                {
-                  id: 1,
-                  title: "Item 1",
-                  searchString: "Optional string 1"
-                },
-                {
-                  id: 2,
-                  title: "Item 2",
-                  searchString: "Optional string 2"
-                },
-                {
-                  id: 3,
-                  title: "Item 3",
-                  searchString: "Optional string 3"
-                }
-              ]}
+             label='Choose Tag Inputs...'
+              autoComplete
+              fetchUrl={'http://...'} // Any url to request the list of options from
+              extractor={(res) => res.data} // data can be changed to anything user wants...
+              togglePosition='right'
+              toggleSwitchStyle='library_add'
+              onChange={() => { }}
             />`}
         </code>
       </div>
