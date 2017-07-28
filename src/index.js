@@ -135,7 +135,7 @@ export default class TagInput extends React.Component {
 TagInput.defaultProps = {
   loading:              false,
   multiple:             true,
-  filterable:            true,
+  filterable:           true,
   darkTheme:            false,
 
   className:            '',
@@ -152,14 +152,14 @@ TagInput.defaultProps = {
   httpHeaders:          {},
 
   onHandleFetch:        function onHandleFetch() {},
-  extractor:            function extractor() {}
+  extractor:            function extractor(data) { return data; }
 };
 
 // prop types checking
 TagInput.propTypes = {
   loading:            PropTypes.bool,
   multiple:           PropTypes.bool,
-  filterable:          PropTypes.bool,
+  filterable:         PropTypes.bool,
   darkTheme:          PropTypes.bool,
 
   className:          PropTypes.string,
