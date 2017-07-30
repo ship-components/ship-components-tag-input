@@ -140,6 +140,28 @@ const Examples = () => {
             />
           `}
         </code>
+        <h2 style={{ marginBottom: '20px' }}>Multiple Tags - With AutoComplete</h2>
+        <TagInput
+          label='Choose Tag Inputs...'
+          autoComplete
+          fetchUrl={'http://'} // Any url to request the list of options from
+          extractor={(res) => res.data} // data can be changed to anything user wants...
+          options={opts2} // Not needed when the autoComplete feature is enabled, only for demo purposes
+          togglePosition='right'
+          toggleSwitchStyle='library_add'
+          onChange={() => { }}
+        />
+        <code>
+          {`<TagInput
+             label='Choose Tag Inputs...'
+              autoComplete
+              fetchUrl={'http://...'} // Any url to request the list of options from
+              extractor={(res) => res.data} // data can be changed to anything user wants...
+              togglePosition='right'
+              toggleSwitchStyle='library_add'
+              onChange={() => { }}
+            />`}
+        </code>
       </div>
     </div>
   );

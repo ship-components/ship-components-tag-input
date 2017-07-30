@@ -74,7 +74,9 @@ export default class TagContainer extends React.Component {
    */
   handleToggleDropdown(event) {
     event.preventDefault();
-    if (!this.state.active) {
+    const { active } = this.state;
+
+    if (!active) {
       this.handleOpenDropdown(event);
     } else {
       this.setState({ active: false });
@@ -87,6 +89,10 @@ export default class TagContainer extends React.Component {
   handleOpenDropdown(event) {
     if (this.state.active) {
       return;
+    }
+
+    if (this.props.autoComplete) {
+      this.props.onHandleFetch(null, this.state.active);
     }
 
     this.setState({ active: true },
@@ -106,6 +112,10 @@ export default class TagContainer extends React.Component {
    */
   handleInput(event) {
     let filterText = event.target.value;
+
+    if (this.props.autoComplete && filterText.length > 2) {
+      this.props.onHandleFetch(filterText);
+    }
 
     this.setState({
       filterText: filterText,
@@ -431,6 +441,7 @@ export default class TagContainer extends React.Component {
         <SelectControls
           {...this.props}
           ref='selectControls'
+          waiting={this.state.waiting}
           style={{ top: this.state.dropdownPosTop }}
           isActive={this.state.active}
           isEmpty={this.state.empty}
@@ -465,12 +476,14 @@ export default class TagContainer extends React.Component {
 
 // default props
 TagContainer.defaultProps = {
+  autoComplete:         false,
   className:            '',
   transitionDelay:      250,
 
   onFilter:             function onFilter() {},
   onFocus:              function onFocus() {},
-  onEnterKey:           function onEnterKey() {}
+  onEnterKey:           function onEnterKey() {},
+  onHandleFetch:        function onHandleFetch() {}
 };
 
 // prop types checking
@@ -478,6 +491,7 @@ TagContainer.propTypes = {
   multiple:           PropTypes.bool.isRequired,
   filterable:          PropTypes.bool.isRequired,
   darkTheme:          PropTypes.bool.isRequired,
+  autoComplete:       PropTypes.bool,
 
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string.isRequired,
@@ -496,5 +510,6 @@ TagContainer.propTypes = {
   onFocus:            PropTypes.func,
   onSelect:           PropTypes.func.isRequired,
   onDeselect:         PropTypes.func.isRequired,
-  onEnterKey:         PropTypes.func
+  onEnterKey:         PropTypes.func,
+  onHandleFetch:      PropTypes.func
 };

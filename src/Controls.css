@@ -27,7 +27,9 @@
     margin: 0;
     position: static;
     height: 32px;
-    width: 64px;
+    &:not(.toggleRightPos) {
+        width: 64px;
+    }
 }
 
 .controls .loader-spinner {
