@@ -170,7 +170,7 @@ export default class Examples extends React.Component {
             label='Choose Tag Inputs...'
             autoComplete
             fetchUrl={'http://'} // Any url to request the list of options from
-            extractor={(res) => res.data} // data can be changed to anything user wants...
+            extractor={res => res.data} // data can be changed to anything user wants...
             options={opts2} // Not needed when the autoComplete feature is enabled, only for demo purposes
             togglePosition='right'
             toggleSwitchStyle='library_add'
