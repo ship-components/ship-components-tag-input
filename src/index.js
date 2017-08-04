@@ -26,13 +26,12 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleSelectItem(item) {
-    let newValue = this.props.value.slice(0);
-    newValue = newValue.push(item);
+    let { value } = this.props;
+
+    value = value.push(item);
 
     // Sending the tags to parent
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(newValue);
-    }
+    this.props.onChange(value);
   }
 
   /**
@@ -43,19 +42,17 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleDeselectItem(item) {
+    let { value } = this.props;
+
     const selectItemBy = item.key ? 'key' : 'id';
     const index = this.props.value.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
 
-    let newValue = this.props.value;
-
     if (index > -1) {
-      newValue = newValue.splice(index, 1);
+      value = value.splice(index, 1);
     }
 
     // Sending the tags to parent
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(newValue);
-    }
+    this.props.onChange(value);
   }
 
   fetchServer(query) {
@@ -162,7 +159,7 @@ TagInput.propTypes = {
   optionGroupTitles:  PropTypes.array,
 
   httpHeaders:        PropTypes.object,
-  value:              PropTypes.instanceOf(Immutable.List),
+  value:              PropTypes.instanceOf(Immutable.List).isRequired,
 
   onChange:           PropTypes.func.isRequired,
   onHandleFetch:      PropTypes.func,

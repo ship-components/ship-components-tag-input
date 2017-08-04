@@ -254,7 +254,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
-* 1.0.0 - Adds an option to let use pass in the value as a prop. The state of tags is now handled inside the parent.
+* 0.4.0 - Adds an option to let use pass in the value as a prop. The state of tags is now handled inside the parent.
 * 0.3.0 - Adds a functionality to fetch options from a URL instead of passing options as a prop (Internal use only).
 * 0.2.1 - Aligns the component with the rest of ship-components in terms of UI and the functionality.
 * 0.1.0 - Initial
