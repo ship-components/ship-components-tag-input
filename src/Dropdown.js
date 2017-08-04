@@ -13,6 +13,64 @@ export default class Dropdown extends Component {
   }
 
   /**
+   * Returns an optionGroup
+   *
+   * @param {object} option
+   * @returns {DOM}
+   */
+  getOptionGroup(option) {
+    return (
+      <li
+        key={option.optionGroup}
+        className={css['dropdown-option-group-title']}
+      >
+        {this.props.optionGroupTitles[option.optionGroup]}
+      </li>
+    );
+  }
+
+  /**
+   * Returns an option item
+   *
+   * @param {object} option
+   * @returns {DOM}
+   */
+  getOptionItem(option) {
+    let {
+      highlightedOption,
+      orderOptionsBy,
+      darkTheme,
+      onSelect
+    } = this.props;
+    let isHighlighted = highlightedOption && highlightedOption.key === option.key;
+
+    return (
+      <li
+        key={option.key || option.id}
+        ref={isHighlighted ? 'highlightedOption' : null}
+        // eslint-disable-next-line react/jsx-no-bind
+        onClick={onSelect.bind(null, option)}
+        className={classNames(css.option,
+          {
+            [css.darkTheme]: darkTheme,
+            [css[option.className]]: option.className,
+            [css.highlight]: isHighlighted,
+            [`ship-select--option-${option.optionGroup}`]: !!option.optionGroup
+          }
+        )}
+      >
+        {option.icon ?
+          React.cloneElement(option.icon, { className: classNames(option.icon.props.className, css['option-icon']) })
+          : null}
+        {option[orderOptionsBy]}
+        {option.body ?
+          <span className={css['option-body']}>{option.body}</span>
+          : null}
+      </li>
+    );
+  }
+
+  /**
    * Render
    * @param  {string} msg  the message
    * @return {JSX}
@@ -29,68 +87,54 @@ export default class Dropdown extends Component {
     }
   }
 
-  render() {
-    let highlightedOption = this.props.highlightedOption;
+  renderOptions() {
+    let { options } = this.props;
 
-    let currentOptionGroup = -1;
-    let togglePositionClass = this.props.togglePosition === 'left' ? css['left-toggle'] : css['right-toggle'];
+    return options
+      .map((option) => {
+        let currentOptionGroup = -1;
+        let elements = [];
+
+        // If there is any option groups
+        if (option.optionGroup && (currentOptionGroup < 0
+          || currentOptionGroup !== option.optionGroup)) {
+          elements.push(this.getOptionGroup(option));
+        }
+
+        // Get each option
+        elements.push(this.getOptionItem(option));
+
+        return elements;
+      });
+  }
+
+  render() {
+    let {
+      togglePosition,
+      darkTheme,
+      open,
+      style,
+      onKeyDown,
+      options
+    } = this.props;
+
+    let togglePositionClass = togglePosition === 'left' ?
+      css['left-toggle'] :
+      css['right-toggle'];
 
     return (
       <ul
         ref='optionContainer'
         className={classNames(css.dropdown, togglePositionClass, {
-          [css.open]: this.props.open,
-          [css.darkTheme]: this.props.darkTheme
+          [css.open]: open,
+          [css.darkTheme]: darkTheme
         })}
-        style={this.props.style}
-        onKeyDown={this.props.onKeyDown}
+        style={style}
+        onKeyDown={onKeyDown}
       >
-        {this.props.options.length > 0 ?
-          this.props.options
-            .map((option) => {
-              let elements = [];
-              let isHighlighted = highlightedOption && highlightedOption.key === option.key;
-              if (option.optionGroup && (currentOptionGroup < 0 || currentOptionGroup !== option.optionGroup)) {
-                currentOptionGroup = option.optionGroup;
-                elements.push(
-                  <li
-                    key={currentOptionGroup}
-                    className={css['dropdown-option-group-title']}
-                  >
-                    {this.props.optionGroupTitles[currentOptionGroup]}
-                  </li>
-                );
-              }
-
-              let optionVariableClasses = { [css.highlight]: isHighlighted };
-              optionVariableClasses[`ship-select--option-${option.optionGroup}`] = !!option.optionGroup;
-              elements.push(
-                <li
-                  key={option.key || option.id}
-                  ref={isHighlighted ? 'highlightedOption' : null}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onClick={this.props.onSelect.bind(null, option)}
-                  className={
-                    classNames(
-                      css.option,
-                      optionVariableClasses,
-                      {
-                        [css.darkTheme]: this.props.darkTheme,
-                        [css[option.className]]: option.className
-                      }
-                    )}
-                >
-                  {option.icon ?
-                    React.cloneElement(option.icon, { className: classNames(option.icon.props.className, css['option-icon']) })
-                    : null}
-                  {option[this.props.orderOptionsBy]}
-                  {option.body ?
-                    <span className={css['option-body']}>{option.body}</span>
-                    : null}
-                </li>);
-              return elements;
-            })
-          : this.renderNoOptionsMessage.call(this)}
+        {options.length > 0 ?
+          this.renderOptions() :
+          this.renderNoOptionsMessage()}
       </ul>
     );
   }
