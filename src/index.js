@@ -19,12 +19,6 @@ export default class TagInput extends React.Component {
     this.handleGetOptions = this.handleGetOptions.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
-    const fieldsToCheck = ['value', 'loading', 'options', 'optionGroupTitles', 'filterable', 'orderOptionsBy', 'className'];
-
-    return fieldsToCheck.some(field => nextProps[field] !== this.props[field]);
-  }
-
   /**
    * Selects an item
    * pass it to parent (If any)
