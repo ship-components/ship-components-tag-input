@@ -15,7 +15,7 @@
 .dropdown.open {
     display: block;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     /* Making sure it's always visible */
     z-index: 1000;
 }
@@ -31,17 +31,23 @@
 }
 
 .option {
-    font-size: 13px;
-    line-height: 1em;
-}
+    line-height: 1.618;
 
-.option,
-.option-btn {
-    background-color: #fff;
-    color: #333;
+    padding: 8px 24px;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+
+    display: flex;
+    align-items: center;
+    text-align: left;
+    word-break: break-all;
+    overflow-wrap: break-word;
 
     &:hover {
-        background-color: #333;
+        background-color: rgba(21, 101, 192, 0.66);
         color: #fff;
     }
 
@@ -57,32 +63,13 @@
         }
     }
 }
-.option.highlight .option-body {
-    color: rgba(255,255,255,0.56);
-}
-.option.highlight .option-icon {
-    color: rgba(255,255,255,0.9);
-}
 
-.right-toggle .option,
-.right-toggle .no-results {
-    padding-left: 12px;
-}
 .left-toggle .option,
 .left-toggle .no-results {
     padding-left: 20px;
 }
 
-.option-btn {
-    display: flex;
-    align-items: center;
-    padding: 10px 12px 10px 0;
-    text-align: left;
-    word-break: break-all;
-    overflow-wrap: break-word;
-    color: rgba(0, 0, 0, 0.9);
-}
-.option-btn.new-option {
+.new-option {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
@@ -92,21 +79,14 @@
     align-items: center;
     font-weight: 700;
 }
-.option-btn .material-icons {
-    font-size: 14px;
+
+.material-icons {
+font-size: 14px;
 }
 
 .option-icon {
     margin-right: 8px;
     color: rgba(33,33,33,.80);
-}
-
-.option-title {
-    display: block;
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 13px;
-    -webkit-font-smoothing: antialiased;
 }
 
 .option-body {

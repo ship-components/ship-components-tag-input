@@ -62,40 +62,31 @@ export default class Dropdown extends Component {
                 );
               }
 
-              let optionVariableClasses = {[css.highlight]: isHighlighted};
+              let optionVariableClasses = { [css.highlight]: isHighlighted };
               optionVariableClasses[`ship-select--option-${option.optionGroup}`] = !!option.optionGroup;
               elements.push(
                 <li
                   key={option.key || option.id}
                   ref={isHighlighted ? 'highlightedOption' : null}
                   // eslint-disable-next-line react/jsx-no-bind
+                  onClick={this.props.onSelect.bind(null, option)}
                   className={
                     classNames(
                       css.option,
-                      option.className,
                       optionVariableClasses,
                       {
-                        [css.darkTheme]: this.props.darkTheme
+                        [css.darkTheme]: this.props.darkTheme,
+                        [css[option.className]]: option.className
                       }
                     )}
                 >
-                  <div
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onClick={this.props.onSelect.bind(null, option)}
-                    className={classNames(css['option-btn'], {
-                      [css.darkTheme]: this.props.darkTheme
-                    })}
-                  >
-                    {option.icon ?
-                      React.cloneElement(option.icon,{className: classNames(option.icon.props.className, css['option-icon'])})
-                      : null}
-                    <div className={css['option-text']}>
-                      <span className={css['option-title']}>{option[this.props.orderOptionsBy]}</span>
-                      {option.body ?
-                        <span className={css['option-body']}>{option.body}</span>
-                        : null}
-                    </div>
-                  </div>
+                  {option.icon ?
+                    React.cloneElement(option.icon, { className: classNames(option.icon.props.className, css['option-icon']) })
+                    : null}
+                  {option[this.props.orderOptionsBy]}
+                  {option.body ?
+                    <span className={css['option-body']}>{option.body}</span>
+                    : null}
                 </li>);
               return elements;
             })
