@@ -18,6 +18,13 @@ export default class TagInput extends React.Component {
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
     this.handleGetOptions = this.handleGetOptions.bind(this);
   }
+
+  shouldComponentUpdate(nextProps) {
+    const fieldsToCheck = ['value', 'loading', 'options', 'optionGroupTitles', 'filterable', 'orderOptionsBy', 'className'];
+
+    return fieldsToCheck.some(field => nextProps[field] !== this.props[field]);
+  }
+
   /**
    * Selects an item
    * pass it to parent (If any)
@@ -144,7 +151,7 @@ TagInput.defaultProps = {
 TagInput.propTypes = {
   loading:            PropTypes.bool,
   multiple:           PropTypes.bool,
-  filterable:         PropTypes.bool,
+  filterable:          PropTypes.bool,
   darkTheme:          PropTypes.bool,
 
   className:          PropTypes.string,
