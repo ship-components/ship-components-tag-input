@@ -152,7 +152,7 @@ TagInput.defaultProps = {
   httpHeaders:          {},
 
   onHandleFetch:        function onHandleFetch() {},
-  extractor:            function extractor(data) { return data; }
+  extractor:            data => data
 };
 
 // prop types checking
