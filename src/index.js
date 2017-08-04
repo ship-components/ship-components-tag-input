@@ -10,7 +10,6 @@ export default class TagInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selection: new Immutable.List(),
       waiting: false,
       data: props.options
     };
@@ -19,6 +18,7 @@ export default class TagInput extends React.Component {
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
     this.handleGetOptions = this.handleGetOptions.bind(this);
   }
+
   /**
    * Selects an item
    * pass it to parent (If any)
@@ -27,17 +27,12 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleSelectItem(item) {
-    let selection = this.state.selection.slice(0);
-    selection = selection.push(item);
+    let { value } = this.props;
 
-    this.setState({
-      selection: selection
-    }, () => {
-      // Sending the tags to parent
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange(this.state.selection);
-      }
-    });
+    value = value.push(item);
+
+    // Sending the tags to parent
+    this.props.onChange(value);
   }
 
   /**
@@ -48,26 +43,17 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleDeselectItem(item) {
-    let { selection } = this.state;
+    let { value } = this.props;
+
     const selectItemBy = item.key ? 'key' : 'id';
-    const index = selection.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
+    const index = this.props.value.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
 
     if (index > -1) {
-      selection = selection.splice(index, 1);
-      this.setState({
-        selection: selection
-      }, () => {
-        // Sending the tags to parent
-        if (typeof this.props.onChange === 'function') {
-          this.props.onChange(this.state.selection);
-        }
-      });
+      value = value.splice(index, 1);
     }
 
     // Sending the tags to parent
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(this.state.selection);
-    }
+    this.props.onChange(value);
   }
 
   fetchServer(query) {
@@ -113,8 +99,7 @@ export default class TagInput extends React.Component {
   render() {
     const {
       data,
-      waiting,
-      selection
+      waiting
     } = this.state;
 
     return (
@@ -122,7 +107,7 @@ export default class TagInput extends React.Component {
         {...this.props}
         options={data}
         loading={waiting}
-        selection={selection}
+        selection={this.props.value}
         onSelect={this.handleSelectItem}
         onDeselect={this.handleDeselectItem}
         onHandleFetch={this.handleGetOptions}
@@ -150,16 +135,17 @@ TagInput.defaultProps = {
   options:              [],
 
   httpHeaders:          {},
+  value:                new Immutable.List(),
 
   onHandleFetch:        function onHandleFetch() {},
-  extractor:            function extractor(data) { return data; }
+  extractor:            data => data
 };
 
 // prop types checking
 TagInput.propTypes = {
   loading:            PropTypes.bool,
   multiple:           PropTypes.bool,
-  filterable:         PropTypes.bool,
+  filterable:          PropTypes.bool,
   darkTheme:          PropTypes.bool,
 
   className:          PropTypes.string,
@@ -174,6 +160,7 @@ TagInput.propTypes = {
   optionGroupTitles:  PropTypes.array,
 
   httpHeaders:        PropTypes.object,
+  value:              PropTypes.instanceOf(Immutable.List).isRequired,
 
   onChange:           PropTypes.func.isRequired,
   onHandleFetch:      PropTypes.func,
