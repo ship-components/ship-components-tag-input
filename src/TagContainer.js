@@ -442,7 +442,6 @@ export default class TagContainer extends React.Component {
           {...this.props}
           ref='selectControls'
           waiting={this.state.waiting}
-          style={{ top: this.state.dropdownPosTop }}
           isActive={this.state.active}
           isEmpty={this.state.empty}
           filterText={this.state.filterText}
@@ -456,6 +455,7 @@ export default class TagContainer extends React.Component {
 
         <Dropdown
           {...this.props}
+          style={{ top: this.state.dropdownPosTop }}
           filterText={this.state.filterText}
           open={this.state.active}
           highlightedOption={this.state.highlightedOption}
