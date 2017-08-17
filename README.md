@@ -68,42 +68,23 @@ The component is written using ES6/JSX therefore Babel is recommended to use it.
  * ES6 TagInput Example
  */
 import React from 'react';
+import Immutable from 'immutable';
 import TagInput from 'ship-components-tag-input';
 
 export default class ExampleClass extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      tags: []
+      value: new Immutable.List()
 
     };
-
-    this.handleSelectItem = this.handleSelectItem.bind(this);
-    this.handleDeselectItem = this.handleDeselectItem.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSelectItem(event) {
+  handleChange(tag) {
     this.setState({
-      tags: event.target.value
+      value: tag
     });
-  }
-
-  handleDeselectItem(event) {
-    this.setState({
-      tags: event.target.value
-    });
-  }
-
-  handleDeselectItem(item) {
-    let selection = this.state.selection.slice(0);
-    let index = selection.findIndex(selectedItem => item.key === selectedItem.key);
-    if (index > -1) {
-      selection.splice(index, 1);
-      this.setState({
-        selection: selection
-      });
-    }
   }
 
   render() {
@@ -130,14 +111,15 @@ export default class ExampleClass extends React.Component {
         <TagInput
           filterable                                     // True by default
           darkTheme                                     // False by default
+
           orderOptionsBy='id'                           // 'titles' by default
           placeholder='Choose Tag Inputs'               // 'Select...' by default
           togglePosition='right'                        // 'left' by default
           noOptionsMessage='There are no more tags...'  // '' by default
           toggleSwitchStyle='library_add'               // 'search' by default
 
-          onSelect={this.handleSelectItem}              // REQUIRED
-          onDeselect={this.handleDeselectItem}          // REQUIRED
+          value={this.state.value}
+          onChange={this.handleChange}                  // REQUIRED
         />
       </div>
     );
@@ -266,19 +248,21 @@ This module is designed to be used with webpack. Below are is a sample of how to
 ```
 
 ## Tests
-[Incomplete]: Will ve added in v0.3.0 (Soon).
+[Incomplete]: Will be added in soon.
 
 1. `npm install`
 2. `npm test`
 
 ## History
+* 0.4.0 - Adds an option to let use pass in the value as a prop. The state of tags is now handled inside the parent.
+* 0.3.0 - Adds a functionality to fetch options from a URL instead of passing options as a prop (Internal use only).
 * 0.2.1 - Aligns the component with the rest of ship-components in terms of UI and the functionality.
 * 0.1.0 - Initial
 
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2017 SHIP Team
+Copyright (c) 2017 SHIP
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import Promise from 'bluebird';
+import superagent from 'superagent';
 
 import TagContainer from './TagContainer';
 
 export default class TagInput extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      selection: new Immutable.List()
+      waiting: false,
+      data: props.options
     };
 
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
+    this.handleGetOptions = this.handleGetOptions.bind(this);
   }
+
   /**
    * Selects an item
    * pass it to parent (If any)
@@ -22,17 +27,12 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleSelectItem(item) {
-    let selection = this.state.selection.slice(0);
-    selection = selection.push(item);
+    let { value } = this.props;
 
-    this.setState({
-      selection: selection
-    }, () => {
-      // Sending the tags to parent
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange(this.state.selection);
-      }
-    });
+    value = value.push(item);
+
+    // Sending the tags to parent
+    this.props.onChange(value);
   }
 
   /**
@@ -43,35 +43,74 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleDeselectItem(item) {
-    let { selection } = this.state;
+    let { value } = this.props;
+
     const selectItemBy = item.key ? 'key' : 'id';
-    const index = selection.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
+    const index = this.props.value.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
 
     if (index > -1) {
-      selection = selection.splice(index, 1);
-      this.setState({
-        selection: selection
-      }, () => {
-        // Sending the tags to parent
-        if (typeof this.props.onChange === 'function') {
-          this.props.onChange(this.state.selection);
-        }
-      });
+      value = value.splice(index, 1);
     }
 
     // Sending the tags to parent
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(this.state.selection);
+    this.props.onChange(value);
+  }
+
+  fetchServer(query) {
+    const { fetchUrl, httpHeaders } = this.props;
+
+    this.setState({
+      waiting: true
+    });
+
+    return new Promise((resolve, reject) => {
+      let req = superagent.get(fetchUrl);
+      // Setting the http headers
+      Object.keys(httpHeaders).forEach((key) => {
+        req.set(key, httpHeaders[key]);
+      });
+
+      req
+        .accept('application/json')
+        .query({ query: query })
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res.body);
+        });
+    });
+  }
+
+  handleGetOptions(query = '', active = false) {
+    if (active || this.state.data.some(field => field.label === query)) {
+      return;
     }
+
+    this.fetchServer(query)
+      .then((res) => {
+        this.setState({
+          data: this.props.extractor(res),
+          waiting: false
+        });
+      });
   }
 
   render() {
+    const {
+      data,
+      waiting
+    } = this.state;
+
     return (
       <TagContainer
         {...this.props}
-        selection={this.state.selection}
+        options={data}
+        loading={waiting}
+        selection={this.props.value}
         onSelect={this.handleSelectItem}
         onDeselect={this.handleDeselectItem}
+        onHandleFetch={this.handleGetOptions}
       />
     );
   }
@@ -81,7 +120,7 @@ export default class TagInput extends React.Component {
 TagInput.defaultProps = {
   loading:              false,
   multiple:             true,
-  filterable:            true,
+  filterable:           true,
   darkTheme:            false,
 
   className:            '',
@@ -90,8 +129,16 @@ TagInput.defaultProps = {
   togglePosition:       'left',
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
+  fetchUrl:             '',
 
-  optionGroupTitles:    []
+  optionGroupTitles:    [],
+  options:              [],
+
+  httpHeaders:          {},
+  value:                new Immutable.List(),
+
+  onHandleFetch:        function onHandleFetch() {},
+  extractor:            data => data
 };
 
 // prop types checking
@@ -107,9 +154,15 @@ TagInput.propTypes = {
   togglePosition:     PropTypes.string,
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
+  fetchUrl:           PropTypes.string,
 
-  options:            PropTypes.array.isRequired,
+  options:            PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
-  onChange:           PropTypes.func.isRequired
+  httpHeaders:        PropTypes.object,
+  value:              PropTypes.instanceOf(Immutable.List).isRequired,
+
+  onChange:           PropTypes.func.isRequired,
+  onHandleFetch:      PropTypes.func,
+  extractor:          PropTypes.func
 };
