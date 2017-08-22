@@ -60,8 +60,7 @@ export default class TagContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      empty: this.isEmpty(nextProps),
-      data: nextProps.options
+      empty: this.isEmpty(nextProps)
     }, this.handleDropdownPosition);
   }
 
