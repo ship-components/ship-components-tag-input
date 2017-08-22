@@ -480,10 +480,10 @@ TagContainer.defaultProps = {
   className:            '',
   transitionDelay:      250,
 
-  onFilter:             function onFilter() {},
-  onFocus:              function onFocus() {},
-  onEnterKey:           function onEnterKey() {},
-  onHandleFetch:        function onHandleFetch() {}
+  onFilter:             void 0,
+  onFocus:              void 0,
+  onEnterKey:           void 0,
+  onHandleFetch:        void 0
 };
 
 // prop types checking
