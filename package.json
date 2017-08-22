@@ -61,6 +61,8 @@
     "babel-preset-react": "^6.24.1",
     "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
+    "enzyme-to-json": "^1.5.1",
     "eslint": "^4.1.1",
     "eslint-config-ship-components": "^1.4.2",
     "eslint-loader": "^1.8.0",
@@ -83,6 +85,7 @@
     "postcss-simple-vars": "^4.0.0",
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.6.0",
+    "react-test-renderer": "^15.6.1",
     "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",
@@ -90,7 +93,8 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.css$": "<rootDir>/node_modules/jest-css-modules"
     },
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/node_modules/jest-css-modules"
@@ -101,12 +105,15 @@
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!ship-components-*)"
     ]
   },
   "babelJest": {
     "include": [
       "src/**/*.@(js|jsx|es6)",
-      "/node_modules/"
+      "<rootDir>/node_modules"
     ]
   }
 }
