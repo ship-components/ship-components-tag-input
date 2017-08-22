@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TagInput Component should render correctly 1`] = `
+exports[`index.js TagInput Rendering should render correctly 1`] = `
 <TagContainer
   autoComplete={false}
   className=""
