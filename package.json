@@ -7,6 +7,7 @@
     "start": "grunt server",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "test": "npm run lint && jest --coverage",
+    "test:update": "npm run test -- -u",
     "watch:test": "jest --coverage --watch",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v",
     "build": "npm test && grunt clean && grunt build"
