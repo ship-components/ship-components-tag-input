@@ -19,6 +19,12 @@ export default class TagInput extends React.Component {
     this.handleGetOptions = this.handleGetOptions.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      data: nextProps.options
+    });
+  }
+
   /**
    * Selects an item
    * pass it to parent (If any)
