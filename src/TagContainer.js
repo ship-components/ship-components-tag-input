@@ -239,6 +239,10 @@ export default class TagContainer extends React.Component {
    * Determines the `top` css property for the dropdown
    */
   handleDropdownPosition() {
+    if (!this.refs.selectBox) {
+      return;
+    }
+
     let selectBoxHeight = (this.refs.selectBox.offsetHeight) + 'px';
 
     // compare strings
@@ -270,7 +274,11 @@ export default class TagContainer extends React.Component {
     }
 
     let options = this.getVisibleOptions();
-    let currentIndex = options.findIndex(option => option.key === highlightedOption.key);
+
+    let currentIndex = options.findIndex((option) => {
+      let selector = option.key ? 'key' : this.props.orderOptionsBy;
+      return option[selector] === highlightedOption[selector];
+    });
 
     if (currentIndex === 0) {
       return;
@@ -291,7 +299,10 @@ export default class TagContainer extends React.Component {
     if (!highlightedOption) {
       highlightedOption = options[0];
     } else {
-      let currentIndex = options.findIndex(option => option.key === highlightedOption.key);
+      let currentIndex = options.findIndex((option) => {
+        let selector = option.key ? 'key' : this.props.orderOptionsBy;
+        return option[selector] === highlightedOption[selector];
+      });
 
       if (currentIndex === options.length - 1) {
         return;
@@ -307,6 +318,10 @@ export default class TagContainer extends React.Component {
    * Focus cursor on filter input
    */
   focusInput() {
+    if (!this.refs.selectControls) {
+      return;
+    }
+
     this.refs.selectControls.focusInput();
   }
 

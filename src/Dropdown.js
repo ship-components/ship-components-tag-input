@@ -8,8 +8,13 @@ export default class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      highlight: false
+      highlightedItem: props.highlightedOption
     };
+  }
+  componentWillReceiveProps(nextProp) {
+    this.setState({
+      highlightedItem: nextProp.highlightedOption
+    });
   }
 
   /**
@@ -42,7 +47,9 @@ export default class Dropdown extends Component {
       darkTheme,
       onSelect
     } = this.props;
-    let isHighlighted = highlightedOption && highlightedOption.key === option.key;
+
+    let selector = option.key ? 'key' : this.props.orderOptionsBy;
+    let isHighlighted = highlightedOption && highlightedOption[selector] === option[selector];
 
     return (
       <li

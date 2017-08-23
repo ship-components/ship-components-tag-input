@@ -46,6 +46,11 @@
     overflow-wrap: break-word;
 
     &:hover {
+        background-color: rgba(21, 101, 192, 0.44);
+        color: #fff;
+    }
+
+    &.highlight {
         background-color: rgba(21, 101, 192, 0.66);
         color: #fff;
     }
@@ -58,6 +63,10 @@
         }
          &:hover {
             background-color: #eeeeee;
+            color: #333;
+        }
+        &.highlight {
+            background-color: #FFFFFF;
             color: #333;
         }
     }
@@ -95,4 +104,8 @@ font-size: 14px;
     font-weight: 400;
     font-size: 12px;
     -webkit-font-smoothing: antialiased;
+}
+
+.highlight {
+
 }
