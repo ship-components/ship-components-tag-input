@@ -116,7 +116,6 @@ describe('index.js', () => {
         />
       );
       // Not sure how I can test this within proxy to get the results
-      expect.assertions(1);
       try {
         await wrapper.node.fetchServer('');
       } catch (e) {
@@ -142,7 +141,6 @@ describe('index.js', () => {
       );
 
       // Not sure how I can test this within proxy to get the results
-      expect.assertions(1);
       try {
         await wrapper.node.fetchServer('');
       } catch (e) {
