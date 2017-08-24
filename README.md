@@ -248,12 +248,15 @@ This module is designed to be used with webpack. Below are is a sample of how to
 ```
 
 ## Tests
-[Incomplete]: Will be added in soon.
+* `npm run test`: to run the tests
+* `npm run test:update`: to run the tests and update the snapshots
+* `npm run test:watchAll`: to run the tests and watch all tests
 
 1. `npm install`
 2. `npm test`
 
 ## History
+* 0.5.0 - Adds unit tests.
 * 0.4.3 - Fixes the bug where updating the options in parent component don't change in TagInput component(componentWillReceiveProps).
 * 0.4.1 - Fixes bug where Dropdown is not positioned dynamically based on input height.
 * 0.4.0 - Adds an option to let use pass in the value as a prop. The state of tags is now handled inside the parent.
