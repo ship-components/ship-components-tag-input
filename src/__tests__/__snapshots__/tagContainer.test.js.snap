@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: TagContainer TagContainer Rendering should render correctly 1`] = `
+<div
+  className=""
+  onClick={[Function]}
+>
+  <label
+    className=""
+  >
+    label
+  </label>
+  <SelectControls
+    autoComplete={false}
+    className=""
+    darkTheme={false}
+    filterText=""
+    filterable={true}
+    isActive={false}
+    isEmpty={true}
+    label="label"
+    loading={false}
+    multiple={true}
+    noOptionsMessage=""
+    onChange={[Function]}
+    onClear={[Function]}
+    onDeselect={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onSelect={[Function]}
+    onToggle={[Function]}
+    open={false}
+    optionGroupTitles={Array []}
+    options={
+      Array [
+        Object {
+          "id": 1,
+          "searchString": "Option 1",
+          "title": "Option 1",
+        },
+        Object {
+          "id": 2,
+          "searchString": "Option 2",
+          "title": "Option 2",
+        },
+        Object {
+          "id": 3,
+          "searchString": "Option 3",
+          "title": "Option 3",
+        },
+      ]
+    }
+    orderOptionsBy="title"
+    selection={
+      Immutable.List [
+      ]
+    }
+    togglePosition="right"
+    toggleSwitch={
+      <i
+        className=""
+      />
+    }
+    toggleSwitchStyle="library_add"
+    transitionDelay={250}
+  />
+  <Dropdown
+    autoComplete={false}
+    className=""
+    darkTheme={false}
+    filterText=""
+    filterable={true}
+    highlightedOption={Object {}}
+    label="label"
+    loading={false}
+    multiple={true}
+    noOptionsMessage=""
+    onDeselect={[Function]}
+    onKeyDown={[Function]}
+    onSelect={[Function]}
+    open={false}
+    optionGroupTitles={Array []}
+    options={
+      Array [
+        Object {
+          "id": 1,
+          "searchString": "Option 1",
+          "title": "Option 1",
+        },
+        Object {
+          "id": 2,
+          "searchString": "Option 2",
+          "title": "Option 2",
+        },
+        Object {
+          "id": 3,
+          "searchString": "Option 3",
+          "title": "Option 3",
+        },
+      ]
+    }
+    orderOptionsBy="title"
+    selection={
+      Immutable.List [
+      ]
+    }
+    style={
+      Object {
+        "top": "53px",
+      }
+    }
+    togglePosition="right"
+    toggleSwitchStyle="library_add"
+    transitionDelay={250}
+  />
+</div>
+`;
