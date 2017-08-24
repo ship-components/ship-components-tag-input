@@ -1,6 +1,5 @@
 import React from 'react';
 import Immutable from 'immutable';
-import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
@@ -79,19 +78,19 @@ describe('Component: Controls', () => {
   });
 
   describe('blurInput Function', () => {
-    it('should fires a focus event when blurInput function calls', () => {
+    it('should fires a blur event when blurInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
       const textInput = textInputWrapper.get(0);
       const blurInputSpy = jest.spyOn(textInput, 'blur');
 
-      // Fires the focusInput function
+      // Fires the blurInput function
       wrapper.node.blurInput();
 
       expect(blurInputSpy).toHaveBeenCalled();
     });
 
-    it('should NOT fires a focus event when filterable is false', () => {
+    it('should NOT fires a blur event when filterable is false', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
       const textInput = textInputWrapper.get(0);
@@ -102,7 +101,7 @@ describe('Component: Controls', () => {
         filterable: false
       });
 
-      // Fires the focusInput function
+      // Fires the blurInput function
       wrapper.node.blurInput();
 
       expect(blurInputSpy).not.toHaveBeenCalled();
