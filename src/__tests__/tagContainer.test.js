@@ -481,7 +481,7 @@ describe('Component: TagContainer', () => {
 
       expect(getAllSortedResults).not.toEqual(sampleOptionList.toJS());
       // Sort sampleOptionList
-      var sorted = sampleOptionList.sort((a, b) => a.id > b.id);
+      var sorted = sampleOptionList.sort((a, b) => a.id > b.id); // eslint-disable-line max-nested-callbacks
 
       expect(getAllSortedResults).toEqual(sorted.toJS());
     });
