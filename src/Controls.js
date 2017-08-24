@@ -194,8 +194,8 @@ SelectControls.defaultProps = {
 
   filterText:      '',
 
-  toggleSwitch:   [],
-  togglePosition: []
+  toggleSwitch:   'library_add',
+  togglePosition: 'left'
 };
 
 // prop types checking
