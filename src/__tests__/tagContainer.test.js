@@ -486,4 +486,87 @@ describe('Component: TagContainer', () => {
       expect(getAllSortedResults).toEqual(sorted.toJS());
     });
   });
+
+  describe('isEmpty Function', () => {
+    it('return true when props.selection is Immutable.List && size is zero', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+      let sampleProps = {
+        selection: new Immutable.List()
+      };
+
+      const result1 = wrapper.node.isEmpty(sampleProps);
+      expect(result1).toBeTruthy();
+
+      // Add an item to selection
+      // isEmpty should return false
+      sampleProps.selection = sampleProps.selection.push(OPTIONS[0]);
+      const result2 = wrapper.node.isEmpty(sampleProps);
+
+      expect(result2).toBeFalsy();
+    });
+
+    it('return false when props.selection is not an instance of List', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+      let sampleProps = {
+        selection: {}
+      };
+
+      const result = wrapper.node.isEmpty(sampleProps);
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('highlightPreviousItem Function', () => {
+    it('should update state to correct previous item when function calls', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+
+      // setState manually
+      wrapper.setState({
+        highlightedOption: OPTIONS[2]
+      });
+
+      wrapper.node.highlightPreviousItem();
+      expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
+
+    });
+
+    it('should NOT update state to previous item when first item is selected', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+
+      // setState manually
+      wrapper.setState({
+        highlightedOption: OPTIONS[0]
+      });
+
+      wrapper.node.highlightPreviousItem();
+      expect(wrapper.state().highlightedOption).toEqual(OPTIONS[0]);
+    });
+  });
+
+  describe('highlightNextItem Function', () => {
+    it('should update state to correct next item when function calls', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+
+      // setState manually
+      wrapper.setState({
+        highlightedOption: OPTIONS[0]
+      });
+
+      wrapper.node.highlightNextItem();
+      expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
+
+    });
+
+    it('should NOT update state to next item when last item is selected', () => {
+      const { wrapper } = initializeMountTagContainerComponent();
+
+      // setState manually
+      wrapper.setState({
+        highlightedOption: OPTIONS[2]
+      });
+
+      wrapper.node.highlightNextItem();
+      expect(wrapper.state().highlightedOption).toEqual(OPTIONS[2]);
+    });
+  });
 });
