@@ -34,7 +34,7 @@ function initializeMountTagInputComponent() {
   );
 }
 
-describe('index.js', () => {
+describe('Component: index.js', () => {
   beforeEach(() => {
     SAMPLE_DATA = {id: 0, title: 'Sample Test'};
     return SAMPLE_DATA;
