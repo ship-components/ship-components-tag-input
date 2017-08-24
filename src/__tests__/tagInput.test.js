@@ -100,7 +100,7 @@ describe('index.js', () => {
   });
 
   describe('fetchServer Function', () => {
-    it('Throws Unauthorized error when fetch the server without proxy', async() => {
+    it('Throws Unauthorized error when fetch the server without proxy', () => {
       const httpHeaders = {
         'x-jira-server': 'https://jira.sp.ppship.scea.com'
       };
@@ -117,7 +117,7 @@ describe('index.js', () => {
       );
       // Not sure how I can test this within proxy to get the results
       try {
-        await wrapper.node.fetchServer('');
+        wrapper.node.fetchServer('');
       } catch (e) {
         expect(e).toBeDefined();
       }
@@ -125,7 +125,7 @@ describe('index.js', () => {
   });
 
   describe('handleGetOptions Function', () => {
-    it('Throws Unauthorized error when fetch the server without proxy', async() => {
+    it('Throws Unauthorized error when fetch the server without proxy', () => {
       const httpHeaders = {
         'x-jira-server': 'https://jira.sp.ppship.scea.com'
       };
@@ -142,7 +142,7 @@ describe('index.js', () => {
 
       // Not sure how I can test this within proxy to get the results
       try {
-        await wrapper.node.fetchServer('');
+        wrapper.node.fetchServer('');
       } catch (e) {
         expect(e).toBeDefined();
       }
