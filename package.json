@@ -1,15 +1,18 @@
 {
   "name": "ship-components-tag-input",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/index.js",
   "scripts": {
     "start": "grunt server",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "test": "npm run lint && jest --coverage",
+    "test:update": "npm run test -- -u",
+    "test:watchAll": "npm run test -- --watchAll",
     "watch:test": "jest --coverage --watch",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v",
-    "build": "npm test && grunt clean && grunt build"
+    "build": "npm test && grunt clean && grunt build",
+    "travis": "npm install trevor -g && trevor"
   },
   "repository": {
     "type": "git",
@@ -61,10 +64,12 @@
     "babel-preset-react": "^6.24.1",
     "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
+    "enzyme-to-json": "^1.5.1",
     "eslint": "^4.1.1",
     "eslint-config-ship-components": "^1.4.2",
     "eslint-loader": "^1.8.0",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "^7.3.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "grunt": "^1.0.1",
@@ -83,6 +88,7 @@
     "postcss-simple-vars": "^4.0.0",
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.6.0",
+    "react-test-renderer": "^15.6.1",
     "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",
@@ -90,7 +96,8 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.css$": "<rootDir>/node_modules/jest-css-modules"
     },
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/node_modules/jest-css-modules"
@@ -101,12 +108,15 @@
       "<rootDir>/node_modules/fbjs",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!ship-components-*)"
     ]
   },
   "babelJest": {
     "include": [
       "src/**/*.@(js|jsx|es6)",
-      "/node_modules/"
+      "<rootDir>/node_modules"
     ]
   }
 }

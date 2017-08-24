@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Controls SelectControls Rendering should render correctly 1`] = `
+<div>
+  <div>
+    <button
+      className=""
+      onClick={[Function]}
+    >
+      library_add
+    </button>
+    <Loader
+      absolute={false}
+      className=""
+      spinnerClassName=""
+      visible={false}
+    />
+  </div>
+  <div
+    onClick={[Function]}
+  >
+    <span
+      className=""
+    />
+    <input
+      className="hidden"
+      label="sample"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      type="text"
+      value=""
+    />
+  </div>
+</div>
+`;

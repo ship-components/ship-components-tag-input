@@ -143,7 +143,7 @@ TagInput.defaultProps = {
   httpHeaders:          {},
   value:                new Immutable.List(),
 
-  onHandleFetch:        function onHandleFetch() {},
+  onHandleFetch:        void 0,
   extractor:            data => data
 };
 

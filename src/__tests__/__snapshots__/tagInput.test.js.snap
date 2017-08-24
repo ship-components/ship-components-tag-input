@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: index.js TagInput Rendering should render correctly 1`] = `
+<TagContainer
+  autoComplete={false}
+  className=""
+  darkTheme={false}
+  extractor={[Function]}
+  fetchUrl=""
+  filterable={true}
+  httpHeaders={Object {}}
+  label="Select Tags..."
+  loading={false}
+  multiple={true}
+  noOptionsMessage=""
+  onChange={[Function]}
+  onDeselect={[Function]}
+  onHandleFetch={[Function]}
+  onSelect={[Function]}
+  optionGroupTitles={Array []}
+  options={Array []}
+  orderOptionsBy="title"
+  selection={
+    Immutable.List [
+    ]
+  }
+  togglePosition="left"
+  toggleSwitchStyle="search"
+  transitionDelay={250}
+  value={
+    Immutable.List [
+    ]
+  }
+/>
+`;

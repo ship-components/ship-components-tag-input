@@ -60,7 +60,7 @@ export default class Examples extends React.Component {
           <h2 style={{marginBottom: '20px'}}>Multiple Tags - Available Options</h2>
           <TagInput
             filterable
-            orderOptionsBy='id'
+            orderOptionsBy='title'
             label='Choose Tag Inputs'
             togglePosition='right'
             toggleSwitchStyle='library_add'
@@ -103,6 +103,7 @@ export default class Examples extends React.Component {
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Default</h2>
           <TagInput
             options={opts2}
+            orderOptionsBy='title'
             darkTheme
             label='Choose Tag Inputs...'
             value={this.state.value}
@@ -134,6 +135,7 @@ export default class Examples extends React.Component {
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Dark Theme</h2>
           <TagInput
             options={opts}
+            orderOptionsBy='title'
             darkTheme
             label='Choose Tag Inputs'
             value={this.state.value}
@@ -151,6 +153,7 @@ export default class Examples extends React.Component {
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Not Filterable</h2>
           <TagInput
             filterable={false}
+            orderOptionsBy='title'
             options={opts}
             togglePosition='right'
             value={this.state.value}
@@ -168,6 +171,7 @@ export default class Examples extends React.Component {
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - With AutoComplete</h2>
           <TagInput
             label='Choose Tag Inputs...'
+            orderOptionsBy='title'
             autoComplete
             fetchUrl={'http://'} // Any url to request the list of options from
             extractor={res => res.data} // data can be changed to anything user wants...
