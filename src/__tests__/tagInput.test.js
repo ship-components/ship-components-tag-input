@@ -52,6 +52,21 @@ describe('Component: index.js', () => {
     });
   });
 
+  describe('componentWillReceiveProps Function', () => {
+    it('displays a modified state upon changing props', () => {
+      const wrapper = initializeMountTagInputComponent();
+      const opts = ['1', '2', '3'];
+
+      expect(wrapper.state().data).toEqual([]);
+
+      wrapper.setProps({
+        options: opts
+      });
+
+      expect(wrapper.state().data).toEqual(opts);
+    });
+  });
+
   describe('handleSelectItem Function', () => {
     it('should call parent onChange function when add items', () => {
       const doneChangeFn = jest.fn();
