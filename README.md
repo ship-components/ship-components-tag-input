@@ -256,7 +256,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
-* 0.5.2 - CSS fix: dropdown can be wider than text input.
+* 0.5.3 - CSS fix: dropdown can be wider than text input.
 * 0.5.0 - Adds unit tests.
 * 0.4.3 - Fixes the bug where updating the options in parent component don't change in TagInput component(componentWillReceiveProps).
 * 0.4.1 - Fixes bug where Dropdown is not positioned dynamically based on input height.
