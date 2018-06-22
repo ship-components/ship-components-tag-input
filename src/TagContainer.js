@@ -367,7 +367,7 @@ export default class TagContainer extends React.Component {
     // exclude selected options
     // TODO : its probably better (in single-select cases) to show the selected item in the dropdown with a checkmark, similar to standard <select />
     if (!this.isEmpty()) {
-      if (this.props.selection instanceof Immutable.List) {
+      if (List.isList(this.props.selection)) {
         if (this.props.selection.size > 0) {
           options = options.filter((item) => {
             let selector = item.key ? 'key' : this.props.orderOptionsBy;
@@ -411,7 +411,7 @@ export default class TagContainer extends React.Component {
   }
 
   isEmpty(props = this.props) {
-    if (props.selection instanceof Immutable.List) {
+    if (List.isList(props.selection)) {
       return props.selection.size === 0;
     } else {
       return !props.selection;
