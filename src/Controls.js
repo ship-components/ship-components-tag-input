@@ -66,7 +66,7 @@ export default class SelectControls extends React.Component {
           value={this.props.filterText}
           className={classNames(css.filter, {
             empty: this.props.isEmpty,
-            hidden: !this.props.multiple && !this.props.isActive.array,
+            hidden: !this.props.multiple && !this.props.isDropdownOpen.array,
             [css.withTags]: this.props.selection.size > 0
           })}
           type='text'
@@ -116,7 +116,7 @@ export default class SelectControls extends React.Component {
             css.selection,
             {
               empty: this.props.isEmpty,
-              hidden: (this.props.filterable && this.props.isActive)
+              hidden: (this.props.filterable && this.props.isDropdownOpen)
             }
           )}
         >
@@ -144,7 +144,7 @@ export default class SelectControls extends React.Component {
             className={classNames(css['toggle-btn'], {
               [css.hidden]: this.props.loading,
               [css.darkTheme]: this.props.darkTheme,
-              [css.toggleRightPos]: this.props.togglePosition && this.props.togglePosition === 'right'
+              [css.toggleRightPos]: this.props.togglePosition === 'right'
             })}
             onClick={this.props.onToggle}
           >
@@ -185,14 +185,14 @@ export default class SelectControls extends React.Component {
 
 // default props
 SelectControls.defaultProps = {
-  open:          false,
-  loading:       false,
-  isActive:      false,
-  isEmpty:       false,
-  multiple:      false,
+  open:           false,
+  loading:        false,
+  isDropdownOpen: false,
+  isEmpty:        false,
+  multiple:       false,
   filterable:     false,
 
-  filterText:      '',
+  filterText:     '',
 
   toggleSwitch:   'library_add',
   togglePosition: 'left'
@@ -202,13 +202,13 @@ SelectControls.defaultProps = {
 SelectControls.propTypes = {
   open:           PropTypes.bool,
   loading:        PropTypes.bool,
-  isActive:       PropTypes.bool,
+  isDropdownOpen: PropTypes.bool,
   isEmpty:        PropTypes.bool,
   multiple:       PropTypes.bool,
-  filterable:      PropTypes.bool,
+  filterable:     PropTypes.bool,
   darkTheme:      PropTypes.bool.isRequired,
 
-  filterText:      PropTypes.string,
+  filterText:     PropTypes.string,
   label:          PropTypes.string.isRequired,
   orderOptionsBy: PropTypes.string.isRequired,
 

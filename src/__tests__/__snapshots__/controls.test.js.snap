@@ -5,7 +5,7 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
   <div>
     <button
       className=""
-      onClick={[Function]}
+      onClick={[MockFunction]}
     >
       library_add
     </button>
@@ -25,8 +25,8 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
     <input
       className="hidden"
       label="sample"
-      onChange={[Function]}
-      onKeyDown={[Function]}
+      onChange={[MockFunction]}
+      onKeyDown={[MockFunction]}
       type="text"
       value=""
     />

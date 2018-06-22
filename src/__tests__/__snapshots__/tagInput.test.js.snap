@@ -15,21 +15,15 @@ exports[`Component: index.js TagInput Rendering should render correctly 1`] = `
   noOptionsMessage=""
   onChange={[Function]}
   onDeselect={[Function]}
-  onHandleFetch={[Function]}
+  onFetchOptions={[Function]}
   onSelect={[Function]}
   optionGroupTitles={Array []}
   options={Array []}
   orderOptionsBy="title"
-  selection={
-    Immutable.List [
-    ]
-  }
+  selection={Immutable.List []}
   togglePosition="left"
   toggleSwitchStyle="search"
   transitionDelay={250}
-  value={
-    Immutable.List [
-    ]
-  }
+  value={Immutable.List []}
 />
 `;

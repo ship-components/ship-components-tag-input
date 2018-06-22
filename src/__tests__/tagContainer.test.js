@@ -88,13 +88,13 @@ describe('Component: TagContainer', () => {
   });
 
   describe('handleToggleDropdown Function', () => {
-    it('should toggle "active" state', () => {
+    it('should toggle "dropdownOpen" state', () => {
       const {wrapper} = initializeMountTagContainerComponent();
       const event = new Event('look');
 
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       wrapper.node.handleToggleDropdown(event);
-      expect(wrapper.state().active).toBeTruthy();
+      expect(wrapper.state().dropdownOpen).toBeTruthy();
     });
   });
 
@@ -104,7 +104,7 @@ describe('Component: TagContainer', () => {
       const newFilterText = 'test string';
 
       expect(wrapper.state().filterText).toEqual('');
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
 
       // Trigger  handleInput handler
       // by firing a change event
@@ -118,7 +118,7 @@ describe('Component: TagContainer', () => {
         });
 
       expect(wrapper.state().filterText).toEqual(newFilterText);
-      expect(wrapper.state().active).toBeTruthy();
+      expect(wrapper.state().dropdownOpen).toBeTruthy();
     });
   });
 
@@ -188,8 +188,8 @@ describe('Component: TagContainer', () => {
         expect(wrapper.state().filterText).toEqual(wrapper.state().filterText);
       }
 
-      expect(wrapper.state().active).toBeFalsy();
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       expect(wrapper.state().highlightedOption).toBe(null);
 
       expect(onSelectFn.mock.calls.length).toBe(1);
@@ -292,10 +292,10 @@ describe('Component: TagContainer', () => {
       wrapper.node.highlightPreviousItem = jest.fn();
       expect(wrapper.node.highlightPreviousItem.mock.calls.length).toBe(0);
 
-      // Setting the active state to true
+      // Setting the dropdownOpen state to true
       // Otherwise highlightPreviousItem will not fires
       wrapper.setState({
-        active: true
+        dropdownOpen: true
       });
 
       wrapper
@@ -337,7 +337,7 @@ describe('Component: TagContainer', () => {
       expect(wrapper.node.highlightNextItem.mock.calls.length).toBe(1);
     });
 
-    it('should change the active state to false on Escape key press', () => {
+    it('should change the dropdownOpen state to false on Escape key press', () => {
       const {
         wrapper
       } = initializeMountTagContainerComponent();
@@ -346,10 +346,10 @@ describe('Component: TagContainer', () => {
       wrapper.node.blurInput = jest.fn();
       expect(wrapper.node.blurInput.mock.calls.length).toBe(0);
 
-      // Making sure the active state is true
+      // Making sure the dropdownOpen state is true
       // Which means the dropdown is open
       wrapper.setState({
-        active: true
+        dropdownOpen: true
       });
 
       wrapper
@@ -360,8 +360,8 @@ describe('Component: TagContainer', () => {
           stopPropagation: jest.fn()
         });
 
-      // Active state should be false when press Escape key
-      expect(wrapper.state().active).toBeFalsy();
+      // dropdownOpen state should be false when press Escape key
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       expect(wrapper.node.blurInput.mock.calls.length).toBe(1);
     });
   });
