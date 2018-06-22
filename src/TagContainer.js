@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Utils } from 'ship-components-utility';
 import icon from 'ship-components-icon';
-import Immutable from 'immutable';
+import { List } from 'immutable';
 
 import Dropdown from './Dropdown';
 import SelectControls from './Controls';
@@ -26,7 +26,7 @@ export default class TagContainer extends React.Component {
     super(props);
     this.state = {
       filterText: '',
-      active: false,
+      dropdownOpen: false,
       empty: this.isEmpty.call(this),
       dropdownPosTop: '53px'
     };
@@ -74,12 +74,12 @@ export default class TagContainer extends React.Component {
    */
   handleToggleDropdown(event) {
     event.preventDefault();
-    const { active } = this.state;
+    const { dropdownOpen } = this.state;
 
-    if (!active) {
+    if (!dropdownOpen) {
       this.handleOpenDropdown(event);
     } else {
-      this.setState({ active: false });
+      this.setState({ dropdownOpen: false });
     }
   }
 
@@ -87,15 +87,16 @@ export default class TagContainer extends React.Component {
    * Opens the options dropdown
    */
   handleOpenDropdown(event) {
-    if (this.state.active) {
+    if (this.state.dropdownOpen) {
+      // dropdown is already open
       return;
     }
 
-    if (this.props.autoComplete) {
-      this.props.onHandleFetch(null, this.state.active);
+    if (this.props.autoComplete && this.state.filterText.length > 2) {
+      this.props.onFetchOptions(null, this.state.dropdownOpen);
     }
 
-    this.setState({ active: true },
+    this.setState({ dropdownOpen: true },
       () => {
         // time out because of css transitions.
         setTimeout(this.handleDropdownPosition, this.props.transitionDelay);
@@ -114,12 +115,12 @@ export default class TagContainer extends React.Component {
     let filterText = event.target.value;
 
     if (this.props.autoComplete && filterText.length > 2) {
-      this.props.onHandleFetch(filterText);
+      this.props.onFetchOptions(filterText);
     }
 
     this.setState({
       filterText: filterText,
-      active: true
+      dropdownOpen: true
     }, () => {
       this.handleDropdownPosition();
 
@@ -156,7 +157,7 @@ export default class TagContainer extends React.Component {
     this.setState({
       filterText: this.props.multiple ? '' : this.state.filterText,
       empty: false,
-      active: false,
+      dropdownOpen: false,
       highlightedOption: null
     }, () => {
       this.handleDropdownPosition();
@@ -206,7 +207,7 @@ export default class TagContainer extends React.Component {
     let code = event.keyCode || event.which;
     switch (code) {
     case 13: // enter
-      if (!(this.state.highlightedOption && this.state.active) && typeof this.props.onEnterKey === 'function') {
+      if (!(this.state.highlightedOption && this.state.dropdownOpen) && typeof this.props.onEnterKey === 'function') {
         this.props.onEnterKey(event);
         break;
       }
@@ -216,20 +217,20 @@ export default class TagContainer extends React.Component {
       break;
     case 38: // up
       event.preventDefault();
-      if (this.state.active) {
+      if (this.state.dropdownOpen) {
         this.highlightPreviousItem();
       }
       break;
     case 40: // down
-      if (!this.state.active) {
+      if (!this.state.dropdownOpen) {
         this.setState({
-          active: true
+          dropdownOpen: true
         });
       }
       this.highlightNextItem();
       break;
     case 27: // escape
-      this.setState({ active: false }, this.blurInput);
+      this.setState({ dropdownOpen: false }, this.blurInput);
       break;
     }
     event.stopPropagation();
@@ -405,7 +406,7 @@ export default class TagContainer extends React.Component {
       return;
     }
     this.setState({
-      active: false
+      dropdownOpen: false
     });
   }
 
@@ -434,7 +435,7 @@ export default class TagContainer extends React.Component {
         }}
         className={classNames(
           {
-            [css.active]:this.state.active,
+            [css.dropdownOpen]:this.state.dropdownOpen,
             [css.empty]:this.state.empty,
             [css.darkTheme]: this.props.darkTheme
           },
@@ -446,8 +447,8 @@ export default class TagContainer extends React.Component {
             {
               [css.darkTheme]: this.props.darkTheme,
               [css.notFilterable]: !this.props.filterable,
-              [css.toggleRightPos]: this.props.togglePosition && this.props.togglePosition === 'right',
-              [css.toggleLeftPos]: this.props.togglePosition && this.props.togglePosition === 'left'
+              [css.toggleRightPos]: this.props.togglePosition === 'right',
+              [css.toggleLeftPos]: this.props.togglePosition === 'left'
             })}
           >
             {this.props.label}
@@ -457,7 +458,7 @@ export default class TagContainer extends React.Component {
           {...this.props}
           ref='selectControls'
           waiting={this.state.waiting}
-          isActive={this.state.active}
+          isDropdownOpen={this.state.dropdownOpen}
           isEmpty={this.state.empty}
           filterText={this.state.filterText}
           toggleSwitch={toggleSwitch}
@@ -472,7 +473,7 @@ export default class TagContainer extends React.Component {
           {...this.props}
           style={{ top: this.state.dropdownPosTop }}
           filterText={this.state.filterText}
-          open={this.state.active}
+          open={this.state.dropdownOpen}
           highlightedOption={this.state.highlightedOption}
           options={options}
           onKeyDown={this.handleKeyboard}
@@ -498,7 +499,7 @@ TagContainer.defaultProps = {
   onFilter:             void 0,
   onFocus:              void 0,
   onEnterKey:           void 0,
-  onHandleFetch:        void 0
+  onFetchOptions:        void 0
 };
 
 // prop types checking
@@ -516,7 +517,7 @@ TagContainer.propTypes = {
   toggleSwitchStyle:  PropTypes.string.isRequired,
 
   options:            PropTypes.array.isRequired,
-  selection:          PropTypes.instanceOf(Immutable.List).isRequired,
+  selection:          PropTypes.instanceOf(List).isRequired,
   optionGroupTitles:  PropTypes.array.isRequired,
 
   transitionDelay:    PropTypes.number,
@@ -526,5 +527,5 @@ TagContainer.propTypes = {
   onSelect:           PropTypes.func.isRequired,
   onDeselect:         PropTypes.func.isRequired,
   onEnterKey:         PropTypes.func,
-  onHandleFetch:      PropTypes.func
+  onFetchOptions:      PropTypes.func
 };

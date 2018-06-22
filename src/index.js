@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+import { List } from 'immutable';
 import Promise from 'bluebird';
 import superagent from 'superagent';
 
@@ -16,7 +16,7 @@ export default class TagInput extends React.Component {
 
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handleDeselectItem = this.handleDeselectItem.bind(this);
-    this.handleGetOptions = this.handleGetOptions.bind(this);
+    this.handleFetchOptions = this.handleFetchOptions.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,13 +62,13 @@ export default class TagInput extends React.Component {
     this.props.onChange(value);
   }
 
-  fetchServer(query) {
-    const { fetchUrl, httpHeaders } = this.props;
-
+  fetchOptions(query) {
     this.setState({
       waiting: true
     });
 
+    // do a fetch with user-provided url + headers
+    const { fetchUrl, httpHeaders } = this.props;
     return new Promise((resolve, reject) => {
       let req = superagent.get(fetchUrl);
       // Setting the http headers
@@ -88,12 +88,12 @@ export default class TagInput extends React.Component {
     });
   }
 
-  handleGetOptions(query = '', active = false) {
-    if (active || this.state.data.some(field => field.label === query)) {
+  handleFetchOptions(query = '', dropdownOpen = false) {
+    if (dropdownOpen || this.state.data.some(field => field.label === query)) {
       return;
     }
 
-    this.fetchServer(query)
+    this.fetchOptions(query)
       .then((res) => {
         this.setState({
           data: this.props.extractor(res),
@@ -116,7 +116,7 @@ export default class TagInput extends React.Component {
         selection={this.props.value}
         onSelect={this.handleSelectItem}
         onDeselect={this.handleDeselectItem}
-        onHandleFetch={this.handleGetOptions}
+        onFetchOptions={this.handleFetchOptions}
       />
     );
   }
@@ -136,14 +136,15 @@ TagInput.defaultProps = {
   noOptionsMessage:     '',
   toggleSwitchStyle:    'search',
   fetchUrl:             '',
+  fetchOptions:         void 0,
 
   optionGroupTitles:    [],
   options:              [],
 
   httpHeaders:          {},
-  value:                new Immutable.List(),
+  value:                new List(),
 
-  onHandleFetch:        void 0,
+  onFetchOptions:        void 0,
   extractor:            data => data
 };
 
@@ -161,14 +162,15 @@ TagInput.propTypes = {
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
   fetchUrl:           PropTypes.string,
+  fetchOptions:       PropTypes.func,
 
   options:            PropTypes.array,
   optionGroupTitles:  PropTypes.array,
 
   httpHeaders:        PropTypes.object,
-  value:              PropTypes.instanceOf(Immutable.List).isRequired,
+  value:              PropTypes.instanceOf(List).isRequired,
 
   onChange:           PropTypes.func.isRequired,
-  onHandleFetch:      PropTypes.func,
+  onFetchOptions:      PropTypes.func,
   extractor:          PropTypes.func
 };
