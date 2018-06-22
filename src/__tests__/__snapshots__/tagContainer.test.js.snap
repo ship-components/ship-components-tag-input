@@ -25,6 +25,7 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     onChange={[Function]}
     onClear={[Function]}
     onDeselect={[MockFunction]}
+    onFetchOptions={[MockFunction]}
     onFocus={[Function]}
     onKeyDown={[Function]}
     onSelect={[MockFunction]}
@@ -73,6 +74,7 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     multiple={true}
     noOptionsMessage=""
     onDeselect={[MockFunction]}
+    onFetchOptions={[MockFunction]}
     onKeyDown={[Function]}
     onSelect={[Function]}
     open={false}

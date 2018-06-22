@@ -27,6 +27,7 @@ const OPTIONS = [
 function initializeShallowTagContainerComponent() {
   const onSelectFn = jest.fn();
   const onDeselectFn = jest.fn();
+  const onFetchOptionsFn = jest.fn();
 
   return {
     wrapper: shallow(
@@ -44,10 +45,12 @@ function initializeShallowTagContainerComponent() {
         optionGroupTitles={[]}
         onSelect={onSelectFn}
         onDeselect={onDeselectFn}
+        onFetchOptions={onFetchOptionsFn}
       />
     ),
     onSelectFn,
-    onDeselectFn
+    onDeselectFn,
+    onFetchOptionsFn
   };
 }
 
@@ -55,6 +58,7 @@ function initializeShallowTagContainerComponent() {
 function initializeMountTagContainerComponent() {
   const onSelectFn = jest.fn();
   const onDeselectFn = jest.fn();
+  const onFetchOptionsFn = jest.fn();
 
   return {
     wrapper: mount(
@@ -72,10 +76,12 @@ function initializeMountTagContainerComponent() {
         optionGroupTitles={[]}
         onSelect={onSelectFn}
         onDeselect={onDeselectFn}
+        onFetchOptions={onFetchOptionsFn}
       />
     ),
     onSelectFn,
-    onDeselectFn
+    onDeselectFn,
+    onFetchOptionsFn
   };
 }
 
@@ -363,6 +369,45 @@ describe('Component: TagContainer', () => {
       // dropdownOpen state should be false when press Escape key
       expect(wrapper.state().dropdownOpen).toBeFalsy();
       expect(wrapper.node.blurInput.mock.calls.length).toBe(1);
+    });
+  });
+
+  describe('filter behavior', () => {
+    it('does not attempt to fetch options unless filter length > 2', () => {
+      const {wrapper, onFetchOptionsFn} = initializeMountTagContainerComponent();
+      const shortFilter = '12';
+      const adequateFilter = '123';
+
+      wrapper.setProps({autoComplete: true});
+
+      // change filter text
+      const selectControls = wrapper
+        .find('SelectControls');
+  
+      // it shouldn't fetch on filter
+      selectControls.props()
+        .onChange({
+          target: {
+            value: shortFilter
+          }
+        });
+      expect(onFetchOptionsFn).not.toHaveBeenCalled();
+
+      // it shouldn't fetch on dropdown opening
+      selectControls.props().onFocus();
+      expect(onFetchOptionsFn).not.toHaveBeenCalled();
+
+      // it should fetch on filter
+      selectControls.props()
+        .onChange({
+          target: {
+            value: adequateFilter
+          }
+        });
+
+      // it should fetch on dropdown opening
+      selectControls.props().onFocus();
+      expect(onFetchOptionsFn).toHaveBeenCalled();
     });
   });
 
