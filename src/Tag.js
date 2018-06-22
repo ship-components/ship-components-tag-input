@@ -63,6 +63,5 @@ Tag.defaultProps = {
 Tag.propTypes = {
   className: PropTypes.string,
   title:     PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-
   onClear:   PropTypes.func.isRequired
 };

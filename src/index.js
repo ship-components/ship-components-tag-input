@@ -67,6 +67,11 @@ export default class TagInput extends React.Component {
       waiting: true
     });
 
+    // do a user-provided fetch
+    if (typeof this.props.fetchOptions === 'function') {
+      return this.props.fetchOptions(query);
+    }
+
     // do a fetch with user-provided url + headers
     const { fetchUrl, httpHeaders } = this.props;
     return new Promise((resolve, reject) => {
@@ -96,7 +101,14 @@ export default class TagInput extends React.Component {
     this.fetchOptions(query)
       .then((res) => {
         this.setState({
-          data: this.props.extractor(res),
+          data: this.props.extractor(res)
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        this.setState({
           waiting: false
         });
       });
@@ -158,7 +170,7 @@ TagInput.propTypes = {
   className:          PropTypes.string,
   orderOptionsBy:     PropTypes.string,
   label:              PropTypes.string,
-  togglePosition:     PropTypes.string,
+  togglePosition:     PropTypes.oneOf(['right','left']),
   noOptionsMessage:   PropTypes.string,
   toggleSwitchStyle:  PropTypes.string,
   fetchUrl:           PropTypes.string,

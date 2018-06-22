@@ -143,10 +143,8 @@ export default class TagContainer extends React.Component {
       return;
     }
 
-    if (typeof this.props.onSelect === 'function') {
-      this.props.onSelect(Utils.deepCopy(option));
-    }
-
+    const selectionCopy = Utils.deepCopy(option);
+    this.props.onSelect(selectionCopy);
     this.optionWasSelected();
   }
 

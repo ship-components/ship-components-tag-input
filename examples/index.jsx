@@ -69,36 +69,36 @@ export default class Examples extends React.Component {
             value={this.state.value}
           />
           <code>
-            {`
-              <TagInput
-                filterable                       // True by default
-                darkTheme                       // False by default
-                orderOptionsBy='id'             // 'titles' by default
-                label='Select Tags...'          // 'Select Tags...' by default
-                togglePosition='right'          // 'left' by default
-                noOptionsMessage=''             // '' by default
-                toggleSwitchStyle='library_add' // 'search' by default
-                onChange={this.handleChange}    // Required by default
-                value={this.state.value}        // Immutable.List Required by default
-                options={[                      // Required by default
-                  {
-                    id: 3,
-                    title: "Item 1",
-                    searchString: "Optional string 1"
-                  },
-                  {
-                    id: 2,
-                    title: "Item 2",
-                    searchString: "Optional string 2"
-                  },
-                  {
-                    id: 1,
-                    title: "Item 3",
-                    searchString: "Optional string 3"
-                  }
-                ]}
-              />
-            `}
+{`
+  <TagInput
+    filterable                      // True by default
+    darkTheme                       // False by default
+    orderOptionsBy='id'             // 'titles' by default
+    label='Select Tags...'          // 'Select Tags...' by default
+    togglePosition='right'          // 'left' by default
+    noOptionsMessage=''             // '' by default
+    toggleSwitchStyle='library_add' // 'search' by default
+    onChange={this.handleChange}    // Required by default
+    value={this.state.value}        // Immutable.List Required by default
+    options={[                      // Required by default
+      {
+        id: 3,
+        title: "Item 1",
+        searchString: "Optional string 1"
+      },
+      {
+        id: 2,
+        title: "Item 2",
+        searchString: "Optional string 2"
+      },
+      {
+        id: 1,
+        title: "Item 3",
+        searchString: "Optional string 3"
+      }
+    ]}
+  />
+`}
           </code>
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Default</h2>
           <TagInput
@@ -110,27 +110,28 @@ export default class Examples extends React.Component {
             onChange={this.handleChange}
           />
           <code>
-            {`<TagInput
-                onChange={this.handleChange}    // Required by default
-                value={this.state.value}        // Immutable.List Required by default
-                options={[
-                  {
-                    id: 1,
-                    title: "Item 1",
-                    searchString: "Optional string 1"
-                  },
-                  {
-                    id: 2,
-                    title: "Item 2",
-                    searchString: "Optional string 2"
-                  },
-                  {
-                    id: 3,
-                    title: "Item 3",
-                    searchString: "Optional string 3"
-                  }
-                ]}
-              />`}
+{`
+  <TagInput
+    onChange={this.handleChange}    // Required by default
+    value={this.state.value}        // Immutable.List Required by default
+    options={[
+      {
+        id: 1,
+        title: "Item 1",
+        searchString: "Optional string 1"
+      },
+      {
+        id: 2,
+        title: "Item 2",
+        searchString: "Optional string 2"
+      },
+      {
+        id: 3,
+        title: "Item 3",
+        searchString: "Optional string 3"
+      }
+    ]}
+  />`}
           </code>
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Dark Theme</h2>
           <TagInput
@@ -142,13 +143,13 @@ export default class Examples extends React.Component {
             onChange={this.handleChange}
           />
           <code>
-            {`
-              <TagInput
-                darkTheme={true}
-                value={this.state.value}        // Immutable.List Required by default
-                onChange={this.handleChange}    // Required by default
-              />
-            `}
+{`
+  <TagInput
+    darkTheme={true}
+    value={this.state.value}        // Immutable.List Required by default
+    onChange={this.handleChange}    // Required by default
+  />
+`}
           </code>
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Not Filterable</h2>
           <TagInput
@@ -160,13 +161,13 @@ export default class Examples extends React.Component {
             onChange={this.handleChange}
           />
           <code>
-            {`
-              <TagInput
-                filterable={false}
-                value={this.state.value}        // Immutable.List Required by default
-                onChange={this.handleChange}    // Required by default
-              />
-            `}
+{`
+  <TagInput
+    filterable={false}
+    value={this.state.value}        // Immutable.List Required by default
+    onChange={this.handleChange}    // Required by default
+  />
+`}
           </code>
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - With AutoComplete</h2>
           <TagInput
@@ -182,16 +183,17 @@ export default class Examples extends React.Component {
             onChange={this.handleChange}
           />
           <code>
-            {`<TagInput
-              label='Choose Tag Inputs...'
-                autoComplete
-                fetchUrl={'http://...'} // Any url to request the list of options from
-                extractor={(res) => res.data} // data can be changed to anything user wants...
-                togglePosition='right'
-                toggleSwitchStyle='library_add'
-                value={this.state.value}        // Immutable.List Required by default
-                onChange={this.handleChange}
-              />`}
+{`
+  <TagInput
+    label='Choose Tag Inputs...'
+    autoComplete
+    fetchUrl={'http://...'} // Any url to request the list of options from
+    extractor={(res) => res.data} // data can be changed to anything user wants...
+    togglePosition='right'
+    toggleSwitchStyle='library_add'
+    value={this.state.value}        // Immutable.List Required by default
+    onChange={this.handleChange}
+  />`}
           </code>
         </div>
       </div>
