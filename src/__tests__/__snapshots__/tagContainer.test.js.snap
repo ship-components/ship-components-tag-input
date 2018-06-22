@@ -16,7 +16,7 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     darkTheme={false}
     filterText=""
     filterable={true}
-    isActive={false}
+    isDropdownOpen={false}
     isEmpty={true}
     label="label"
     loading={false}
@@ -24,10 +24,11 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     noOptionsMessage=""
     onChange={[Function]}
     onClear={[Function]}
-    onDeselect={[Function]}
+    onDeselect={[MockFunction]}
+    onFetchOptions={[MockFunction]}
     onFocus={[Function]}
     onKeyDown={[Function]}
-    onSelect={[Function]}
+    onSelect={[MockFunction]}
     onToggle={[Function]}
     open={false}
     optionGroupTitles={Array []}
@@ -51,14 +52,11 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
       ]
     }
     orderOptionsBy="title"
-    selection={
-      Immutable.List [
-      ]
-    }
+    selection={Immutable.List []}
     togglePosition="right"
     toggleSwitch={
       <i
-        className=""
+        className="library_add"
       />
     }
     toggleSwitchStyle="library_add"
@@ -75,7 +73,8 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     loading={false}
     multiple={true}
     noOptionsMessage=""
-    onDeselect={[Function]}
+    onDeselect={[MockFunction]}
+    onFetchOptions={[MockFunction]}
     onKeyDown={[Function]}
     onSelect={[Function]}
     open={false}
@@ -100,10 +99,7 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
       ]
     }
     orderOptionsBy="title"
-    selection={
-      Immutable.List [
-      ]
-    }
+    selection={Immutable.List []}
     style={
       Object {
         "top": "53px",

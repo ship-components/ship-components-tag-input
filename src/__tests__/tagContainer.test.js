@@ -27,6 +27,7 @@ const OPTIONS = [
 function initializeShallowTagContainerComponent() {
   const onSelectFn = jest.fn();
   const onDeselectFn = jest.fn();
+  const onFetchOptionsFn = jest.fn();
 
   return {
     wrapper: shallow(
@@ -44,10 +45,12 @@ function initializeShallowTagContainerComponent() {
         optionGroupTitles={[]}
         onSelect={onSelectFn}
         onDeselect={onDeselectFn}
+        onFetchOptions={onFetchOptionsFn}
       />
     ),
     onSelectFn,
-    onDeselectFn
+    onDeselectFn,
+    onFetchOptionsFn
   };
 }
 
@@ -55,6 +58,7 @@ function initializeShallowTagContainerComponent() {
 function initializeMountTagContainerComponent() {
   const onSelectFn = jest.fn();
   const onDeselectFn = jest.fn();
+  const onFetchOptionsFn = jest.fn();
 
   return {
     wrapper: mount(
@@ -72,10 +76,12 @@ function initializeMountTagContainerComponent() {
         optionGroupTitles={[]}
         onSelect={onSelectFn}
         onDeselect={onDeselectFn}
+        onFetchOptions={onFetchOptionsFn}
       />
     ),
     onSelectFn,
-    onDeselectFn
+    onDeselectFn,
+    onFetchOptionsFn
   };
 }
 
@@ -88,13 +94,13 @@ describe('Component: TagContainer', () => {
   });
 
   describe('handleToggleDropdown Function', () => {
-    it('should toggle "active" state', () => {
+    it('should toggle "dropdownOpen" state', () => {
       const {wrapper} = initializeMountTagContainerComponent();
       const event = new Event('look');
 
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       wrapper.node.handleToggleDropdown(event);
-      expect(wrapper.state().active).toBeTruthy();
+      expect(wrapper.state().dropdownOpen).toBeTruthy();
     });
   });
 
@@ -104,7 +110,7 @@ describe('Component: TagContainer', () => {
       const newFilterText = 'test string';
 
       expect(wrapper.state().filterText).toEqual('');
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
 
       // Trigger  handleInput handler
       // by firing a change event
@@ -118,7 +124,7 @@ describe('Component: TagContainer', () => {
         });
 
       expect(wrapper.state().filterText).toEqual(newFilterText);
-      expect(wrapper.state().active).toBeTruthy();
+      expect(wrapper.state().dropdownOpen).toBeTruthy();
     });
   });
 
@@ -188,8 +194,8 @@ describe('Component: TagContainer', () => {
         expect(wrapper.state().filterText).toEqual(wrapper.state().filterText);
       }
 
-      expect(wrapper.state().active).toBeFalsy();
-      expect(wrapper.state().active).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       expect(wrapper.state().highlightedOption).toBe(null);
 
       expect(onSelectFn.mock.calls.length).toBe(1);
@@ -292,10 +298,10 @@ describe('Component: TagContainer', () => {
       wrapper.node.highlightPreviousItem = jest.fn();
       expect(wrapper.node.highlightPreviousItem.mock.calls.length).toBe(0);
 
-      // Setting the active state to true
+      // Setting the dropdownOpen state to true
       // Otherwise highlightPreviousItem will not fires
       wrapper.setState({
-        active: true
+        dropdownOpen: true
       });
 
       wrapper
@@ -337,7 +343,7 @@ describe('Component: TagContainer', () => {
       expect(wrapper.node.highlightNextItem.mock.calls.length).toBe(1);
     });
 
-    it('should change the active state to false on Escape key press', () => {
+    it('should change the dropdownOpen state to false on Escape key press', () => {
       const {
         wrapper
       } = initializeMountTagContainerComponent();
@@ -346,10 +352,10 @@ describe('Component: TagContainer', () => {
       wrapper.node.blurInput = jest.fn();
       expect(wrapper.node.blurInput.mock.calls.length).toBe(0);
 
-      // Making sure the active state is true
+      // Making sure the dropdownOpen state is true
       // Which means the dropdown is open
       wrapper.setState({
-        active: true
+        dropdownOpen: true
       });
 
       wrapper
@@ -360,9 +366,48 @@ describe('Component: TagContainer', () => {
           stopPropagation: jest.fn()
         });
 
-      // Active state should be false when press Escape key
-      expect(wrapper.state().active).toBeFalsy();
+      // dropdownOpen state should be false when press Escape key
+      expect(wrapper.state().dropdownOpen).toBeFalsy();
       expect(wrapper.node.blurInput.mock.calls.length).toBe(1);
+    });
+  });
+
+  describe('filter behavior', () => {
+    it('does not attempt to fetch options unless filter length > 2', () => {
+      const {wrapper, onFetchOptionsFn} = initializeMountTagContainerComponent();
+      const shortFilter = '12';
+      const adequateFilter = '123';
+
+      wrapper.setProps({autoComplete: true});
+
+      // change filter text
+      const selectControls = wrapper
+        .find('SelectControls');
+  
+      // it shouldn't fetch on filter
+      selectControls.props()
+        .onChange({
+          target: {
+            value: shortFilter
+          }
+        });
+      expect(onFetchOptionsFn).not.toHaveBeenCalled();
+
+      // it shouldn't fetch on dropdown opening
+      selectControls.props().onFocus();
+      expect(onFetchOptionsFn).not.toHaveBeenCalled();
+
+      // it should fetch on filter
+      selectControls.props()
+        .onChange({
+          target: {
+            value: adequateFilter
+          }
+        });
+
+      // it should fetch on dropdown opening
+      selectControls.props().onFocus();
+      expect(onFetchOptionsFn).toHaveBeenCalled();
     });
   });
 

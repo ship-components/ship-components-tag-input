@@ -132,14 +132,28 @@ describe('Component: index.js', () => {
       );
       // Not sure how I can test this within proxy to get the results
       try {
-        wrapper.node.fetchServer('');
+        wrapper.node.fetchOptions('');
       } catch (e) {
         expect(e).toBeDefined();
       }
     });
+
+    it('Uses a custom function when provided', () => {
+      const fetchFn = jest.fn();
+      const wrapper = mount(
+        <TagInput
+          value={DATA_LIST}
+          onChange={onHandleChange}
+          fetchOptions={fetchFn}
+        />
+      );
+
+      wrapper.node.fetchOptions();
+      expect(fetchFn).toHaveBeenCalled();
+    });
   });
 
-  describe('handleGetOptions Function', () => {
+  describe('handleFetchOptions Function', () => {
     it('Throws Unauthorized error when fetch the server without proxy', () => {
       const httpHeaders = {
         'x-jira-server': 'https://jira.sp.ppship.scea.com'
@@ -157,7 +171,7 @@ describe('Component: index.js', () => {
 
       // Not sure how I can test this within proxy to get the results
       try {
-        wrapper.node.fetchServer('');
+        wrapper.node.fetchOptions('');
       } catch (e) {
         expect(e).toBeDefined();
       }
