@@ -183,6 +183,6 @@ TagInput.propTypes = {
   value:              PropTypes.instanceOf(List).isRequired,
 
   onChange:           PropTypes.func.isRequired,
-  onFetchOptions:      PropTypes.func,
+  onFetchOptions:     PropTypes.func,
   extractor:          PropTypes.func
 };
