@@ -256,6 +256,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
+* 0.6.2 - Bugfix: Fixed label position for when selected tags span multiple lines.
 * 0.6.1 - Bugfix: Fixed disappearing label when input has value.
 * 0.6.0 - Feature: prop function `fetchOptions` for custom ajax on filter input. CSS fix: dropdown requires no extra styling to look like examples.
 * 0.5.3 - CSS fix: dropdown can be wider than text input.
