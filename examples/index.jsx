@@ -100,6 +100,7 @@ export default class Examples extends React.Component {
   />
 `}
           </code>
+
           <h2 style={{ marginBottom: '20px' }}>Multiple Tags - Default</h2>
           <TagInput
             options={opts2}
@@ -194,6 +195,70 @@ export default class Examples extends React.Component {
     value={this.state.value}        // Immutable.List Required by default
     onChange={this.handleChange}
   />`}
+          </code>
+
+          <h2 style={{marginBottom: '20px'}}>Stacked Inputs - Maintain Good Spacing</h2>
+          <TagInput
+            filterable
+            orderOptionsBy='title'
+            label='Choose Tag Inputs'
+            togglePosition='right'
+            toggleSwitchStyle='library_add'
+            onChange={this.handleChange}
+            options={opts2}
+            value={this.state.value}
+          />
+          <TagInput
+            filterable
+            orderOptionsBy='title'
+            label='Choose Tag Inputs'
+            togglePosition='right'
+            toggleSwitchStyle='library_add'
+            onChange={this.handleChange}
+            options={opts2}
+            value={this.state.value}
+          />
+          <TagInput
+            filterable
+            orderOptionsBy='title'
+            label='Choose Tag Inputs'
+            togglePosition='right'
+            toggleSwitchStyle='library_add'
+            onChange={this.handleChange}
+            options={opts2}
+            value={this.state.value}
+          />
+          <code>
+{`
+  <TagInput
+    filterable                      // True by default
+    darkTheme                       // False by default
+    orderOptionsBy='id'             // 'titles' by default
+    label='Select Tags...'          // 'Select Tags...' by default
+    togglePosition='right'          // 'left' by default
+    noOptionsMessage=''             // '' by default
+    toggleSwitchStyle='library_add' // 'search' by default
+    onChange={this.handleChange}    // Required by default
+    value={this.state.value}        // Immutable.List Required by default
+    options={[                      // Required by default
+      {
+        id: 3,
+        title: "Item 1",
+        searchString: "Optional string 1"
+      },
+      {
+        id: 2,
+        title: "Item 2",
+        searchString: "Optional string 2"
+      },
+      {
+        id: 1,
+        title: "Item 3",
+        searchString: "Optional string 3"
+      }
+    ]}
+  />
+`}
           </code>
         </div>
       </div>
