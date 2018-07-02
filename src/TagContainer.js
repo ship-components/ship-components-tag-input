@@ -139,7 +139,7 @@ export default class TagContainer extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    if (option === null) {
+    if (!option) {
       return;
     }
 
@@ -257,7 +257,7 @@ export default class TagContainer extends React.Component {
   selectHighlightedItem(event) {
     let highlightedItem = this.state.highlightedOption;
 
-    if (highlightedItem !== null) {
+    if (highlightedItem) {
       this.handleSelectItem(highlightedItem, event);
     }
   }
