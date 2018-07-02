@@ -248,6 +248,15 @@ describe('Component: TagContainer', () => {
 
       expect(onSelectFn.mock.calls.length).toBe(0);
 
+      // highlight an option by simulating "DOWN" key, otherwise select function will not be called.
+      wrapper
+        .node
+        .handleKeyboard({
+          keyCode: 40,
+          preventDefault: jest.fn(),
+          stopPropagation: jest.fn()
+        });
+
       wrapper
         .node
         .handleKeyboard({
