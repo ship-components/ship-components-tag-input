@@ -107,15 +107,13 @@ body {
     }
 }
 
-.dropdownOpen .label {
-    transform: translateY(calc($base-grid-size * -5));
+.label.offset {
     font-size: 12px;
-
+    transform: translateY(calc($base-grid-size * -6));
     &.toggleLeftPos,
     &.notFilterable {
         left: 0;
     }
-
     &.darkTheme {
         color: #333;
         transform: translateY(calc($base-grid-size * -8));

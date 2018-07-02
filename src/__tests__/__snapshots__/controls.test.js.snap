@@ -24,7 +24,6 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
     />
     <input
       className="hidden"
-      label="sample"
       onChange={[MockFunction]}
       onKeyDown={[MockFunction]}
       type="text"
