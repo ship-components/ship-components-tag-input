@@ -14,6 +14,7 @@ body {
     min-height: 48px;
     display: flex;
     align-items: center;
+    margin-top: 14px;
     padding: 5px 5px 5px 0;
     position: relative;
     -webkit-transition: all 0.2s;
@@ -97,6 +98,7 @@ body {
     position: absolute;
     color: inherit;
     left: 0;
+    top: 16px;
     transition: all 500ms ease;
     z-index: 4;
     line-height: 1;
@@ -107,17 +109,14 @@ body {
     }
 }
 
-.dropdownOpen .label {
-    transform: translateY(calc($base-grid-size * -5));
+.label.offset {
     font-size: 12px;
-
+    top: -7px;
     &.toggleLeftPos,
     &.notFilterable {
         left: 0;
     }
-
     &.darkTheme {
         color: #333;
-        transform: translateY(calc($base-grid-size * -8));
     }
 }

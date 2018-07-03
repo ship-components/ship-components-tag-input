@@ -60,7 +60,6 @@ export default class SelectControls extends React.Component {
       (
         <input
           ref='filterInput'
-          label={this.props.label}
           onKeyDown={this.props.onKeyDown}
           onChange={this.props.onChange}
           value={this.props.filterText}
@@ -209,7 +208,6 @@ SelectControls.propTypes = {
   darkTheme:      PropTypes.bool.isRequired,
 
   filterText:     PropTypes.string,
-  label:          PropTypes.string.isRequired,
   orderOptionsBy: PropTypes.string.isRequired,
 
   toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
