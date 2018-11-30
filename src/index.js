@@ -35,7 +35,7 @@ export default class TagInput extends React.Component {
   handleSelectItem(item) {
     let { value } = this.props;
 
-    value = value.push(item);
+    value = this.props.invert ? value.unshift(item) : value = value.push(item);
 
     // Sending the tags to parent
     this.props.onChange(value);
@@ -136,53 +136,56 @@ export default class TagInput extends React.Component {
 
 // default props
 TagInput.defaultProps = {
-  loading:              false,
-  multiple:             true,
-  filterable:           true,
-  darkTheme:            false,
+  loading: false,
+  multiple: true,
+  filterable: true,
+  darkTheme: false,
+  invert: false,
 
-  className:            '',
-  orderOptionsBy:       'title',
-  label:                'Select Tags...',
-  togglePosition:       'left',
-  noOptionsMessage:     '',
-  toggleSwitchStyle:    'search',
-  fetchUrl:             '',
-  fetchOptions:         void 0,
+  className: '',
+  orderOptionsBy: 'title',
+  label: 'Select Tags...',
+  togglePosition: 'left',
+  noOptionsMessage: '',
+  toggleSwitchStyle: 'search',
+  fetchUrl: '',
+  fetchOptions: void 0,
 
-  optionGroupTitles:    [],
-  options:              [],
 
-  httpHeaders:          {},
-  value:                new List(),
+  optionGroupTitles: [],
+  options: [],
 
-  onFetchOptions:        void 0,
-  extractor:            data => data
+  httpHeaders: {},
+  value: new List(),
+
+  onFetchOptions: void 0,
+  extractor: data => data
 };
 
 // prop types checking
 TagInput.propTypes = {
-  loading:            PropTypes.bool,
-  multiple:           PropTypes.bool,
-  filterable:          PropTypes.bool,
-  darkTheme:          PropTypes.bool,
+  loading: PropTypes.bool,
+  multiple: PropTypes.bool,
+  filterable: PropTypes.bool,
+  darkTheme: PropTypes.bool,
 
-  className:          PropTypes.string,
-  orderOptionsBy:     PropTypes.string,
-  label:              PropTypes.string,
-  togglePosition:     PropTypes.oneOf(['right','left']),
-  noOptionsMessage:   PropTypes.string,
-  toggleSwitchStyle:  PropTypes.string,
-  fetchUrl:           PropTypes.string,
-  fetchOptions:       PropTypes.func,
+  className: PropTypes.string,
+  orderOptionsBy: PropTypes.string,
+  label: PropTypes.string,
+  togglePosition: PropTypes.oneOf(['right', 'left']),
+  noOptionsMessage: PropTypes.string,
+  toggleSwitchStyle: PropTypes.string,
+  fetchUrl: PropTypes.string,
+  fetchOptions: PropTypes.func,
+  invert: PropTypes.bool,
 
-  options:            PropTypes.array,
-  optionGroupTitles:  PropTypes.array,
+  options: PropTypes.array,
+  optionGroupTitles: PropTypes.array,
 
-  httpHeaders:        PropTypes.object,
-  value:              PropTypes.instanceOf(List).isRequired,
+  httpHeaders: PropTypes.object,
+  value: PropTypes.instanceOf(List).isRequired,
 
-  onChange:           PropTypes.func.isRequired,
-  onFetchOptions:     PropTypes.func,
-  extractor:          PropTypes.func
+  onChange: PropTypes.func.isRequired,
+  onFetchOptions: PropTypes.func,
+  extractor: PropTypes.func
 };

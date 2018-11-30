@@ -204,32 +204,32 @@ export default class TagContainer extends React.Component {
   handleKeyboard(event) { // eslint-disable-line complexity
     let code = event.keyCode || event.which;
     switch (code) {
-    case 13: // enter
-      if (!(this.state.highlightedOption && this.state.dropdownOpen) && typeof this.props.onEnterKey === 'function') {
-        this.props.onEnterKey(event);
+      case 13: // enter
+        if (!(this.state.highlightedOption && this.state.dropdownOpen) && typeof this.props.onEnterKey === 'function') {
+          this.props.onEnterKey(event);
+          break;
+        }
+      case 9: // tab
+        event.preventDefault();
+        this.selectHighlightedItem(event);
         break;
-      }
-    case 9: // tab
-      event.preventDefault();
-      this.selectHighlightedItem(event);
-      break;
-    case 38: // up
-      event.preventDefault();
-      if (this.state.dropdownOpen) {
-        this.highlightPreviousItem();
-      }
-      break;
-    case 40: // down
-      if (!this.state.dropdownOpen) {
-        this.setState({
-          dropdownOpen: true
-        });
-      }
-      this.highlightNextItem();
-      break;
-    case 27: // escape
-      this.setState({ dropdownOpen: false }, this.blurInput);
-      break;
+      case 38: // up
+        event.preventDefault();
+        if (this.state.dropdownOpen) {
+          this.highlightPreviousItem();
+        }
+        break;
+      case 40: // down
+        if (!this.state.dropdownOpen) {
+          this.setState({
+            dropdownOpen: true
+          });
+        }
+        this.highlightNextItem();
+        break;
+      case 27: // escape
+        this.setState({ dropdownOpen: false }, this.blurInput);
+        break;
     }
     event.stopPropagation();
   }
@@ -239,6 +239,11 @@ export default class TagContainer extends React.Component {
    */
   handleDropdownPosition() {
     if (!this.refs.selectBox) {
+      return;
+    }
+
+    if (this.props.invert) {
+      this.setState({ dropdownPosTop: '53px' });
       return;
     }
 
@@ -393,7 +398,7 @@ export default class TagContainer extends React.Component {
         return a.score > b.score ? 1 : -1;
       }
       if (typeof a[this.props.orderOptionsBy] === 'string') {
-        return a[this.props.orderOptionsBy].replace(/\s\s+/g,' ').toLowerCase() > b[this.props.orderOptionsBy].replace(/\s\s+/g,' ').toLowerCase() ? 1 : -1;
+        return a[this.props.orderOptionsBy].replace(/\s\s+/g, ' ').toLowerCase() > b[this.props.orderOptionsBy].replace(/\s\s+/g, ' ').toLowerCase() ? 1 : -1;
       }
       return a[this.props.orderOptionsBy] > b[this.props.orderOptionsBy] ? 1 : -1;
     });
@@ -433,8 +438,8 @@ export default class TagContainer extends React.Component {
         }}
         className={classNames(
           {
-            [css.dropdownOpen]:this.state.dropdownOpen,
-            [css.empty]:this.state.empty,
+            [css.dropdownOpen]: this.state.dropdownOpen,
+            [css.empty]: this.state.empty,
             [css.darkTheme]: this.props.darkTheme
           },
           css.container,
@@ -491,40 +496,42 @@ export default class TagContainer extends React.Component {
 
 // default props
 TagContainer.defaultProps = {
-  autoComplete:         false,
-  className:            '',
-  transitionDelay:      250,
+  autoComplete: false,
+  className: '',
+  transitionDelay: 250,
+  invert: false,
 
-  onFilter:             void 0,
-  onFocus:              void 0,
-  onEnterKey:           void 0,
-  onFetchOptions:        void 0
+  onFilter: void 0,
+  onFocus: void 0,
+  onEnterKey: void 0,
+  onFetchOptions: void 0
 };
 
 // prop types checking
 TagContainer.propTypes = {
-  multiple:           PropTypes.bool.isRequired,
-  filterable:          PropTypes.bool.isRequired,
-  darkTheme:          PropTypes.bool.isRequired,
-  autoComplete:       PropTypes.bool,
+  multiple: PropTypes.bool.isRequired,
+  filterable: PropTypes.bool.isRequired,
+  darkTheme: PropTypes.bool.isRequired,
+  autoComplete: PropTypes.bool,
+  invert: PropTypes.bool,
 
-  className:          PropTypes.string,
-  orderOptionsBy:     PropTypes.string.isRequired,
-  label:              PropTypes.string.isRequired,
-  togglePosition:     PropTypes.string.isRequired,
-  noOptionsMessage:   PropTypes.string.isRequired,
-  toggleSwitchStyle:  PropTypes.string.isRequired,
+  className: PropTypes.string,
+  orderOptionsBy: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  togglePosition: PropTypes.string.isRequired,
+  noOptionsMessage: PropTypes.string.isRequired,
+  toggleSwitchStyle: PropTypes.string.isRequired,
 
-  options:            PropTypes.array.isRequired,
-  selection:          PropTypes.instanceOf(List).isRequired,
-  optionGroupTitles:  PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired,
+  selection: PropTypes.instanceOf(List).isRequired,
+  optionGroupTitles: PropTypes.array.isRequired,
 
-  transitionDelay:    PropTypes.number,
+  transitionDelay: PropTypes.number,
 
-  onFilter:           PropTypes.func,
-  onFocus:            PropTypes.func,
-  onSelect:           PropTypes.func.isRequired,
-  onDeselect:         PropTypes.func.isRequired,
-  onEnterKey:         PropTypes.func,
-  onFetchOptions:      PropTypes.func
+  onFilter: PropTypes.func,
+  onFocus: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
+  onDeselect: PropTypes.func.isRequired,
+  onEnterKey: PropTypes.func,
+  onFetchOptions: PropTypes.func
 };
