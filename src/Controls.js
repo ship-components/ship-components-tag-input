@@ -86,7 +86,6 @@ export default class SelectControls extends React.Component {
         <div>
           {this.props.invert ? this.filterHtml.call(this) : null}
           <div
-            key={1}
             className={css['multi-selection-area']}
             onClick={this.handleOpenDropdown}
           >
@@ -111,7 +110,6 @@ export default class SelectControls extends React.Component {
       <div>
         {this.props.invert ? this.filterHtml.call(this) : null}
         <div
-          key={1}
           className={css['selection-area']}
           onClick={this.handleOpenDropdown}
         >
@@ -141,7 +139,6 @@ export default class SelectControls extends React.Component {
   dropdownToggleHtml() {
     return (
       <div
-        key={0}
         className={css['toggle-container']}
       >
         {this.props.toggleSwitch !== false ?
@@ -168,21 +165,16 @@ export default class SelectControls extends React.Component {
   }
 
   render() {
-    let children = [];
     let selectionDisplay = this.selectionDisplayHtml.call(this);
     let toggleBtn = this.dropdownToggleHtml.call(this);
 
-    if (this.props.togglePosition === 'right') {
-      children[0] = selectionDisplay;
-      children[1] = toggleBtn;
-    } else {
-      children[0] = toggleBtn;
-      children[1] = selectionDisplay;
-    }
-
     return (
-      <div className={css.controls}>
-        {children}
+      <div
+        className={css.controls}
+      >
+        {this.props.togglePosition === 'right' ? null : toggleBtn}
+        {selectionDisplay}
+        {this.props.togglePosition === 'right' ? toggleBtn : null}
       </div>
     );
   }
