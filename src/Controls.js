@@ -83,45 +83,49 @@ export default class SelectControls extends React.Component {
   selectionDisplayHtml() {
     if (this.props.multiple) {
       return (
-        <div
-          key={1}
-          className={css['multi-selection-area']}
-          onClick={this.handleOpenDropdown}
-        >
-          {this.props.selection
-            .map(item => (
-              <Tag
-                key={`ship-select-tag--${item.key || item[this.props.orderOptionsBy]}`}
-                icon={item.icon}
-                title={item[this.props.orderOptionsBy]}
-                // eslint-disable-next-line react/jsx-no-bind
-                onClear={this.props.onClear.bind(this, item)}
-              />
-            ))
-          }
-          {this.filterHtml.call(this)}
+        <div>
+          {this.props.invert ? this.filterHtml.call(this) : null}
+          <div
+            className={css['multi-selection-area']}
+            onClick={this.handleOpenDropdown}
+          >
+            {this.props.selection
+              .map(item => (
+                <Tag
+                  key={`ship-select-tag--${item.key || item[this.props.orderOptionsBy]}`}
+                  icon={item.icon}
+                  title={item[this.props.orderOptionsBy]}
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClear={this.props.onClear.bind(this, item)}
+                />
+              ))
+            }
+            {this.props.invert ? null : this.filterHtml.call(this)}
+          </div>
         </div>
       );
     }
 
     return (
-      <div
-        key={1}
-        className={css['selection-area']}
-        onClick={this.handleOpenDropdown}
-      >
-        <span
-          className={classNames(
-            css.selection,
-            {
-              empty: this.props.isEmpty,
-              hidden: (this.props.filterable && this.props.isDropdownOpen)
-            }
-          )}
+      <div>
+        {this.props.invert ? this.filterHtml.call(this) : null}
+        <div
+          className={css['selection-area']}
+          onClick={this.handleOpenDropdown}
         >
-          {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
-        </span>
-        {this.filterHtml.call(this)}
+          <span
+            className={classNames(
+              css.selection,
+              {
+                empty: this.props.isEmpty,
+                hidden: (this.props.filterable && this.props.isDropdownOpen)
+              }
+            )}
+          >
+            {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
+          </span>
+          {this.props.invert ? null : this.filterHtml.call(this)}
+        </div>
       </div>
     );
   }
@@ -135,7 +139,6 @@ export default class SelectControls extends React.Component {
   dropdownToggleHtml() {
     return (
       <div
-        key={0}
         className={css['toggle-container']}
       >
         {this.props.toggleSwitch !== false ?
@@ -162,21 +165,16 @@ export default class SelectControls extends React.Component {
   }
 
   render() {
-    let children = [];
     let selectionDisplay = this.selectionDisplayHtml.call(this);
     let toggleBtn = this.dropdownToggleHtml.call(this);
 
-    if (this.props.togglePosition === 'right') {
-      children[0] = selectionDisplay;
-      children[1] = toggleBtn;
-    } else {
-      children[0] = toggleBtn;
-      children[1] = selectionDisplay;
-    }
-
     return (
-      <div className={css.controls}>
-        {children}
+      <div
+        className={css.controls}
+      >
+        {this.props.togglePosition === 'right' ? null : toggleBtn}
+        {selectionDisplay}
+        {this.props.togglePosition === 'right' ? toggleBtn : null}
       </div>
     );
   }
@@ -184,39 +182,41 @@ export default class SelectControls extends React.Component {
 
 // default props
 SelectControls.defaultProps = {
-  open:           false,
-  loading:        false,
+  open: false,
+  loading: false,
   isDropdownOpen: false,
-  isEmpty:        false,
-  multiple:       false,
-  filterable:     false,
+  isEmpty: false,
+  multiple: false,
+  filterable: false,
+  invert: false,
 
-  filterText:     '',
+  filterText: '',
 
-  toggleSwitch:   'library_add',
+  toggleSwitch: 'library_add',
   togglePosition: 'left'
 };
 
 // prop types checking
 SelectControls.propTypes = {
-  open:           PropTypes.bool,
-  loading:        PropTypes.bool,
+  open: PropTypes.bool,
+  loading: PropTypes.bool,
   isDropdownOpen: PropTypes.bool,
-  isEmpty:        PropTypes.bool,
-  multiple:       PropTypes.bool,
-  filterable:     PropTypes.bool,
-  darkTheme:      PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool,
+  multiple: PropTypes.bool,
+  filterable: PropTypes.bool,
+  darkTheme: PropTypes.bool.isRequired,
+  invert: PropTypes.bool,
 
-  filterText:     PropTypes.string,
+  filterText: PropTypes.string,
   orderOptionsBy: PropTypes.string.isRequired,
 
-  toggleSwitch:   PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  toggleSwitch: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   togglePosition: PropTypes.oneOf(['right', 'left']),
-  selection:      PropTypes.instanceOf(Immutable.List).isRequired,
+  selection: PropTypes.instanceOf(Immutable.List).isRequired,
 
-  onFocus:        PropTypes.func.isRequired,
-  onChange:       PropTypes.func.isRequired,
-  onKeyDown:      PropTypes.func.isRequired,
-  onClear:        PropTypes.func.isRequired,
-  onToggle:       PropTypes.func.isRequired
+  onFocus: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired
 };
