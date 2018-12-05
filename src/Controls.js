@@ -191,6 +191,7 @@ SelectControls.defaultProps = {
   multiple:       false,
   filterable:     false,
 
+  label:          '',
   filterText:     '',
 
   toggleSwitch:   'library_add',
@@ -207,6 +208,7 @@ SelectControls.propTypes = {
   filterable:     PropTypes.bool,
   darkTheme:      PropTypes.bool.isRequired,
 
+  label:          PropTypes.string,
   filterText:     PropTypes.string,
   orderOptionsBy: PropTypes.string.isRequired,
 

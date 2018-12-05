@@ -256,6 +256,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
+* 1.0.0 - Upgrade to React 16
 * 0.6.3 - Bugfix: Fixed bug when pressing enter without an option highlighted.
 * 0.6.2 - Bugfix: Fixed label position for when selected tags span multiple lines.
 * 0.6.1 - Bugfix: Fixed disappearing label when input has value.

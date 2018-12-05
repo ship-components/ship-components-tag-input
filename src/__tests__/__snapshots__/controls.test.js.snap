@@ -2,7 +2,9 @@
 
 exports[`Component: Controls SelectControls Rendering should render correctly 1`] = `
 <div>
-  <div>
+  <div
+    key="0"
+  >
     <button
       className=""
       onClick={[MockFunction]}
@@ -17,6 +19,7 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
     />
   </div>
   <div
+    key="1"
     onClick={[Function]}
   >
     <span

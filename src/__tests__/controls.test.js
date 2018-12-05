@@ -50,11 +50,11 @@ describe('Component: Controls', () => {
     it('should fires a focus event when focusInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
-      const textInput = textInputWrapper.get(0);
+      const textInput = textInputWrapper.instance();
       const focusInputSpy = jest.spyOn(textInput, 'focus');
 
       // Fires the focusInput function
-      wrapper.node.focusInput();
+      wrapper.instance().focusInput();
 
       expect(focusInputSpy).toHaveBeenCalled();
     });
@@ -62,7 +62,7 @@ describe('Component: Controls', () => {
     it('should NOT fires a focus event when filterable is false', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
-      const textInput = textInputWrapper.get(0);
+      const textInput = textInputWrapper.instance();
       const focusInputSpy = jest.spyOn(textInput, 'focus');
 
       // Update filterable to be false
@@ -71,7 +71,7 @@ describe('Component: Controls', () => {
       });
 
       // Fires the focusInput function
-      wrapper.node.focusInput();
+      wrapper.instance().focusInput();
 
       expect(focusInputSpy).not.toHaveBeenCalled();
     });
@@ -81,11 +81,11 @@ describe('Component: Controls', () => {
     it('should fires a blur event when blurInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
-      const textInput = textInputWrapper.get(0);
+      const textInput = textInputWrapper.instance();
       const blurInputSpy = jest.spyOn(textInput, 'blur');
 
       // Fires the blurInput function
-      wrapper.node.blurInput();
+      wrapper.instance().blurInput();
 
       expect(blurInputSpy).toHaveBeenCalled();
     });
@@ -93,7 +93,7 @@ describe('Component: Controls', () => {
     it('should NOT fires a blur event when filterable is false', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]');
-      const textInput = textInputWrapper.get(0);
+      const textInput = textInputWrapper.instance();
       const blurInputSpy = jest.spyOn(textInput, 'blur');
 
       // Update filterable to be false
@@ -102,7 +102,7 @@ describe('Component: Controls', () => {
       });
 
       // Fires the blurInput function
-      wrapper.node.blurInput();
+      wrapper.instance().blurInput();
 
       expect(blurInputSpy).not.toHaveBeenCalled();
     });
