@@ -49,7 +49,7 @@ describe('Component: Controls', () => {
   describe('focusInput Function', () => {
     it('should fires a focus event when focusInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
-      const textInputWrapper = wrapper.find('input [type="text"]');
+      const textInputWrapper = wrapper.find('input [type="text"]').at(0);
       const textInput = textInputWrapper.instance();
       const focusInputSpy = jest.spyOn(textInput, 'focus');
 
@@ -61,7 +61,7 @@ describe('Component: Controls', () => {
 
     it('should NOT fires a focus event when filterable is false', () => {
       const wrapper = initializeMountTagInputComponent();
-      const textInputWrapper = wrapper.find('input [type="text"]');
+      const textInputWrapper = wrapper.find('input [type="text"]').at(0);
       const textInput = textInputWrapper.instance();
       const focusInputSpy = jest.spyOn(textInput, 'focus');
 
@@ -80,7 +80,7 @@ describe('Component: Controls', () => {
   describe('blurInput Function', () => {
     it('should fires a blur event when blurInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
-      const textInputWrapper = wrapper.find('input [type="text"]');
+      const textInputWrapper = wrapper.find('input [type="text"]').at(0);
       const textInput = textInputWrapper.instance();
       const blurInputSpy = jest.spyOn(textInput, 'blur');
 
@@ -92,7 +92,7 @@ describe('Component: Controls', () => {
 
     it('should NOT fires a blur event when filterable is false', () => {
       const wrapper = initializeMountTagInputComponent();
-      const textInputWrapper = wrapper.find('input [type="text"]');
+      const textInputWrapper = wrapper.find('input [type="text"]').at(0);
       const textInput = textInputWrapper.instance();
       const blurInputSpy = jest.spyOn(textInput, 'blur');
 
