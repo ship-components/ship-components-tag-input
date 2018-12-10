@@ -46,7 +46,7 @@ describe('Component: Controls', () => {
     });
   });
 
-  describe('focusInput Function', () => {
+  xdescribe('focusInput Function', () => {
     it('should fires a focus event when focusInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]').at(0);
@@ -77,7 +77,7 @@ describe('Component: Controls', () => {
     });
   });
 
-  describe('blurInput Function', () => {
+  xdescribe('blurInput Function', () => {
     it('should fires a blur event when blurInput function calls', () => {
       const wrapper = initializeMountTagInputComponent();
       const textInputWrapper = wrapper.find('input [type="text"]').at(0);
