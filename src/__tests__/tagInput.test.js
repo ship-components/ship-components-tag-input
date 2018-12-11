@@ -55,7 +55,7 @@ describe('Component: index.js', () => {
   describe('componentWillReceiveProps Function', () => {
     it('displays a modified state upon changing props', () => {
       const wrapper = initializeMountTagInputComponent();
-      const opts = ['1', '2', '3'];
+      const opts = [{ id: 1, title: 'Sample Test 1' }, { id: 2, title: 'Sample Test 2' }];
 
       expect(wrapper.state().data).toEqual([]);
 
@@ -77,14 +77,14 @@ describe('Component: index.js', () => {
         />
       );
 
-      wrapper.node.handleSelectItem(SAMPLE_DATA);
+      wrapper.instance().handleSelectItem(SAMPLE_DATA);
       expect(doneChangeFn.mock.calls.length).toBe(1);
     });
 
     it('should add the passed value to array of data', () => {
       const wrapper = initializeMountTagInputComponent();
 
-      wrapper.node.handleSelectItem(SAMPLE_DATA);
+      wrapper.instance().handleSelectItem(SAMPLE_DATA);
       expect(DATA_LIST.toJS()[0]).toEqual(SAMPLE_DATA);
     });
   });
@@ -99,7 +99,7 @@ describe('Component: index.js', () => {
         />
       );
 
-      wrapper.node.handleDeselectItem(SAMPLE_DATA);
+      wrapper.instance().handleDeselectItem(SAMPLE_DATA);
       expect(doneChangeFn.mock.calls.length).toBe(1);
     });
 
@@ -107,9 +107,9 @@ describe('Component: index.js', () => {
       const wrapper = initializeMountTagInputComponent();
 
       // Add Extra item to the list
-      wrapper.node.handleSelectItem({ id: 1, title: 'Sample Test 2' });
+      wrapper.instance().handleSelectItem({ id: 1, title: 'Sample Test 2' });
       // Removes the last added item
-      wrapper.node.handleDeselectItem('Sample Test 2');
+      wrapper.instance().handleDeselectItem('Sample Test 2');
       expect(DATA_LIST.toJS()[0]).toEqual(SAMPLE_DATA);
     });
   });
@@ -132,7 +132,7 @@ describe('Component: index.js', () => {
       );
       // Not sure how I can test this within proxy to get the results
       try {
-        wrapper.node.fetchOptions('');
+        wrapper.instance().fetchOptions('');
       } catch (e) {
         expect(e).toBeDefined();
       }
@@ -148,7 +148,7 @@ describe('Component: index.js', () => {
         />
       );
 
-      wrapper.node.fetchOptions();
+      wrapper.instance().fetchOptions();
       expect(fetchFn).toHaveBeenCalled();
     });
   });
@@ -171,7 +171,7 @@ describe('Component: index.js', () => {
 
       // Not sure how I can test this within proxy to get the results
       try {
-        wrapper.node.fetchOptions('');
+        wrapper.instance().fetchOptions('');
       } catch (e) {
         expect(e).toBeDefined();
       }

@@ -99,7 +99,7 @@ describe('Component: TagContainer', () => {
       const event = new Event('look');
 
       expect(wrapper.state().dropdownOpen).toBeFalsy();
-      wrapper.node.handleToggleDropdown(event);
+      wrapper.instance().handleToggleDropdown(event);
       expect(wrapper.state().dropdownOpen).toBeTruthy();
     });
   });
@@ -250,7 +250,7 @@ describe('Component: TagContainer', () => {
 
       // highlight an option by simulating "DOWN" key, otherwise select function will not be called.
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 40,
           preventDefault: jest.fn(),
@@ -258,7 +258,7 @@ describe('Component: TagContainer', () => {
         });
 
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 9,
           preventDefault: jest.fn(),
@@ -284,7 +284,7 @@ describe('Component: TagContainer', () => {
       expect(wrapper.props().onEnterKey.mock.calls.length).toBe(0);
 
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 13,
           preventDefault: jest.fn(),
@@ -304,8 +304,8 @@ describe('Component: TagContainer', () => {
       } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
-      wrapper.node.highlightPreviousItem = jest.fn();
-      expect(wrapper.node.highlightPreviousItem.mock.calls.length).toBe(0);
+      wrapper.instance().highlightPreviousItem = jest.fn();
+      expect(wrapper.instance().highlightPreviousItem.mock.calls.length).toBe(0);
 
       // Setting the dropdownOpen state to true
       // Otherwise highlightPreviousItem will not fires
@@ -314,7 +314,7 @@ describe('Component: TagContainer', () => {
       });
 
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 38,
           preventDefault: jest.fn(),
@@ -325,7 +325,7 @@ describe('Component: TagContainer', () => {
       expect(wrapper.find('Dropdown')
         .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
-      expect(wrapper.node.highlightPreviousItem.mock.calls.length).toBe(1);
+      expect(wrapper.instance().highlightPreviousItem.mock.calls.length).toBe(1);
     });
 
     it('should pass the next item to parent on Down key press', () => {
@@ -334,11 +334,11 @@ describe('Component: TagContainer', () => {
       } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
-      wrapper.node.highlightNextItem = jest.fn();
-      expect(wrapper.node.highlightNextItem.mock.calls.length).toBe(0);
+      wrapper.instance().highlightNextItem = jest.fn();
+      expect(wrapper.instance().highlightNextItem.mock.calls.length).toBe(0);
 
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 40,
           preventDefault: jest.fn(),
@@ -349,7 +349,7 @@ describe('Component: TagContainer', () => {
       expect(wrapper.find('Dropdown')
         .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
-      expect(wrapper.node.highlightNextItem.mock.calls.length).toBe(1);
+      expect(wrapper.instance().highlightNextItem.mock.calls.length).toBe(1);
     });
 
     it('should change the dropdownOpen state to false on Escape key press', () => {
@@ -358,8 +358,8 @@ describe('Component: TagContainer', () => {
       } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
-      wrapper.node.blurInput = jest.fn();
-      expect(wrapper.node.blurInput.mock.calls.length).toBe(0);
+      wrapper.instance().blurInput = jest.fn();
+      expect(wrapper.instance().blurInput.mock.calls.length).toBe(0);
 
       // Making sure the dropdownOpen state is true
       // Which means the dropdown is open
@@ -368,7 +368,7 @@ describe('Component: TagContainer', () => {
       });
 
       wrapper
-        .node
+        .instance()
         .handleKeyboard({
           keyCode: 27,
           preventDefault: jest.fn(),
@@ -377,7 +377,7 @@ describe('Component: TagContainer', () => {
 
       // dropdownOpen state should be false when press Escape key
       expect(wrapper.state().dropdownOpen).toBeFalsy();
-      expect(wrapper.node.blurInput.mock.calls.length).toBe(1);
+      expect(wrapper.instance().blurInput.mock.calls.length).toBe(1);
     });
   });
 
@@ -392,7 +392,7 @@ describe('Component: TagContainer', () => {
       // change filter text
       const selectControls = wrapper
         .find('SelectControls');
-  
+
       // it shouldn't fetch on filter
       selectControls.props()
         .onChange({
@@ -431,8 +431,8 @@ describe('Component: TagContainer', () => {
         orderOptionsBy: 'title'
       });
 
-      let getAllResults = wrapper.node.getFilterResults('option');
-      let getOneResult = wrapper.node.getFilterResults('option 1')[0];
+      let getAllResults = wrapper.instance().getFilterResults('option');
+      let getOneResult = wrapper.instance().getFilterResults('option 1')[0];
 
       expect(getAllResults).toEqual(OPTIONS);
       expect(getOneResult).toEqual(OPTIONS[0]);
@@ -461,7 +461,7 @@ describe('Component: TagContainer', () => {
         orderOptionsBy: 'title'
       });
 
-      let getTwoResults = wrapper.node.getFilterResults('1');
+      let getTwoResults = wrapper.instance().getFilterResults('1');
 
       expect(getTwoResults).toEqual(sampleOptionList);
     });
@@ -476,7 +476,7 @@ describe('Component: TagContainer', () => {
         orderOptionsBy: 'id'
       });
 
-      let getOneResult = wrapper.node.getFilterResults('2')[0];
+      let getOneResult = wrapper.instance().getFilterResults('2')[0];
 
       expect(getOneResult).toEqual(OPTIONS[1]);
     });
@@ -493,8 +493,8 @@ describe('Component: TagContainer', () => {
         orderOptionsBy: 'title'
       });
 
-      let getAllResults = wrapper.node.getVisibleOptions('option');
-      let getOneResult = wrapper.node.getVisibleOptions('option 1')[0];
+      let getAllResults = wrapper.instance().getVisibleOptions('option');
+      let getOneResult = wrapper.instance().getVisibleOptions('option 1')[0];
 
       expect(getAllResults).toEqual(OPTIONS);
       expect(getOneResult).toEqual(OPTIONS[0]);
@@ -531,7 +531,7 @@ describe('Component: TagContainer', () => {
       });
 
       // Getting the sorted results
-      let getAllSortedResults = wrapper.node.getFilterResults('1');
+      let getAllSortedResults = wrapper.instance().getFilterResults('1');
 
       expect(getAllSortedResults).not.toEqual(sampleOptionList.toJS());
       // Sort sampleOptionList
@@ -548,13 +548,13 @@ describe('Component: TagContainer', () => {
         selection: new Immutable.List()
       };
 
-      const result1 = wrapper.node.isEmpty(sampleProps);
+      const result1 = wrapper.instance().isEmpty(sampleProps);
       expect(result1).toBeTruthy();
 
       // Add an item to selection
       // isEmpty should return false
       sampleProps.selection = sampleProps.selection.push(OPTIONS[0]);
-      const result2 = wrapper.node.isEmpty(sampleProps);
+      const result2 = wrapper.instance().isEmpty(sampleProps);
 
       expect(result2).toBeFalsy();
     });
@@ -565,7 +565,7 @@ describe('Component: TagContainer', () => {
         selection: {}
       };
 
-      const result = wrapper.node.isEmpty(sampleProps);
+      const result = wrapper.instance().isEmpty(sampleProps);
       expect(result).toBeFalsy();
     });
   });
@@ -579,7 +579,7 @@ describe('Component: TagContainer', () => {
         highlightedOption: OPTIONS[2]
       });
 
-      wrapper.node.highlightPreviousItem();
+      wrapper.instance().highlightPreviousItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
 
     });
@@ -592,7 +592,7 @@ describe('Component: TagContainer', () => {
         highlightedOption: OPTIONS[0]
       });
 
-      wrapper.node.highlightPreviousItem();
+      wrapper.instance().highlightPreviousItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[0]);
     });
   });
@@ -606,7 +606,7 @@ describe('Component: TagContainer', () => {
         highlightedOption: OPTIONS[0]
       });
 
-      wrapper.node.highlightNextItem();
+      wrapper.instance().highlightNextItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
 
     });
@@ -619,7 +619,7 @@ describe('Component: TagContainer', () => {
         highlightedOption: OPTIONS[2]
       });
 
-      wrapper.node.highlightNextItem();
+      wrapper.instance().highlightNextItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[2]);
     });
   });

@@ -55,7 +55,9 @@ export default class TagContainer extends React.Component {
     this.handleDropdownPosition();
     document.addEventListener('click', this.documentClickHandler);
 
-    this._inputField = this.refs.selectControls.refs.filterInput;
+    if (this.refs.selectControls) {
+      this._inputField = this.refs.selectControls.refs.filterInput;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
