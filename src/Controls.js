@@ -83,49 +83,45 @@ export default class SelectControls extends React.Component {
   selectionDisplayHtml() {
     if (this.props.multiple) {
       return (
-        <div>
+        <div
+          className={css['multi-selection-area']}
+          onClick={this.handleOpenDropdown}
+        >
           {this.props.invert ? this.filterHtml.call(this) : null}
-          <div
-            className={css['multi-selection-area']}
-            onClick={this.handleOpenDropdown}
-          >
-            {this.props.selection
-              .map(item => (
-                <Tag
-                  key={`ship-select-tag--${item.key || item[this.props.orderOptionsBy]}`}
-                  icon={item.icon}
-                  title={item[this.props.orderOptionsBy]}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onClear={this.props.onClear.bind(this, item)}
-                />
-              ))
-            }
-            {this.props.invert ? null : this.filterHtml.call(this)}
-          </div>
+          {this.props.selection
+            .map(item => (
+              <Tag
+                key={`ship-select-tag--${item.key || item[this.props.orderOptionsBy]}`}
+                icon={item.icon}
+                title={item[this.props.orderOptionsBy]}
+                // eslint-disable-next-line react/jsx-no-bind
+                onClear={this.props.onClear.bind(this, item)}
+              />
+            ))
+          }
+          {this.props.invert ? null : this.filterHtml.call(this)}
         </div>
       );
     }
 
     return (
-      <div>
+      <div
+        className={css['selection-area']}
+        onClick={this.handleOpenDropdown}
+      >
         {this.props.invert ? this.filterHtml.call(this) : null}
-        <div
-          className={css['selection-area']}
-          onClick={this.handleOpenDropdown}
+        <span
+          className={classNames(
+            css.selection,
+            {
+              empty: this.props.isEmpty,
+              hidden: (this.props.filterable && this.props.isDropdownOpen)
+            }
+          )}
         >
-          <span
-            className={classNames(
-              css.selection,
-              {
-                empty: this.props.isEmpty,
-                hidden: (this.props.filterable && this.props.isDropdownOpen)
-              }
-            )}
-          >
-            {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
-          </span>
-          {this.props.invert ? null : this.filterHtml.call(this)}
-        </div>
+          {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
+        </span>
+        {this.props.invert ? null : this.filterHtml.call(this)}
       </div>
     );
   }
