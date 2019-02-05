@@ -16,21 +16,19 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
       visible={false}
     />
   </div>
-  <div>
-    <div
-      onClick={[Function]}
-    >
-      <span
-        className=""
-      />
-      <input
-        className="hidden"
-        onChange={[MockFunction]}
-        onKeyDown={[MockFunction]}
-        type="text"
-        value=""
-      />
-    </div>
+  <div
+    onClick={[Function]}
+  >
+    <span
+      className=""
+    />
+    <input
+      className="hidden"
+      onChange={[MockFunction]}
+      onKeyDown={[MockFunction]}
+      type="text"
+      value=""
+    />
   </div>
 </div>
 `;
