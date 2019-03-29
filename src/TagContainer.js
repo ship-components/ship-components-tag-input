@@ -450,7 +450,7 @@ export default class TagContainer extends React.Component {
         {this.props.label ?
           <label className={classNames(css.label,
             {
-              [css.offset]: !this.state.empty || this.state.dropdownOpen,
+              [css.offset]: !this.state.empty || this.state.dropdownOpen || this.state.filterText,
               [css.darkTheme]: this.props.darkTheme,
               [css.notFilterable]: !this.props.filterable,
               [css.toggleRightPos]: this.props.togglePosition === 'right',
