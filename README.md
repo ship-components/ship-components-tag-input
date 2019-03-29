@@ -256,6 +256,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
+* 1.0.3 - Fixes the label overlapping the entered filter text on blur.
 * 1.0.2 - Fixes the broken input layout due to the `invert` feature
 * 1.0.0 - Upgrade to React 16
 * 0.7.0 - Feature: prop `invert` to change the component display order
