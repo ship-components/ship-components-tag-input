@@ -211,10 +211,10 @@ export default class TagContainer extends React.Component {
           this.props.onEnterKey(event);
           break;
         }
-      case 9: // tab
-        event.preventDefault();
-        this.selectHighlightedItem(event);
-        break;
+      // case 9: // tab
+      //   event.preventDefault();
+      //   this.selectHighlightedItem(event);
+      //   break;
       case 38: // up
         event.preventDefault();
         if (this.state.dropdownOpen) {
