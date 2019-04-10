@@ -240,37 +240,38 @@ describe('Component: TagContainer', () => {
   });
 
   describe('handleKeyboard Function', () => {
-    it('should pass the correct item to parent on Tab key press', () => {
-      const {
-        wrapper,
-        onSelectFn
-      } = initializeMountTagContainerComponent();
+    // This test is commented out for changes in 1.0.4. See README.md.
+    // it('should pass the correct item to parent on Tab key press', () => {
+    //   const {
+    //     wrapper,
+    //     onSelectFn
+    //   } = initializeMountTagContainerComponent();
 
-      expect(onSelectFn.mock.calls.length).toBe(0);
+    //   expect(onSelectFn.mock.calls.length).toBe(0);
 
-      // highlight an option by simulating "DOWN" key, otherwise select function will not be called.
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 40,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+    //   // highlight an option by simulating "DOWN" key, otherwise select function will not be called.
+    //   wrapper
+    //     .instance()
+    //     .handleKeyboard({
+    //       keyCode: 40,
+    //       preventDefault: jest.fn(),
+    //       stopPropagation: jest.fn()
+    //     });
 
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 9,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+    //   wrapper
+    //     .instance()
+    //     .handleKeyboard({
+    //       keyCode: 9,
+    //       preventDefault: jest.fn(),
+    //       stopPropagation: jest.fn()
+    //     });
 
-      // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
+    //   // how to ensure certain function is passed as prop to a component
+    //   expect(wrapper.find('Dropdown')
+    //     .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
-      expect(onSelectFn.mock.calls.length).toBe(1);
-    });
+    //   expect(onSelectFn.mock.calls.length).toBe(1);
+    // });
 
     it('should pass the correct item to parent on Enter key press', () => {
       const {
