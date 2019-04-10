@@ -9,6 +9,7 @@ exports[`Component: index.js TagInput Rendering should render correctly 1`] = `
   fetchUrl=""
   filterable={true}
   httpHeaders={Object {}}
+  invert={false}
   label="Select Tags..."
   loading={false}
   multiple={true}

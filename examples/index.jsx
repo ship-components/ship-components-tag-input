@@ -260,6 +260,34 @@ export default class Examples extends React.Component {
   />
 `}
           </code>
+          <h2 style={{ marginBottom: '20px' }}>Multiple Tags - With Invert</h2>
+          <TagInput
+            label='Choose Tag Inputs...'
+            orderOptionsBy='title'
+            autoComplete
+            fetchUrl={'http://'} // Any url to request the list of options from
+            extractor={res => res.data} // data can be changed to anything user wants...
+            options={opts2} // Not needed when the autoComplete feature is enabled, only for demo purposes
+            togglePosition='right'
+            toggleSwitchStyle='library_add'
+            value={this.state.value}
+            onChange={this.handleChange}
+            invert
+          />
+          <code>
+{`
+  <TagInput
+    label='Choose Tag Inputs...'
+    autoComplete
+    fetchUrl={'http://...'} // Any url to request the list of options from
+    extractor={(res) => res.data} // data can be changed to anything user wants...
+    togglePosition='right'
+    toggleSwitchStyle='library_add'
+    value={this.state.value}        // Immutable.List Required by default
+    onChange={this.handleChange}
+    invert
+  />`}
+          </code>
         </div>
       </div>
     );
