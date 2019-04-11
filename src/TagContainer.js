@@ -211,10 +211,14 @@ export default class TagContainer extends React.Component {
           this.props.onEnterKey(event);
           break;
         }
-      case 9: // tab
-        event.preventDefault();
-        this.selectHighlightedItem(event);
-        break;
+        // Commented this out to fix the behavior of the tab key. 
+        // The tab keyboard event was being used to select a highlighted dropdown option. 
+        // This prevented tabbing through components in a modal form dialog.
+        // With this change tag - input will ignore tab keyboard events.
+      // case 9: // tab
+      //   event.preventDefault();
+      //   this.selectHighlightedItem(event);
+      //   break;
       case 38: // up
         event.preventDefault();
         if (this.state.dropdownOpen) {
