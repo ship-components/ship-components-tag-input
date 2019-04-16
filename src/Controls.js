@@ -139,6 +139,7 @@ export default class SelectControls extends React.Component {
       >
         {this.props.toggleSwitch !== false ?
           <button
+            tabIndex="-1"
             className={classNames(css['toggle-btn'], {
               [css.hidden]: this.props.loading,
               [css.darkTheme]: this.props.darkTheme,

@@ -6,6 +6,7 @@ exports[`Component: Controls SelectControls Rendering should render correctly 1`
     <button
       className=""
       onClick={[MockFunction]}
+      tabIndex="-1"
     >
       library_add
     </button>
