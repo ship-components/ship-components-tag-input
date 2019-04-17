@@ -256,6 +256,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 2. `npm test`
 
 ## History
+* 1.0.7 - Fixes search results with short filterText
 * 1.0.6 - Fixes the behavior of the enter key
 * 1.0.5 - Prevent tabbing to the toggle switch
 * 1.0.4 - Fixes the behavior of the tab key

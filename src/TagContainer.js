@@ -214,10 +214,10 @@ export default class TagContainer extends React.Component {
         event.preventDefault();
         this.selectHighlightedItem(event);
         break;
-        // Commented this out to fix the behavior of the tab key.
-        // The tab keyboard event was being used to select a highlighted dropdown option. 
-        // This prevented tabbing through components in a modal form dialog.
-        // With this change tag - input will ignore tab keyboard events.
+      // Commented this out to fix the behavior of the tab key.
+      // The tab keyboard event was being used to select a highlighted dropdown option. 
+      // This prevented tabbing through components in a modal form dialog.
+      // With this change tag - input will ignore tab keyboard events.
       // case 9: // tab
       //   event.preventDefault();
       //   this.selectHighlightedItem(event);
@@ -343,6 +343,10 @@ export default class TagContainer extends React.Component {
   }
 
   getFilterResults(filterText) {
+    if (!filterText || !(filterText.length > 2)) {
+      return [];
+    }
+
     const { options, orderOptionsBy } = this.props;
     const regex = new RegExp(filterText, 'i');
 
@@ -372,9 +376,7 @@ export default class TagContainer extends React.Component {
     let options = this.props.options;
 
     // show filtered results
-    if (filterText !== '') {
-      options = this.getFilterResults(filterText);
-    }
+    options = this.getFilterResults(filterText);
 
     // exclude selected options
     // TODO : its probably better (in single-select cases) to show the selected item in the dropdown with a checkmark, similar to standard <select />
