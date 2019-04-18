@@ -380,7 +380,9 @@ export default class TagContainer extends React.Component {
     let options = this.props.options;
 
     // show filtered results
-    options = this.getFilterResults(filterText);
+    if (filterText !== '') {
+      options = this.getFilterResults(filterText);
+    }
 
     // exclude selected options
     // TODO : its probably better (in single-select cases) to show the selected item in the dropdown with a checkmark, similar to standard <select />
