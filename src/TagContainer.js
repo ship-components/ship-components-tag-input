@@ -121,15 +121,23 @@ export default class TagContainer extends React.Component {
     }
 
     this.setState({
-      filterText: filterText,
-      dropdownOpen: true
-    }, () => {
-      this.handleDropdownPosition();
-
-      if (typeof this.props.onFilter === 'function') {
-        this.props.onFilter(filterText, event);
-      }
+      filterText: filterText
     });
+    if (filterText.length > 2) {
+      this.setState({
+        dropdownOpen: true
+      }, () => {
+        this.handleDropdownPosition();
+
+        if (typeof this.props.onFilter === 'function') {
+          this.props.onFilter(filterText, event);
+        }
+      });
+    } else {
+      this.setState({
+        dropdownOpen: false
+      });
+    }
   }
 
   /**
@@ -214,10 +222,10 @@ export default class TagContainer extends React.Component {
         event.preventDefault();
         this.selectHighlightedItem(event);
         break;
-        // Commented this out to fix the behavior of the tab key.
-        // The tab keyboard event was being used to select a highlighted dropdown option. 
-        // This prevented tabbing through components in a modal form dialog.
-        // With this change tag - input will ignore tab keyboard events.
+      // Commented this out to fix the behavior of the tab key.
+      // The tab keyboard event was being used to select a highlighted dropdown option. 
+      // This prevented tabbing through components in a modal form dialog.
+      // With this change tag - input will ignore tab keyboard events.
       // case 9: // tab
       //   event.preventDefault();
       //   this.selectHighlightedItem(event);
