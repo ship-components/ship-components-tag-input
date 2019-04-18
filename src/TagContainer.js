@@ -121,15 +121,23 @@ export default class TagContainer extends React.Component {
     }
 
     this.setState({
-      filterText: filterText,
-      dropdownOpen: true
-    }, () => {
-      this.handleDropdownPosition();
-
-      if (typeof this.props.onFilter === 'function') {
-        this.props.onFilter(filterText, event);
-      }
+      filterText: filterText
     });
+    if (filterText.length > 2) {
+      this.setState({
+        dropdownOpen: true
+      }, () => {
+        this.handleDropdownPosition();
+
+        if (typeof this.props.onFilter === 'function') {
+          this.props.onFilter(filterText, event);
+        }
+      });
+    } else {
+      this.setState({
+        dropdownOpen: false
+      });
+    }
   }
 
   /**
@@ -343,10 +351,6 @@ export default class TagContainer extends React.Component {
   }
 
   getFilterResults(filterText) {
-    if (!filterText || !(filterText.length > 2)) {
-      return [];
-    }
-
     const { options, orderOptionsBy } = this.props;
     const regex = new RegExp(filterText, 'i');
 
