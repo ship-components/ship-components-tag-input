@@ -380,7 +380,7 @@ export default class TagContainer extends React.Component {
     let options = this.props.options;
 
     // show filtered results
-    if (filterText !== '') {
+    if (filterText !== '' && !this.props.autoComplete) {
       options = this.getFilterResults(filterText);
     }
 
@@ -538,6 +538,8 @@ TagContainer.propTypes = {
   togglePosition: PropTypes.string.isRequired,
   noOptionsMessage: PropTypes.string.isRequired,
   toggleSwitchStyle: PropTypes.string.isRequired,
+  fetchUrl: PropTypes.string.isRequired,
+  fetchOptions: PropTypes.func.isRequired,
 
   options: PropTypes.array.isRequired,
   selection: PropTypes.instanceOf(List).isRequired,
