@@ -477,6 +477,7 @@ export default class TagContainer extends React.Component {
 
         <SelectControls
           {...this.props}
+          label=''
           ref='selectControls'
           waiting={this.state.waiting}
           isDropdownOpen={this.state.dropdownOpen}
