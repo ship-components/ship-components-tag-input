@@ -19,7 +19,7 @@ exports[`Component: TagContainer TagContainer Rendering should render correctly 
     invert={false}
     isDropdownOpen={false}
     isEmpty={true}
-    label="label"
+    label=""
     loading={false}
     multiple={true}
     noOptionsMessage=""
