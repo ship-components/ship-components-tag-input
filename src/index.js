@@ -35,10 +35,15 @@ export default class TagInput extends React.Component {
   handleSelectItem(item) {
     let { value } = this.props;
 
-    value = this.props.invert ? value.unshift(item) : value = value.push(item);
+    if (!this.props.multiple && !value.size == 0) {
+      // clear existing selection and send the tags to parent
+      this.props.onChange(new List().push(item));
+    } else {
+      value = this.props.invert ? value.unshift(item) : value = value.push(item);
 
-    // Sending the tags to parent
-    this.props.onChange(value);
+      // Sending the tags to parent
+      this.props.onChange(value);
+    }
   }
 
   /**
