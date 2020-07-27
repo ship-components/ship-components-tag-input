@@ -1,6 +1,6 @@
 {
   "name": "ship-components-tag-input",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/index.js",
   "scripts": {
@@ -17,9 +17,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ship-components/ship-components-tag-input.git"
-  },
-  "engines": {
-    "node": ">=4.0 <7.0"
   },
   "keywords": [
     "react",
@@ -50,7 +47,7 @@
     "ship-components-icon": "^0.1.2",
     "ship-components-outsideclick": "^0.2.0",
     "ship-components-utility": "^1.2.1",
-    "superagent": "^3.5.2"
+    "superagent": "^3.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -72,7 +69,7 @@
     "eslint-plugin-react": "^7.3.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
-    "grunt": "^1.0.1",
+    "grunt": "^1.2.1",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-coveralls": "^1.0.1",
     "grunt-eslint": "^20.0.0",
@@ -94,7 +91,7 @@
     "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack-dev-server": "^2.11.5"
   },
   "jest": {
     "setupFiles": [
