@@ -1,6 +1,6 @@
 {
   "name": "ship-components-tag-input",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/index.js",
   "scripts": {
