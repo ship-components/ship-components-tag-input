@@ -121,15 +121,23 @@ export default class TagContainer extends React.Component {
     }
 
     this.setState({
-      filterText: filterText,
-      dropdownOpen: true
-    }, () => {
-      this.handleDropdownPosition();
-
-      if (typeof this.props.onFilter === 'function') {
-        this.props.onFilter(filterText, event);
-      }
+      filterText: filterText
     });
+    if (filterText.length > 2) {
+      this.setState({
+        dropdownOpen: true
+      }, () => {
+        this.handleDropdownPosition();
+
+        if (typeof this.props.onFilter === 'function') {
+          this.props.onFilter(filterText, event);
+        }
+      });
+    } else {
+      this.setState({
+        dropdownOpen: false
+      });
+    }
   }
 
   /**
@@ -211,10 +219,17 @@ export default class TagContainer extends React.Component {
           this.props.onEnterKey(event);
           break;
         }
-      case 9: // tab
         event.preventDefault();
         this.selectHighlightedItem(event);
         break;
+      // Commented this out to fix the behavior of the tab key.
+      // The tab keyboard event was being used to select a highlighted dropdown option. 
+      // This prevented tabbing through components in a modal form dialog.
+      // With this change tag - input will ignore tab keyboard events.
+      // case 9: // tab
+      //   event.preventDefault();
+      //   this.selectHighlightedItem(event);
+      //   break;
       case 38: // up
         event.preventDefault();
         if (this.state.dropdownOpen) {
@@ -365,7 +380,7 @@ export default class TagContainer extends React.Component {
     let options = this.props.options;
 
     // show filtered results
-    if (filterText !== '') {
+    if (filterText !== '' && !this.props.autoComplete) {
       options = this.getFilterResults(filterText);
     }
 
@@ -462,6 +477,7 @@ export default class TagContainer extends React.Component {
 
         <SelectControls
           {...this.props}
+          label=''
           ref='selectControls'
           waiting={this.state.waiting}
           isDropdownOpen={this.state.dropdownOpen}
@@ -523,6 +539,8 @@ TagContainer.propTypes = {
   togglePosition: PropTypes.string.isRequired,
   noOptionsMessage: PropTypes.string.isRequired,
   toggleSwitchStyle: PropTypes.string.isRequired,
+  fetchUrl: PropTypes.string.isRequired,
+  fetchOptions: PropTypes.func.isRequired,
 
   options: PropTypes.array.isRequired,
   selection: PropTypes.instanceOf(List).isRequired,

@@ -107,7 +107,7 @@ export default class SelectControls extends React.Component {
     return (
       <div
         className={css['selection-area']}
-        onClick={this.handleOpenDropdown}
+        onClick={this.props.selection.size === 0 ? this.handleOpenDropdown : null}
       >
         {this.props.invert ? this.filterHtml.call(this) : null}
         <span
@@ -119,7 +119,7 @@ export default class SelectControls extends React.Component {
             }
           )}
         >
-          {this.props.selection ? this.props.selection.get(this.props.orderOptionsBy) : this.props.label}
+          {this.props.selection && this.props.selection.first() ? this.props.selection.first()[this.props.orderOptionsBy] : this.props.label}
         </span>
         {this.props.invert ? null : this.filterHtml.call(this)}
       </div>
@@ -139,6 +139,7 @@ export default class SelectControls extends React.Component {
       >
         {this.props.toggleSwitch !== false ?
           <button
+            tabIndex="-1"
             className={classNames(css['toggle-btn'], {
               [css.hidden]: this.props.loading,
               [css.darkTheme]: this.props.darkTheme,
@@ -186,8 +187,8 @@ SelectControls.defaultProps = {
   filterable: false,
   invert: false,
 
-  label:          '',
-  filterText:     '',
+  label: '',
+  filterText: '',
 
   toggleSwitch: 'library_add',
   togglePosition: 'left'
@@ -204,8 +205,8 @@ SelectControls.propTypes = {
   darkTheme: PropTypes.bool.isRequired,
   invert: PropTypes.bool,
 
-  label:          PropTypes.string,
-  filterText:     PropTypes.string,
+  label: PropTypes.string,
+  filterText: PropTypes.string,
   orderOptionsBy: PropTypes.string.isRequired,
 
   toggleSwitch: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),

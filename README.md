@@ -257,7 +257,13 @@ This module is designed to be used with webpack. Below are is a sample of how to
 
 ## History
 
-* 1.0.4 - Removed invalid css comment, removed unneeded "engines", applied audit fixes
+* 1.0.10 - Removed invalid css comment, removed unneeded "engines", applied audit fixes
+* 1.0.9 - Fixes the behavior for multiple=false
+* 1.0.8 - Disable filtering when results are fetched from server
+* 1.0.7 - Fixes search results with short filterText
+* 1.0.6 - Fixes the behavior of the enter key
+* 1.0.5 - Prevent tabbing to the toggle switch
+* 1.0.4 - Fixes the behavior of the tab key
 * 1.0.3 - Fixes the label overlapping the entered filter text on blur.
 * 1.0.2 - Fixes the broken input layout due to the `invert` feature
 * 1.0.0 - Upgrade to React 16
