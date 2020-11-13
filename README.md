@@ -257,7 +257,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 
 ## History
 
-* 1.0.10 - Removed invalid css comment, removed unneeded "engines", applied audit fixes
+* 1.0.11 - Removed invalid css comment, removed unneeded "engines", applied audit fixes
 * 1.0.9 - Fixes the behavior for multiple=false
 * 1.0.8 - Disable filtering when results are fetched from server
 * 1.0.7 - Fixes search results with short filterText
