@@ -1,6 +1,6 @@
 {
   "name": "ship-components-tag-input",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Material Design Input and Typeahead for Tags (or \"Chips\" in Material Design speak)",
   "main": "src/index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "immutable": "^3.8.1",
     "ship-components-icon": "^0.1.2",
     "ship-components-outsideclick": "^0.2.0",
-    "ship-components-utility": "^2.1.1",
+    "ship-components-utility": "^1.2.1",
     "superagent": "^3.8.3"
   },
   "devDependencies": {
