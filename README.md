@@ -258,6 +258,7 @@ This module is designed to be used with webpack. Below are is a sample of how to
 ## History
 
 * 1.1.0 -  Adds a selectItemBy prop in order to be able to deselect items based on what the props passes in
+* 1.0.13 - Updated ship-components-utility to newer version
 * 1.0.11 - Removed invalid css comment, removed unneeded "engines", applied audit fixes
 * 1.0.9 - Fixes the behavior for multiple=false
 * 1.0.8 - Disable filtering when results are fetched from server
