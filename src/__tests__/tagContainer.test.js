@@ -34,6 +34,8 @@ function initializeShallowTagContainerComponent() {
       <TagContainer
         multiple
         filterable
+        fetchUrl=''
+        fetchOptions={() => {}}
         darkTheme={false}
         orderOptionsBy={'title'}
         label={'label'}
@@ -65,6 +67,8 @@ function initializeMountTagContainerComponent() {
       <TagContainer
         multiple
         filterable
+        fetchUrl=''
+        fetchOptions={() => {}}
         darkTheme={false}
         orderOptionsBy={'title'}
         label={'label'}
@@ -88,14 +92,14 @@ function initializeMountTagContainerComponent() {
 describe('Component: TagContainer', () => {
   describe('TagContainer Rendering', () => {
     it('should render correctly', () => {
-      const {wrapper} = initializeShallowTagContainerComponent();
+      const { wrapper } = initializeShallowTagContainerComponent();
       expect(shallowToJson(wrapper)).toMatchSnapshot();
     });
   });
 
   describe('handleToggleDropdown Function', () => {
     it('should toggle "dropdownOpen" state', () => {
-      const {wrapper} = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
       const event = new Event('look');
 
       expect(wrapper.state().dropdownOpen).toBeFalsy();
@@ -106,7 +110,7 @@ describe('Component: TagContainer', () => {
 
   describe('handleInput Function', () => {
     it('should change "filterText" state on onChange event', () => {
-      const {wrapper} = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
       const newFilterText = 'test string';
 
       expect(wrapper.state().filterText).toEqual('');
@@ -130,21 +134,14 @@ describe('Component: TagContainer', () => {
 
   describe('handleSelectItem Function', () => {
     it('should pass the selected item to parent on onSelect event', () => {
-      const {
-        wrapper,
-        onSelectFn
-      } = initializeMountTagContainerComponent();
+      const { wrapper, onSelectFn } = initializeMountTagContainerComponent();
 
       expect(onSelectFn.mock.calls.length).toBe(0);
 
-      wrapper
-        .find('Dropdown')
-        .props()
-        .onSelect(OPTIONS[0], new Event('look'));
+      wrapper.find('Dropdown').props().onSelect(OPTIONS[0], new Event('look'));
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleSelectItem')).toBe(wrapper.instance().onSelect);
+      expect(wrapper.find('Dropdown').prop('handleSelectItem')).toBe(wrapper.instance().onSelect);
 
       // Making sure the right option is passed to parent component
       expect(onSelectFn.mock.calls[0][0]).toEqual(OPTIONS[0]);
@@ -152,21 +149,14 @@ describe('Component: TagContainer', () => {
     });
 
     it('should not call parent onSelect function when option is null', () => {
-      const {
-        wrapper,
-        onSelectFn
-      } = initializeMountTagContainerComponent();
+      const { wrapper, onSelectFn } = initializeMountTagContainerComponent();
 
       expect(onSelectFn.mock.calls.length).toBe(0);
 
-      wrapper
-        .find('Dropdown')
-        .props()
-        .onSelect(null, new Event('look'));
+      wrapper.find('Dropdown').props().onSelect(null, new Event('look'));
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleSelectItem')).toBe(wrapper.instance().onSelect);
+      expect(wrapper.find('Dropdown').prop('handleSelectItem')).toBe(wrapper.instance().onSelect);
 
       // Since we are not calling the props.onSelect function
       // the function should have no value passed in (empty array)
@@ -176,17 +166,11 @@ describe('Component: TagContainer', () => {
 
   describe('optionWasSelected Function', () => {
     it('should update react state when fires', () => {
-      const {
-        wrapper,
-        onSelectFn
-      } = initializeMountTagContainerComponent();
+      const { wrapper, onSelectFn } = initializeMountTagContainerComponent();
 
       expect(onSelectFn.mock.calls.length).toBe(0);
 
-      wrapper
-        .find('Dropdown')
-        .props()
-        .onSelect(OPTIONS[0], new Event('look'));
+      wrapper.find('Dropdown').props().onSelect(OPTIONS[0], new Event('look'));
 
       if (wrapper.props().multiple) {
         expect(wrapper.state().filterText).toEqual('');
@@ -217,21 +201,16 @@ describe('Component: TagContainer', () => {
 
   describe('handleClearItem Function', () => {
     it('should call the parent onDeselect function to remove the item', () => {
-      const {
-        wrapper,
-        onDeselectFn
-      } = initializeMountTagContainerComponent();
+      const { wrapper, onDeselectFn } = initializeMountTagContainerComponent();
 
       expect(onDeselectFn.mock.calls.length).toBe(0);
 
-      wrapper
-        .find('SelectControls')
-        .props()
-        .onClear(OPTIONS[1], new Event('look'));
+      wrapper.find('SelectControls').props().onClear(OPTIONS[1], new Event('look'));
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('SelectControls')
-        .prop('handleClearItem')).toBe(wrapper.instance().onClear);
+      expect(wrapper.find('SelectControls').prop('handleClearItem')).toBe(
+        wrapper.instance().onClear
+      );
 
       // Making sure the right option is passed to parent component
       expect(onDeselectFn.mock.calls[0][0]).toEqual(OPTIONS[1]);
@@ -274,9 +253,7 @@ describe('Component: TagContainer', () => {
     // });
 
     it('should pass the correct item to parent on Enter key press', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       wrapper.setProps({
         onEnterKey: jest.fn()
@@ -284,25 +261,20 @@ describe('Component: TagContainer', () => {
 
       expect(wrapper.props().onEnterKey.mock.calls.length).toBe(0);
 
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 13,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+      wrapper.instance().handleKeyboard({
+        keyCode: 13,
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn()
+      });
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
+      expect(wrapper.find('Dropdown').prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
       expect(wrapper.props().onEnterKey.mock.calls.length).toBe(1);
     });
 
     it('should pass the previous item to parent on Up key press', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
       wrapper.instance().highlightPreviousItem = jest.fn();
@@ -314,49 +286,39 @@ describe('Component: TagContainer', () => {
         dropdownOpen: true
       });
 
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 38,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+      wrapper.instance().handleKeyboard({
+        keyCode: 38,
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn()
+      });
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
+      expect(wrapper.find('Dropdown').prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
       expect(wrapper.instance().highlightPreviousItem.mock.calls.length).toBe(1);
     });
 
     it('should pass the next item to parent on Down key press', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
       wrapper.instance().highlightNextItem = jest.fn();
       expect(wrapper.instance().highlightNextItem.mock.calls.length).toBe(0);
 
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 40,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+      wrapper.instance().handleKeyboard({
+        keyCode: 40,
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn()
+      });
 
       // how to ensure certain function is passed as prop to a component
-      expect(wrapper.find('Dropdown')
-        .prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
+      expect(wrapper.find('Dropdown').prop('handleKeyboard')).toBe(wrapper.instance().onKeyDown);
 
       expect(wrapper.instance().highlightNextItem.mock.calls.length).toBe(1);
     });
 
     it('should change the dropdownOpen state to false on Escape key press', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       // Mock highlightPreviousItem function to make sure it's called
       wrapper.instance().blurInput = jest.fn();
@@ -368,13 +330,11 @@ describe('Component: TagContainer', () => {
         dropdownOpen: true
       });
 
-      wrapper
-        .instance()
-        .handleKeyboard({
-          keyCode: 27,
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn()
-        });
+      wrapper.instance().handleKeyboard({
+        keyCode: 27,
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn()
+      });
 
       // dropdownOpen state should be false when press Escape key
       expect(wrapper.state().dropdownOpen).toBeFalsy();
@@ -384,23 +344,21 @@ describe('Component: TagContainer', () => {
 
   describe('filter behavior', () => {
     it('does not attempt to fetch options unless filter length > 2', () => {
-      const {wrapper, onFetchOptionsFn} = initializeMountTagContainerComponent();
+      const { wrapper, onFetchOptionsFn } = initializeMountTagContainerComponent();
       const shortFilter = '12';
       const adequateFilter = '123';
 
-      wrapper.setProps({autoComplete: true});
+      wrapper.setProps({ autoComplete: true });
 
       // change filter text
-      const selectControls = wrapper
-        .find('SelectControls');
+      const selectControls = wrapper.find('SelectControls');
 
       // it shouldn't fetch on filter
-      selectControls.props()
-        .onChange({
-          target: {
-            value: shortFilter
-          }
-        });
+      selectControls.props().onChange({
+        target: {
+          value: shortFilter
+        }
+      });
       expect(onFetchOptionsFn).not.toHaveBeenCalled();
 
       // it shouldn't fetch on dropdown opening
@@ -408,12 +366,11 @@ describe('Component: TagContainer', () => {
       expect(onFetchOptionsFn).not.toHaveBeenCalled();
 
       // it should fetch on filter
-      selectControls.props()
-        .onChange({
-          target: {
-            value: adequateFilter
-          }
-        });
+      selectControls.props().onChange({
+        target: {
+          value: adequateFilter
+        }
+      });
 
       // it should fetch on dropdown opening
       selectControls.props().onFocus();
@@ -423,28 +380,24 @@ describe('Component: TagContainer', () => {
 
   describe('getFilterResults Function', () => {
     it('should return the correct result orderOptionsBy: title', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       wrapper.setProps({
         options: OPTIONS,
         orderOptionsBy: 'title'
       });
 
-      let getAllResults = wrapper.instance().getFilterResults('option');
-      let getOneResult = wrapper.instance().getFilterResults('option 1')[0];
+      const getAllResults = wrapper.instance().getFilterResults('option');
+      const getOneResult = wrapper.instance().getFilterResults('option 1')[0];
 
       expect(getAllResults).toEqual(OPTIONS);
       expect(getOneResult).toEqual(OPTIONS[0]);
     });
 
     it('should return multiple option when orderOptionsBy: title', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
-      let sampleOptionList = [
+      const sampleOptionList = [
         {
           id: 1,
           title: 'Option 1',
@@ -462,15 +415,13 @@ describe('Component: TagContainer', () => {
         orderOptionsBy: 'title'
       });
 
-      let getTwoResults = wrapper.instance().getFilterResults('1');
+      const getTwoResults = wrapper.instance().getFilterResults('1');
 
       expect(getTwoResults).toEqual(sampleOptionList);
     });
 
     it('should return the correct result orderOptionsBy: id', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       wrapper.setProps({
         options: OPTIONS,
@@ -485,30 +436,26 @@ describe('Component: TagContainer', () => {
 
   describe('getVisibleOptions Function', () => {
     it('should return the correct result orderOptionsBy: title', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       wrapper.setProps({
         options: OPTIONS,
         orderOptionsBy: 'title'
       });
 
-      let getAllResults = wrapper.instance().getVisibleOptions('option');
-      let getOneResult = wrapper.instance().getVisibleOptions('option 1')[0];
+      const getAllResults = wrapper.instance().getVisibleOptions('option');
+      const getOneResult = wrapper.instance().getVisibleOptions('option 1')[0];
 
       expect(getAllResults).toEqual(OPTIONS);
       expect(getOneResult).toEqual(OPTIONS[0]);
     });
 
     it('should return the correct result sorted', () => {
-      const {
-        wrapper
-      } = initializeMountTagContainerComponent();
+      const { wrapper } = initializeMountTagContainerComponent();
 
       // Create a OrderedSet so we can keep it unsorted
       // Array by default sort the items
-      let sampleOptionList = new Immutable.OrderedSet([
+      const sampleOptionList = new Immutable.OrderedSet([
         {
           id: 10,
           title: 'Option 10',
@@ -532,11 +479,11 @@ describe('Component: TagContainer', () => {
       });
 
       // Getting the sorted results
-      let getAllSortedResults = wrapper.instance().getFilterResults('1');
+      const getAllSortedResults = wrapper.instance().getFilterResults('1');
 
       expect(getAllSortedResults).not.toEqual(sampleOptionList.toJS());
       // Sort sampleOptionList
-      var sorted = sampleOptionList.sort((a, b) => a.id > b.id); // eslint-disable-line max-nested-callbacks
+      const sorted = sampleOptionList.sortBy(option => option.id); // eslint-disable-line max-nested-callbacks
 
       expect(getAllSortedResults).toEqual(sorted.toJS());
     });
@@ -582,7 +529,6 @@ describe('Component: TagContainer', () => {
 
       wrapper.instance().highlightPreviousItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
-
     });
 
     it('should NOT update state to previous item when first item is selected', () => {
@@ -609,7 +555,6 @@ describe('Component: TagContainer', () => {
 
       wrapper.instance().highlightNextItem();
       expect(wrapper.state().highlightedOption).toEqual(OPTIONS[1]);
-
     });
 
     it('should NOT update state to next item when last item is selected', () => {
