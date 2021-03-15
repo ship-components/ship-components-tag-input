@@ -54,9 +54,12 @@ export default class TagInput extends React.Component {
    * @memberof TagInput
    */
   handleDeselectItem(item) {
-    let { value } = this.props;
+    let { value, selectItemBy } = this.props;
 
-    const selectItemBy = item.key ? 'key' : 'id';
+    if (typeof selectItemBy === 'undefined') {
+      selectItemBy = item.key ? 'key' : 'id';
+    }
+
     const index = this.props.value.findIndex(selectedItem => item[selectItemBy] === selectedItem[selectItemBy]);
 
     if (index > -1) {
@@ -153,6 +156,7 @@ TagInput.defaultProps = {
   togglePosition: 'left',
   noOptionsMessage: '',
   toggleSwitchStyle: 'search',
+  selectItemBy: undefined,
   fetchUrl: '',
   fetchOptions: void 0,
 
@@ -180,6 +184,7 @@ TagInput.propTypes = {
   togglePosition: PropTypes.oneOf(['right', 'left']),
   noOptionsMessage: PropTypes.string,
   toggleSwitchStyle: PropTypes.string,
+  selectItemBy: PropTypes.string,
   fetchUrl: PropTypes.string,
   fetchOptions: PropTypes.func,
   invert: PropTypes.bool,
